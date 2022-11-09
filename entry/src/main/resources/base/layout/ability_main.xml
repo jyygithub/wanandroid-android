@@ -3,17 +3,53 @@
     xmlns:ohos="http://schemas.huawei.com/res/ohos"
     ohos:height="match_parent"
     ohos:width="match_parent"
-    ohos:alignment="center"
+    ohos:background_element="#F2F2F2"
     ohos:orientation="vertical">
 
-    <Text
-        ohos:id="$+id:text_helloworld"
+    <PageSlider
+        ohos:id="$+id:pageSlider"
+        ohos:height="0vp"
+        ohos:width="match_parent"
+        ohos:background_element="#BBB222"
+        ohos:weight="1"/>
+
+    <DirectionalLayout
         ohos:height="match_content"
-        ohos:width="match_content"
-        ohos:background_element="$graphic:background_ability_main"
-        ohos:layout_alignment="horizontal_center"
-        ohos:text="$string:mainability_HelloWorld"
-        ohos:text_size="40vp"
-        />
+        ohos:width="match_parent"
+        ohos:background_element="#FFFFFF"
+        ohos:bottom_padding="10vp"
+        ohos:layout_alignment="bottom"
+        ohos:orientation="horizontal"
+        ohos:top_padding="10vp">
+
+        <Text
+            ohos:height="match_content"
+            ohos:width="0vp"
+            ohos:element_top="$graphic:ic_tab_article"
+            ohos:text="文章"
+            ohos:text_alignment="center"
+            ohos:weight="1"
+            />
+
+        <Text
+            ohos:height="match_content"
+            ohos:width="0vp"
+            ohos:element_top="$graphic:ic_tab_project"
+            ohos:text="项目"
+            ohos:text_alignment="center"
+            ohos:weight="1"
+            />
+
+        <Text
+            ohos:height="match_content"
+            ohos:width="0vp"
+            ohos:element_top="$graphic:ic_tab_my"
+            ohos:text="我的"
+            ohos:text_alignment="center"
+            ohos:weight="1"
+            />
+
+    </DirectionalLayout>
+
 
 </DirectionalLayout>

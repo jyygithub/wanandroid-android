@@ -16,6 +16,11 @@
     "deviceType": [
       "phone"
     ],
+    "reqPermissions": [
+      {
+        "name": "ohos.permission.INTERNET"
+      }
+    ],
     "distro": {
       "deliveryWithInstall": true,
       "moduleName": "entry",
@@ -37,7 +42,7 @@
         "name": "com.jiangyy.wanandroid.MainAbility",
         "description": "$string:mainability_description",
         "icon": "$media:icon",
-        "label": "$string:entry_MainAbility",
+        "label": "$string:app_name",
         "launchType": "standard",
         "orientation": "unspecified",
         "visible": true,
