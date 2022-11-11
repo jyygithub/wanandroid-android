@@ -28,9 +28,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initWidget() {
-        val fragments = mutableListOf(ArticlesFragment.newInstance(), ProjectsFragment.newInstance(), MyFragment.newInstance())
-
-        val itemTabs = mutableListOf(R.id.nav_article, R.id.nav_project, R.id.nav_my)
+        val fragments = arrayOf(ArticlesFragment.newInstance(), ProjectsFragment.newInstance(), MyFragment.newInstance())
+        val itemTabs = intArrayOf(R.id.nav_article, R.id.nav_project, R.id.nav_my)
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun createFragment(position: Int): Fragment {
                 return fragments[position]

@@ -1,5 +1,11 @@
 package com.jiangyy.wanandroid.logic
 
+import rxhttp.wrapper.annotation.DefaultDomain
+
+@JvmField
+@DefaultDomain
+public var BASE_URL = "https://www.wanandroid.com/"
+
 class Bean<T>(
     val errorCode: Int?,
     val errorMsg: String?,
