@@ -14,6 +14,11 @@ class ArticleUrl {
                 .toAwait()
         }
 
+        suspend fun pageHomeProject(page: Int): Await<Beans<Article>> {
+            return RxHttp.get("article/listproject/$page/json")
+                .toAwait()
+        }
+
     }
 
 }
