@@ -6,6 +6,7 @@ import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.databinding.FragmentArticlesBinding
 import com.jiangyy.wanandroid.logic.ArticleUrl
 import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
+import com.jiangyy.wanandroid.ui.article.ArticleActivity
 import kotlinx.coroutines.launch
 import rxhttp.awaitResult
 
@@ -27,6 +28,10 @@ class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleSt
         }
         mAdapter.loadMoreModule.setOnLoadMoreListener {
             loadMore()
+        }
+        mAdapter.setOnItemClickListener { _, _, position ->
+            val item = mAdapter.getItem(position)
+            ArticleActivity.actionStart(requireActivity(), item)
         }
     }
 

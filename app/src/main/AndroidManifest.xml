@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".App"
@@ -26,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.MainActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.article.ArticleActivity" />
     </application>
 
 </manifest>
