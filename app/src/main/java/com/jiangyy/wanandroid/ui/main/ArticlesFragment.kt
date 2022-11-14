@@ -22,6 +22,9 @@ class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleSt
 
     override fun initWidget() {
         binding.toolbar.setTitle("最新文章")
+        binding.toolbar.setOnEndListener {
+            SearchActivity.actionStart(requireActivity())
+        }
         binding.recyclerView.adapter = mAdapter
         binding.refreshLayout.setOnRefreshListener {
             refresh()

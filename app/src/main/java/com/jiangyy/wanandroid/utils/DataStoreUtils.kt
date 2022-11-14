@@ -4,12 +4,31 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.jiangyy.core.AppContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 
 object DataStoreUtils {
+
+    fun search(key: String) {
+        val result = getValue("search", Gson().toJson(mutableListOf<String>()))
+        val aa =
+            if (result.isBlank()) mutableListOf<String>()
+            else Gson().fromJson(result, object : TypeToken<MutableList<String>>() {}.type)
+        aa.add(0, key)
+        putValue("search", Gson().toJson(aa))
+    }
+
+    fun getSearchHistory(): MutableList<String> {
+        val result = getValue("search", Gson().toJson(mutableListOf<String>()))
+        return if (result.isBlank()) mutableListOf()
+        else Gson().fromJson<MutableList<String>?>(result, object : TypeToken<MutableList<String>>() {}.type).subList(0, 5)
+    }
+
+    // -----------
 
     private val Context.dataStore0: DataStore<Preferences> by preferencesDataStore(name = AppContext.packageName)
 

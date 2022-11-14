@@ -28,6 +28,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initWidget() {
+
+
+
         val fragments = arrayOf(ArticlesFragment.newInstance(), ProjectsFragment.newInstance(), MyFragment.newInstance())
         val itemTabs = intArrayOf(R.id.nav_article, R.id.nav_project, R.id.nav_my)
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
