@@ -5,8 +5,9 @@ import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
 import com.jiangyy.wanandroid.ui.adapter.MyAdapter
 import com.jiangyy.wanandroid.ui.adapter.MyItem
+import com.jiangyy.wanandroid.ui.article.TreeActivity
 
-class MyFragment  : BaseFragment<FragmentMyBinding>() {
+class MyFragment : BaseFragment<FragmentMyBinding>() {
 
     private val mAdapter = MyAdapter()
 
@@ -18,6 +19,11 @@ class MyFragment  : BaseFragment<FragmentMyBinding>() {
         binding.recyclerView.adapter = mAdapter
         mAdapter.setGridSpanSizeLookup { _, _, position ->
             return@setGridSpanSizeLookup mAdapter.getItem(position).row
+        }
+        mAdapter.setOnItemClickListener { _, _, position ->
+            when (position) {
+                9 -> TreeActivity.actionStart(requireActivity())
+            }
         }
         mAdapter.setList(
             mutableListOf(

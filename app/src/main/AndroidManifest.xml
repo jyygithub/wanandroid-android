@@ -29,6 +29,8 @@
         <activity android:name=".ui.MainActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.article.ArticleActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.main.SearchActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.article.ArticlesActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.article.TreeActivity" />
     </application>
 
 </manifest>

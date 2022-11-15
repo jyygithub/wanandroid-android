@@ -2,6 +2,7 @@ package com.jiangyy.wanandroid.logic
 
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.HotKey
+import com.jiangyy.wanandroid.entity.Tree
 import rxhttp.toAwait
 import rxhttp.wrapper.coroutines.Await
 import rxhttp.wrapper.param.RxHttp
@@ -28,6 +29,17 @@ class ArticleUrl {
 
         suspend fun hotKey(): Await<Bean<MutableList<HotKey>>> {
             return RxHttp.get("hotkey/json")
+                .toAwait()
+        }
+
+        suspend fun tree(): Await<Bean<MutableList<Tree>>> {
+            return RxHttp.get("tree/json")
+                .toAwait()
+        }
+
+        suspend fun pageArticleInTree(page: Int, cid: String): Await<Beans<Article>> {
+            return RxHttp.get("article/list/$page/json")
+                .addQuery("cid", cid)
                 .toAwait()
         }
 
