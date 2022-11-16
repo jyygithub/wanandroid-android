@@ -31,6 +31,7 @@
         <activity android:name="com.jiangyy.wanandroid.ui.main.SearchActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.article.ArticlesActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.article.TreeActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.article.WechatActivity" />
     </application>
 
 </manifest>

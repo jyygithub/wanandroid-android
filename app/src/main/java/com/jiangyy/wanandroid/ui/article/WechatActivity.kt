@@ -3,7 +3,6 @@ package com.jiangyy.wanandroid.ui.article
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ContentPageListBinding
@@ -12,7 +11,7 @@ import com.jiangyy.wanandroid.ui.adapter.TreeAdapter
 import kotlinx.coroutines.launch
 import rxhttp.awaitResult
 
-class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateModule {
+class WechatActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateModule {
 
     private val mAdapter = TreeAdapter()
 
@@ -21,16 +20,12 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateMo
     }
 
     override fun initWidget() {
-        binding.toolbar.setTitle("体系")
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 2)
+        binding.toolbar.setTitle("公众号")
         binding.recyclerView.adapter = mAdapter
-        mAdapter.setGridSpanSizeLookup { _, viewType, _ ->
-            if (viewType == 0) 2 else 1
-        }
         mAdapter.setOnItemClickListener { _, _, position ->
             mAdapter.getItem(position).let {
                 if (it.itemType == 1) {
-                    ArticlesActivity.actionStart(this, "tree", it)
+                    ArticlesActivity.actionStart(this, "wechat", it)
                 }
             }
         }
@@ -41,7 +36,7 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateMo
 
     override fun preLoad() {
         lifecycleScope.launch {
-            ArticleUrl.tree()
+            ArticleUrl.listWechat()
                 .awaitResult {
                     preLoadSuccess()
                     binding.refreshLayout.isRefreshing = false
@@ -62,7 +57,7 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateMo
 
     companion object {
         fun actionStart(context: Context) {
-            Intent(context, TreeActivity::class.java).apply {
+            Intent(context, WechatActivity::class.java).apply {
                 context.startActivity(this)
             }
         }

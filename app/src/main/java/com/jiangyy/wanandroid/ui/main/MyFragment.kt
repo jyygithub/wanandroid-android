@@ -6,6 +6,7 @@ import com.jiangyy.wanandroid.databinding.FragmentMyBinding
 import com.jiangyy.wanandroid.ui.adapter.MyAdapter
 import com.jiangyy.wanandroid.ui.adapter.MyItem
 import com.jiangyy.wanandroid.ui.article.TreeActivity
+import com.jiangyy.wanandroid.ui.article.WechatActivity
 
 class MyFragment : BaseFragment<FragmentMyBinding>() {
 
@@ -23,6 +24,7 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
         mAdapter.setOnItemClickListener { _, _, position ->
             when (position) {
                 9 -> TreeActivity.actionStart(requireActivity())
+                10 -> WechatActivity.actionStart(requireActivity())
             }
         }
         mAdapter.setList(

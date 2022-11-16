@@ -43,6 +43,16 @@ class ArticleUrl {
                 .toAwait()
         }
 
+        suspend fun listWechat(): Await<Bean<MutableList<Tree>>> {
+            return RxHttp.get("wxarticle/chapters/json")
+                .toAwait()
+        }
+
+        suspend fun listArticleInWechat(page: Int, id: String): Await<Beans<Article>> {
+            return RxHttp.get("wxarticle/list/$id/$page/json")
+                .toAwait()
+        }
+
     }
 
 }
