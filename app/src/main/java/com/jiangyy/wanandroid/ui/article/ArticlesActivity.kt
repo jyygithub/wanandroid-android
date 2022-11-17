@@ -23,6 +23,10 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
         when (mType) {
             "tree" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInTreeFragment.newInstance()).commit()
             "wechat" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWechatFragment.newInstance()).commit()
+            "wenda" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWendaFragment.newInstance()).commit()
+                binding.toolbar.setTitle("每日一问")
+            }
         }
     }
 

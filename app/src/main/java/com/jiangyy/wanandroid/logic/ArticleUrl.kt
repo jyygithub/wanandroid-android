@@ -53,6 +53,11 @@ class ArticleUrl {
                 .toAwait()
         }
 
+        suspend fun listWenda(page: Int): Await<Beans<Article>> {
+            return RxHttp.get("wenda/list/$page/json")
+                .toAwait()
+        }
+
     }
 
 }
