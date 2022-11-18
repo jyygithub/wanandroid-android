@@ -58,6 +58,11 @@ class ArticleUrl {
                 .toAwait()
         }
 
+        suspend fun listSquare(page: Int): Await<Beans<Article>> {
+            return RxHttp.get("user_article/list/$page/json")
+                .toAwait()
+        }
+
     }
 
 }

@@ -24,6 +24,7 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
         }
         mAdapter.setOnItemClickListener { _, _, position ->
             when (position) {
+                7 -> ArticlesActivity.actionStart(requireActivity(), "square")
                 8 -> ArticlesActivity.actionStart(requireActivity(), "wenda")
                 9 -> TreeActivity.actionStart(requireActivity())
                 10 -> WechatActivity.actionStart(requireActivity())

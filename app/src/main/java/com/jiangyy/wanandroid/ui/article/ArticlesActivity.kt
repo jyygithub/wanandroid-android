@@ -27,6 +27,10 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWendaFragment.newInstance()).commit()
                 binding.toolbar.setTitle("每日一问")
             }
+            "square" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSquareFragment.newInstance()).commit()
+                binding.toolbar.setTitle("广场")
+            }
         }
     }
 
