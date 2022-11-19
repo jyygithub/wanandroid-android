@@ -21,8 +21,10 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
     override fun initWidget() {
         binding.toolbar.setTitle(mTree?.name.orEmpty())
         when (mType) {
-            "tree" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInTreeFragment.newInstance()).commit()
-            "wechat" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWechatFragment.newInstance()).commit()
+            "tree" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInTreeFragment.newInstance())
+                .commit()
+            "wechat" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWechatFragment.newInstance())
+                .commit()
             "wenda" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWendaFragment.newInstance()).commit()
                 binding.toolbar.setTitle("每日一问")
@@ -30,6 +32,9 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
             "square" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSquareFragment.newInstance()).commit()
                 binding.toolbar.setTitle("广场")
+            }
+            "sub" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSubFragment.newInstance()).commit()
             }
         }
     }

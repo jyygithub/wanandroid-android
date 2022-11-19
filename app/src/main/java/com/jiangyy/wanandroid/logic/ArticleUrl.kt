@@ -63,6 +63,17 @@ class ArticleUrl {
                 .toAwait()
         }
 
+        suspend fun listSub(): Await<Bean<MutableList<Tree>>> {
+            return RxHttp.get("chapter/547/sublist/json")
+                .toAwait()
+        }
+
+        suspend fun listArticleInSub(page: Int, id: String): Await<Beans<Article>> {
+            return RxHttp.get("article/list/$page/json")
+                .addQuery("cid", id)
+                .toAwait()
+        }
+
     }
 
 }

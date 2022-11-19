@@ -6,6 +6,7 @@ import com.jiangyy.wanandroid.databinding.FragmentMyBinding
 import com.jiangyy.wanandroid.ui.adapter.MyAdapter
 import com.jiangyy.wanandroid.ui.adapter.MyItem
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
+import com.jiangyy.wanandroid.ui.article.SubListActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
 
@@ -28,6 +29,7 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
                 8 -> ArticlesActivity.actionStart(requireActivity(), "wenda")
                 9 -> TreeActivity.actionStart(requireActivity())
                 10 -> WechatActivity.actionStart(requireActivity())
+                11 -> SubListActivity.actionStart(requireActivity())
             }
         }
         mAdapter.setList(
