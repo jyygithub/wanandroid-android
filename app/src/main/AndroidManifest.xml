@@ -33,6 +33,7 @@
         <activity android:name="com.jiangyy.wanandroid.ui.article.TreeActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.article.WechatActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.article.SubListActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.AboutActivity" />
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.jiangyy.wanandroid.ui.main
 import com.jiangyy.viewbinding.base.BaseFragment
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
+import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.adapter.MyAdapter
 import com.jiangyy.wanandroid.ui.adapter.MyItem
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
@@ -30,6 +31,7 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
                 9 -> TreeActivity.actionStart(requireActivity())
                 10 -> WechatActivity.actionStart(requireActivity())
                 11 -> SubListActivity.actionStart(requireActivity())
+                15 -> AboutActivity.actionStart(requireActivity())
             }
         }
         mAdapter.setList(
