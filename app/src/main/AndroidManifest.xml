@@ -34,6 +34,7 @@
         <activity android:name="com.jiangyy.wanandroid.ui.article.WechatActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.article.SubListActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.AboutActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.user.RankingActivity" />
     </application>
 
 </manifest>

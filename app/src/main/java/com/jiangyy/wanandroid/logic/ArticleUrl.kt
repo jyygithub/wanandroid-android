@@ -1,6 +1,7 @@
 package com.jiangyy.wanandroid.logic
 
 import com.jiangyy.wanandroid.entity.Article
+import com.jiangyy.wanandroid.entity.Coin
 import com.jiangyy.wanandroid.entity.HotKey
 import com.jiangyy.wanandroid.entity.Tree
 import rxhttp.toAwait
@@ -71,6 +72,11 @@ class ArticleUrl {
         suspend fun listArticleInSub(page: Int, id: String): Await<Beans<Article>> {
             return RxHttp.get("article/list/$page/json")
                 .addQuery("cid", id)
+                .toAwait()
+        }
+
+        suspend fun ranking(page: Int): Await<Beans<Coin>> {
+            return RxHttp.get("coin/rank/$page/json")
                 .toAwait()
         }
 

@@ -10,6 +10,7 @@ import com.jiangyy.wanandroid.ui.article.ArticlesActivity
 import com.jiangyy.wanandroid.ui.article.SubListActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
+import com.jiangyy.wanandroid.ui.user.RankingActivity
 
 class MyFragment : BaseFragment<FragmentMyBinding>() {
 
@@ -31,6 +32,7 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
                 9 -> TreeActivity.actionStart(requireActivity())
                 10 -> WechatActivity.actionStart(requireActivity())
                 11 -> SubListActivity.actionStart(requireActivity())
+                13 -> RankingActivity.actionStart(requireActivity())
                 15 -> AboutActivity.actionStart(requireActivity())
             }
         }
