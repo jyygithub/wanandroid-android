@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityRankingBinding
-import com.jiangyy.wanandroid.logic.ArticleUrl
+import com.jiangyy.wanandroid.logic.UserUrl
 import com.jiangyy.wanandroid.ui.adapter.RankingAdapter
 import kotlinx.coroutines.launch
 import rxhttp.awaitResult
@@ -38,7 +38,7 @@ class RankingActivity : BaseLoadActivity<ActivityRankingBinding>(), MultipleStat
         mPage = 1
         mAdapter.setList(null)
         lifecycleScope.launch {
-            ArticleUrl.ranking(mPage)
+            UserUrl.ranking(mPage)
                 .awaitResult {
                     binding.refreshLayout.isRefreshing = false
                     if (it.isSuccess()) {
@@ -71,7 +71,7 @@ class RankingActivity : BaseLoadActivity<ActivityRankingBinding>(), MultipleStat
 
     private fun loadMore() {
         lifecycleScope.launch {
-            ArticleUrl.ranking(mPage)
+            UserUrl.ranking(mPage)
                 .awaitResult {
                     if (it.isSuccess()) {
                         if (it.data?.datas.isNullOrEmpty()) {

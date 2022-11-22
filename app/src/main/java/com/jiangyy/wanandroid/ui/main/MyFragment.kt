@@ -1,7 +1,13 @@
 package com.jiangyy.wanandroid.ui.main
 
-import com.jiangyy.viewbinding.base.BaseFragment
+import android.app.Activity
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import com.jiangyy.dialog.ConfirmDialog
+import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.R
+import com.jiangyy.wanandroid.data.MyViewModel
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
 import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.adapter.MyAdapter
@@ -10,9 +16,11 @@ import com.jiangyy.wanandroid.ui.article.ArticlesActivity
 import com.jiangyy.wanandroid.ui.article.SubListActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
+import com.jiangyy.wanandroid.ui.user.LoginActivity
 import com.jiangyy.wanandroid.ui.user.RankingActivity
+import com.jiangyy.wanandroid.utils.DataStoreUtils
 
-class MyFragment : BaseFragment<FragmentMyBinding>() {
+class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
     private val mAdapter = MyAdapter()
 
@@ -21,6 +29,37 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
     }
 
     override fun initWidget() {
+
+        binding.toolbar.setOnEndListener {
+            ConfirmDialog()
+                .bindConfig {
+                    title = "提示"
+                    content = "确认退出登录"
+                }
+                .confirm {
+                    DataStoreUtils.logout()
+                    mViewModel.loginOrOut(false)
+                }
+                .show(childFragmentManager)
+        }
+        binding.ivAvatar.setOnClickListener {
+            if (DataStoreUtils.logged) {
+                // TODO
+            } else {
+                loginLauncher.launch(LoginActivity.actionIntent(requireActivity()))
+            }
+        }
+
+        mViewModel.loggerStatus().observe(this) {
+            if (it) {
+                binding.toolbar.setEnd(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_logout), null)
+                binding.tvNickname.text = DataStoreUtils.currentUser.nickname.orEmpty()
+            } else {
+                binding.toolbar.setEnd(null, null)
+                binding.tvNickname.text = "登录 / 注册"
+            }
+        }
+
         binding.recyclerView.adapter = mAdapter
         mAdapter.setGridSpanSizeLookup { _, _, position ->
             return@setGridSpanSizeLookup mAdapter.getItem(position).row
@@ -57,6 +96,18 @@ class MyFragment : BaseFragment<FragmentMyBinding>() {
             )
         )
 
+    }
+
+    override fun preLoad() {
+        mViewModel.loginOrOut(DataStoreUtils.logged)
+    }
+
+    private val mViewModel by viewModels<MyViewModel>()
+
+    private val loginLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            mViewModel.loginOrOut(DataStoreUtils.logged)
+        }
     }
 
     companion object {

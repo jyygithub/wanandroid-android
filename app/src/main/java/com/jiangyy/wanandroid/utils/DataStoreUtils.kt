@@ -7,11 +7,40 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jiangyy.core.AppContext
+import com.jiangyy.wanandroid.entity.User
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 
 object DataStoreUtils {
+
+    var logged
+        get() = getValue("logged", false)
+        set(value) = putValue("logged", value)
+
+    var currentUser: CurrentUser
+        private set(value) = putValue("currentUser", Gson().toJson(value))
+        get() {
+            val userJson = getValue("currentUser", Gson().toJson(CurrentUser()))
+            return Gson().fromJson(userJson, CurrentUser::class.java)
+        }
+
+    data class CurrentUser(
+        var username: String? = null,
+        var nickname: String? = null,
+    )
+
+    fun updateUser(user: User?) {
+        currentUser = CurrentUser(
+            user?.username,
+            user?.nickname,
+        )
+    }
+
+    fun logout() {
+        logged = false
+        updateUser(null)
+    }
 
     fun search(key: String) {
         val result = getValue("search", Gson().toJson(mutableListOf<String>()))

@@ -75,11 +75,6 @@ class ArticleUrl {
                 .toAwait()
         }
 
-        suspend fun ranking(page: Int): Await<Beans<Coin>> {
-            return RxHttp.get("coin/rank/$page/json")
-                .toAwait()
-        }
-
     }
 
 }
