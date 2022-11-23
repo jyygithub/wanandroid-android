@@ -4,11 +4,14 @@ import android.app.Activity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.jiangyy.core.orDefault
 import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.data.MyViewModel
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
+import com.jiangyy.wanandroid.logic.UserUrl
 import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.adapter.MyAdapter
 import com.jiangyy.wanandroid.ui.adapter.MyItem
@@ -16,9 +19,12 @@ import com.jiangyy.wanandroid.ui.article.ArticlesActivity
 import com.jiangyy.wanandroid.ui.article.SubListActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
+import com.jiangyy.wanandroid.ui.user.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
 import com.jiangyy.wanandroid.ui.user.RankingActivity
 import com.jiangyy.wanandroid.utils.DataStoreUtils
+import kotlinx.coroutines.launch
+import rxhttp.awaitResult
 
 class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
@@ -59,6 +65,12 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 binding.tvNickname.text = "登录 / 注册"
             }
         }
+        mViewModel.coin().observe(this) {
+            mAdapter.getItem(0).let { item ->
+                item.text = it.coinCount.orDefault("0")
+                mAdapter.setData(0, item)
+            }
+        }
 
         binding.recyclerView.adapter = mAdapter
         mAdapter.setGridSpanSizeLookup { _, _, position ->
@@ -66,6 +78,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         }
         mAdapter.setOnItemClickListener { _, _, position ->
             when (position) {
+                0 -> CoinHistoryActivity.actionStart(requireActivity())
                 7 -> ArticlesActivity.actionStart(requireActivity(), "square")
                 8 -> ArticlesActivity.actionStart(requireActivity(), "wenda")
                 9 -> TreeActivity.actionStart(requireActivity())
@@ -100,6 +113,22 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
     override fun preLoad() {
         mViewModel.loginOrOut(DataStoreUtils.logged)
+        infoCoin()
+    }
+
+    private fun infoCoin() {
+        if (!DataStoreUtils.logged) return
+        lifecycleScope.launch {
+            UserUrl.infoCoin()
+                .awaitResult {
+                    if (it.data != null) {
+                        mViewModel.coin(it.data)
+                    }
+                }
+                .onFailure {
+
+                }
+        }
     }
 
     private val mViewModel by viewModels<MyViewModel>()

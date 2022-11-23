@@ -1,6 +1,7 @@
 package com.jiangyy.wanandroid.logic
 
 import com.jiangyy.wanandroid.entity.Coin
+import com.jiangyy.wanandroid.entity.CoinHistory
 import com.jiangyy.wanandroid.entity.User
 import rxhttp.toAwait
 import rxhttp.wrapper.coroutines.Await
@@ -19,6 +20,16 @@ class UserUrl {
             return RxHttp.postForm("user/login")
                 .add("username", username)
                 .add("password", password)
+                .toAwait()
+        }
+
+        suspend fun infoCoin(): Await<Bean<Coin>> {
+            return RxHttp.get("lg/coin/userinfo/json")
+                .toAwait()
+        }
+
+        suspend fun listCoinHistory(page: Int): Await<Beans<CoinHistory>> {
+            return RxHttp.get("lg/coin/list/$page/json")
                 .toAwait()
         }
 

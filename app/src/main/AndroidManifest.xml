@@ -36,6 +36,7 @@
         <activity android:name="com.jiangyy.wanandroid.ui.AboutActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.user.RankingActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.user.LoginActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.user.CoinHistoryActivity" />
     </application>
 
 </manifest>
