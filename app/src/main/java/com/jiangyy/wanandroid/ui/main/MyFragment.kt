@@ -79,6 +79,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         mAdapter.setOnItemClickListener { _, _, position ->
             when (position) {
                 0 -> CoinHistoryActivity.actionStart(requireActivity())
+                4 -> ArticlesActivity.actionStart(requireActivity(), "share")
                 7 -> ArticlesActivity.actionStart(requireActivity(), "square")
                 8 -> ArticlesActivity.actionStart(requireActivity(), "wenda")
                 9 -> TreeActivity.actionStart(requireActivity())

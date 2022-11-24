@@ -8,6 +8,7 @@ import com.jiangyy.viewbinding.base.BaseActivity
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
+import com.jiangyy.wanandroid.ui.user.ShareHistoryFragment
 
 class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
 
@@ -35,6 +36,10 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
             }
             "sub" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSubFragment.newInstance()).commit()
+            }
+            "share" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ShareHistoryFragment.newInstance()).commit()
+                binding.toolbar.setTitle("我的分享")
             }
         }
     }

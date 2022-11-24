@@ -1,5 +1,6 @@
 package com.jiangyy.wanandroid.logic
 
+import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.Coin
 import com.jiangyy.wanandroid.entity.CoinHistory
 import com.jiangyy.wanandroid.entity.User
@@ -30,6 +31,11 @@ class UserUrl {
 
         suspend fun listCoinHistory(page: Int): Await<Beans<CoinHistory>> {
             return RxHttp.get("lg/coin/list/$page/json")
+                .toAwait()
+        }
+
+        suspend fun listShareHistory(page: Int): Await<Beans<Article>> {
+            return RxHttp.get("user/lg/private_articles/$page/json")
                 .toAwait()
         }
 

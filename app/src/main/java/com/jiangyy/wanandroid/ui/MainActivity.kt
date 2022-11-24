@@ -2,6 +2,7 @@ package com.jiangyy.wanandroid.ui
 
 import android.content.Context
 import android.content.Intent
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -16,6 +17,8 @@ import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
+    private var mPressedTime: Long = 0
+
     private val mPnPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
@@ -24,7 +27,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initValue() {
-
+        onBackPressedDispatcher.addCallback(this) {
+            val nowTime = System.currentTimeMillis()
+            when {
+                (nowTime - mPressedTime) > 2000 -> {
+                    toast("再按一次退出程序")
+                    mPressedTime = nowTime
+                }
+                else -> {
+                    finish()
+                    exitProcess(0)
+                }
+            }
+        }
     }
 
     override fun initWidget() {
@@ -59,23 +74,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             context.startActivity(Intent(context, MainActivity::class.java))
         }
     }
-
-    private var mPressedTime: Long = 0
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        val nowTime = System.currentTimeMillis()
-        when {
-            (nowTime - mPressedTime) > 2000 -> {
-                toast("再按一次退出程序")
-                mPressedTime = nowTime
-            }
-            else -> {
-                this.finish()
-                exitProcess(0)
-            }
-        }
-    }
-
 
 }
