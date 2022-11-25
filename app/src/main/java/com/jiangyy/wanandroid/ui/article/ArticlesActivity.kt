@@ -9,6 +9,7 @@ import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.ui.user.CollectionHistoryFragment
+import com.jiangyy.wanandroid.ui.user.ScanHistoryFragment
 import com.jiangyy.wanandroid.ui.user.ShareHistoryFragment
 
 class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
@@ -45,6 +46,10 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
             "collection" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, CollectionHistoryFragment.newInstance()).commit()
                 binding.toolbar.setTitle("我的收藏")
+            }
+            "scan" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ScanHistoryFragment.newInstance()).commit()
+                binding.toolbar.setTitle("我的浏览")
             }
         }
     }
