@@ -1,9 +1,6 @@
 package com.jiangyy.wanandroid.logic
 
-import com.jiangyy.wanandroid.entity.Article
-import com.jiangyy.wanandroid.entity.Coin
-import com.jiangyy.wanandroid.entity.CoinHistory
-import com.jiangyy.wanandroid.entity.User
+import com.jiangyy.wanandroid.entity.*
 import rxhttp.toAwait
 import rxhttp.wrapper.coroutines.Await
 import rxhttp.wrapper.param.RxHttp
@@ -24,8 +21,8 @@ class UserUrl {
                 .toAwait()
         }
 
-        suspend fun infoCoin(): Await<Bean<Coin>> {
-            return RxHttp.get("lg/coin/userinfo/json")
+        suspend fun infoUser(): Await<Bean<UserInfo>> {
+            return RxHttp.get("user/lg/userinfo/json")
                 .toAwait()
         }
 
@@ -36,6 +33,11 @@ class UserUrl {
 
         suspend fun listShareHistory(page: Int): Await<Beans<Article>> {
             return RxHttp.get("user/lg/private_articles/$page/json")
+                .toAwait()
+        }
+
+        suspend fun listCollect(page: Int): Await<Beans<Article>> {
+            return RxHttp.get("lg/collect/list/$page/json")
                 .toAwait()
         }
 

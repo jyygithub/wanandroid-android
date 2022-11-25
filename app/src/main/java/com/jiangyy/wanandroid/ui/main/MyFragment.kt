@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.jiangyy.core.orDefault
+import com.jiangyy.core.orZero
 import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.R
@@ -65,10 +66,14 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 binding.tvNickname.text = "登录 / 注册"
             }
         }
-        mViewModel.coin().observe(this) {
+        mViewModel.myData().observe(this) {
             mAdapter.getItem(0).let { item ->
-                item.text = it.coinCount.orDefault("0")
+                item.text = "${it.first}"
                 mAdapter.setData(0, item)
+            }
+            mAdapter.getItem(1).let { item ->
+                item.text = "${it.second}"
+                mAdapter.setData(1, item)
             }
         }
 
@@ -79,6 +84,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         mAdapter.setOnItemClickListener { _, _, position ->
             when (position) {
                 0 -> CoinHistoryActivity.actionStart(requireActivity())
+                1 -> ArticlesActivity.actionStart(requireActivity(), "collection")
                 4 -> ArticlesActivity.actionStart(requireActivity(), "share")
                 7 -> ArticlesActivity.actionStart(requireActivity(), "square")
                 8 -> ArticlesActivity.actionStart(requireActivity(), "wenda")
@@ -114,16 +120,18 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
     override fun preLoad() {
         mViewModel.loginOrOut(DataStoreUtils.logged)
-        infoCoin()
+        infoUser()
     }
 
-    private fun infoCoin() {
+    private fun infoUser() {
         if (!DataStoreUtils.logged) return
         lifecycleScope.launch {
-            UserUrl.infoCoin()
+            UserUrl.infoUser()
                 .awaitResult {
                     if (it.data != null) {
-                        mViewModel.coin(it.data)
+                        mViewModel.myData(
+                            it.data.userInfo?.coinCount.orZero() to it.data.userInfo?.collectIds?.size.orZero()
+                        )
                     }
                 }
                 .onFailure {
