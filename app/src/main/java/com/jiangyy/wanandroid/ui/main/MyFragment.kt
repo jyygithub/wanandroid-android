@@ -11,6 +11,7 @@ import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.data.MyViewModel
+import com.jiangyy.wanandroid.data.RefreshScan
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
 import com.jiangyy.wanandroid.logic.UserUrl
 import com.jiangyy.wanandroid.ui.AboutActivity
@@ -25,11 +26,19 @@ import com.jiangyy.wanandroid.ui.user.LoginActivity
 import com.jiangyy.wanandroid.ui.user.RankingActivity
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 import kotlinx.coroutines.launch
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import rxhttp.awaitResult
 
 class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
     private val mAdapter = MyAdapter()
+
+    override fun preInit() {
+        super.preInit()
+        EventBus.getDefault().register(this)
+    }
 
     override fun initValue() {
 
@@ -65,6 +74,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 binding.toolbar.setEnd(null, null)
                 binding.tvNickname.text = "登录 / 注册"
             }
+            infoUser()
         }
         mViewModel.myData().observe(this) {
             mAdapter.getItem(0).let { item ->
@@ -128,6 +138,14 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         infoUser()
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public fun onScanUpdated(value: RefreshScan) {
+        mAdapter.getItem(2).let { item ->
+            item.text = "${DataStoreUtils.getScanHistory().size}"
+            mAdapter.setData(2, item)
+        }
+    }
+
     private fun infoUser() {
         if (!DataStoreUtils.logged) return
         lifecycleScope.launch {
@@ -151,6 +169,11 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         if (it.resultCode == Activity.RESULT_OK) {
             mViewModel.loginOrOut(DataStoreUtils.logged)
         }
+    }
+
+    override fun onDestroyView() {
+        EventBus.getDefault().unregister(this)
+        super.onDestroyView()
     }
 
     companion object {
