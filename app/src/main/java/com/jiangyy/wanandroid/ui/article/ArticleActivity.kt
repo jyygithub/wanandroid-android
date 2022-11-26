@@ -7,6 +7,7 @@ import com.jiangyy.core.parcelableIntent
 import com.jiangyy.viewbinding.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityArticleBinding
 import com.jiangyy.wanandroid.entity.Article
+import com.jiangyy.wanandroid.utils.DataStoreUtils
 import com.just.agentweb.AgentWeb
 
 class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
@@ -15,6 +16,8 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
     private lateinit var mAgentWeb: AgentWeb
 
     override fun initValue() {
+
+        DataStoreUtils.scan(mArticle)
 
     }
 

@@ -1,11 +1,11 @@
 package com.jiangyy.wanandroid.ui.main
 
 import android.app.Activity
+import android.provider.ContactsContract.Data
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.jiangyy.core.orDefault
 import com.jiangyy.core.orZero
 import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.viewbinding.base.BaseLoadFragment
@@ -75,6 +75,10 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 item.text = "${it.second}"
                 mAdapter.setData(1, item)
             }
+            mAdapter.getItem(2).let { item ->
+                item.text = "${DataStoreUtils.getScanHistory().size}"
+                mAdapter.setData(2, item)
+            }
         }
 
         binding.recyclerView.adapter = mAdapter
@@ -85,6 +89,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
             when (position) {
                 0 -> CoinHistoryActivity.actionStart(requireActivity())
                 1 -> ArticlesActivity.actionStart(requireActivity(), "collection")
+                2 -> ArticlesActivity.actionStart(requireActivity(), "scan")
                 4 -> ArticlesActivity.actionStart(requireActivity(), "share")
                 7 -> ArticlesActivity.actionStart(requireActivity(), "square")
                 8 -> ArticlesActivity.actionStart(requireActivity(), "wenda")

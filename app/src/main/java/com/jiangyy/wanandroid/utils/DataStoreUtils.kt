@@ -7,6 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jiangyy.core.AppContext
+import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.User
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -55,6 +56,22 @@ object DataStoreUtils {
         val result = getValue("search", Gson().toJson(mutableListOf<String>()))
         return if (result.isBlank()) mutableListOf()
         else Gson().fromJson<MutableList<String>?>(result, object : TypeToken<MutableList<String>>() {}.type).subList(0, 5)
+    }
+
+    fun scan(article: Article?) {
+        if (article == null) return
+        val result = getValue("scan", Gson().toJson(mutableListOf<Article>()))
+        val aa =
+            if (result.isBlank()) mutableListOf<Article>()
+            else Gson().fromJson(result, object : TypeToken<MutableList<Article>>() {}.type)
+        aa.add(0, article)
+        putValue("scan", Gson().toJson(aa))
+    }
+
+    fun getScanHistory(): MutableList<Article> {
+        val result = getValue("scan", Gson().toJson(mutableListOf<Article>()))
+        return if (result.isBlank()) mutableListOf()
+        else Gson().fromJson(result, object : TypeToken<MutableList<Article>>() {}.type)
     }
 
     // -----------

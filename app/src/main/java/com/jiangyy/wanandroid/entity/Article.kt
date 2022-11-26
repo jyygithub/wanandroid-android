@@ -6,17 +6,17 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Article(
-    val author: String?,
-    val shareUser: String?,
-    val niceDate: String?,
-    val desc: String?,
-    val title: String?,
-    val envelopePic: String?,
-    val chapterName: String?,
-    val superChapterName: String?,
-    val link: String?,
-    val id: String?,
-    val originId: String?,
+    var author: String?,
+    var shareUser: String?,
+    var niceDate: String?,
+    var desc: String?,
+    var title: String?,
+    var envelopePic: String?,
+    var chapterName: String?,
+    var superChapterName: String?,
+    var link: String?,
+    var id: String?,
+    var originId: String?,
     var collect: Boolean?,
 ) : MultiItemEntity, Parcelable {
     override val itemType: Int get() = if (envelopePic.isNullOrEmpty()) 0 else 1
