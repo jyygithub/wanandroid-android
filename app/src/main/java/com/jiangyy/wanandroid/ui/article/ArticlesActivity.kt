@@ -2,20 +2,26 @@ package com.jiangyy.wanandroid.ui.article
 
 import android.content.Context
 import android.content.Intent
+import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import com.jiangyy.core.parcelableIntent
 import com.jiangyy.core.stringIntent
+import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.viewbinding.base.BaseActivity
 import com.jiangyy.wanandroid.R
+import com.jiangyy.wanandroid.data.ArticlesViewModel
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.ui.user.CollectionHistoryFragment
 import com.jiangyy.wanandroid.ui.user.ScanHistoryFragment
 import com.jiangyy.wanandroid.ui.user.ShareHistoryFragment
+import com.jiangyy.wanandroid.utils.DataStoreUtils
 
 class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
 
     private val mTree by parcelableIntent<Tree>("tree")
     private val mType by stringIntent("type")
+    private val mArticlesViewModel by viewModels<ArticlesViewModel>()
 
     override fun initValue() {
 
@@ -44,12 +50,26 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
                 binding.toolbar.setTitle("我的分享")
             }
             "collection" -> {
-                supportFragmentManager.beginTransaction().add(R.id.frameLayout, CollectionHistoryFragment.newInstance()).commit()
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, CollectionHistoryFragment.newInstance())
+                    .commit()
                 binding.toolbar.setTitle("我的收藏")
             }
             "scan" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ScanHistoryFragment.newInstance()).commit()
                 binding.toolbar.setTitle("我的浏览")
+                binding.toolbar.setEnd(ContextCompat.getDrawable(this, R.drawable.ic_clear), null)
+                binding.toolbar.setOnEndListener {
+                    ConfirmDialog()
+                        .bindConfig {
+                            title = "提示"
+                            content = "确认清空浏览记录"
+                        }
+                        .confirm {
+                            DataStoreUtils.clearScan()
+                            mArticlesViewModel.clearScan()
+                        }
+                        .show(supportFragmentManager)
+                }
             }
         }
     }

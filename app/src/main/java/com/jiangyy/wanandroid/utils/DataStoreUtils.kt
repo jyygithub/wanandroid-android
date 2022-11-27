@@ -7,11 +7,13 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jiangyy.core.AppContext
+import com.jiangyy.wanandroid.data.RefreshScan
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.User
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+import org.greenrobot.eventbus.EventBus
 
 object DataStoreUtils {
 
@@ -38,9 +40,20 @@ object DataStoreUtils {
         )
     }
 
+    fun clearScan() {
+        putValue("scan", Gson().toJson(mutableListOf<Article>()))
+        EventBus.getDefault().post(RefreshScan())
+    }
+
+    fun clearSearch() {
+        putValue("search", Gson().toJson(mutableListOf<String>()))
+    }
+
     fun logout() {
         logged = false
         updateUser(null)
+        clearScan()
+        clearSearch()
     }
 
     fun search(key: String) {
@@ -66,6 +79,7 @@ object DataStoreUtils {
             else Gson().fromJson(result, object : TypeToken<MutableList<Article>>() {}.type)
         aa.add(0, article)
         putValue("scan", Gson().toJson(aa))
+        EventBus.getDefault().post(RefreshScan())
     }
 
     fun getScanHistory(): MutableList<Article> {
