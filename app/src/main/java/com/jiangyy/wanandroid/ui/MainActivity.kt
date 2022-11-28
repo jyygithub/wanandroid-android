@@ -13,6 +13,7 @@ import com.jiangyy.wanandroid.databinding.ActivityMainBinding
 import com.jiangyy.wanandroid.ui.main.ArticlesFragment
 import com.jiangyy.wanandroid.ui.main.MyFragment
 import com.jiangyy.wanandroid.ui.main.ProjectsFragment
+import com.jiangyy.wanandroid.utils.SharesFactory
 import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -27,6 +28,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initValue() {
+        SharesFactory.registerWXAndQQ(this)
         onBackPressedDispatcher.addCallback(this) {
             val nowTime = System.currentTimeMillis()
             when {
@@ -66,6 +68,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onDestroy() {
         binding.viewPager.unregisterOnPageChangeCallback(mPnPageChangeCallback)
+        SharesFactory.unregisterWXAndQQ(this)
         super.onDestroy()
     }
 

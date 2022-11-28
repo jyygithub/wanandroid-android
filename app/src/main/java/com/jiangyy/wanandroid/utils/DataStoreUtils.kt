@@ -40,15 +40,6 @@ object DataStoreUtils {
         )
     }
 
-    fun clearScan() {
-        putValue("scan", Gson().toJson(mutableListOf<Article>()))
-        EventBus.getDefault().post(RefreshScan())
-    }
-
-    fun clearSearch() {
-        putValue("search", Gson().toJson(mutableListOf<String>()))
-    }
-
     fun logout() {
         logged = false
         updateUser(null)
@@ -57,35 +48,42 @@ object DataStoreUtils {
     }
 
     fun search(key: String) {
-        val result = getValue("search", Gson().toJson(mutableListOf<String>()))
-        val aa =
-            if (result.isBlank()) mutableListOf<String>()
-            else Gson().fromJson(result, object : TypeToken<MutableList<String>>() {}.type)
-        aa.add(0, key)
-        putValue("search", Gson().toJson(aa))
+        getSearchHistory().also {
+            it.add(0, key)
+            putValue("search", Gson().toJson(it))
+        }
     }
 
     fun getSearchHistory(): MutableList<String> {
         val result = getValue("search", Gson().toJson(mutableListOf<String>()))
-        return if (result.isBlank()) mutableListOf()
-        else Gson().fromJson<MutableList<String>?>(result, object : TypeToken<MutableList<String>>() {}.type).subList(0, 5)
+        if (result.isBlank()) return mutableListOf()
+        val list = Gson().fromJson<MutableList<String>>(result, object : TypeToken<MutableList<String>>() {}.type)
+        if (list == null || list.size < 6) return list
+        return list.subList(0, 5)
+    }
+
+    fun clearSearch() {
+        putValue("search", Gson().toJson(mutableListOf<String>()))
     }
 
     fun scan(article: Article?) {
         if (article == null) return
-        val result = getValue("scan", Gson().toJson(mutableListOf<Article>()))
-        val aa =
-            if (result.isBlank()) mutableListOf<Article>()
-            else Gson().fromJson(result, object : TypeToken<MutableList<Article>>() {}.type)
-        aa.add(0, article)
-        putValue("scan", Gson().toJson(aa))
-        EventBus.getDefault().post(RefreshScan())
+        getScanHistory().also {
+            it.add(0, article)
+            putValue("scan", Gson().toJson(it))
+            EventBus.getDefault().post(RefreshScan())
+        }
     }
 
     fun getScanHistory(): MutableList<Article> {
         val result = getValue("scan", Gson().toJson(mutableListOf<Article>()))
         return if (result.isBlank()) mutableListOf()
         else Gson().fromJson(result, object : TypeToken<MutableList<Article>>() {}.type)
+    }
+
+    fun clearScan() {
+        putValue("scan", Gson().toJson(mutableListOf<Article>()))
+        EventBus.getDefault().post(RefreshScan())
     }
 
     // -----------
