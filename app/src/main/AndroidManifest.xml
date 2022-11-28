@@ -17,6 +17,26 @@
         android:theme="@style/Theme.Wanandroid"
         tools:targetApi="31">
         <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1108139905" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
             android:name=".ui.LauncherActivity"
             android:exported="true"
             android:theme="@style/Theme.Wanandroid.Launcher">
@@ -37,6 +57,7 @@
         <activity android:name="com.jiangyy.wanandroid.ui.user.RankingActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.user.LoginActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.user.CoinHistoryActivity" />
+        <activity android:name="com.jiangyy.wanandroid.wxapi.WXEntryActivity" />
     </application>
 
 </manifest>

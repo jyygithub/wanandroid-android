@@ -38,6 +38,7 @@ android {
 }
 
 dependencies {
+    implementation files('libs\\open_sdk_3.5.13.83_rc564928_lite.jar')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
