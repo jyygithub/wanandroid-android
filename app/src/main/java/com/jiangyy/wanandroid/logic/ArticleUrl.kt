@@ -111,6 +111,18 @@ class ArticleUrl {
                 .toAwait()
         }
 
+        suspend fun share(title: String, link: String): Await<Bean<Any>> {
+            return RxHttp.postForm("lg/user_article/add/json")
+                .add("title", title)
+                .add("link", link)
+                .toAwait()
+        }
+
+        suspend fun unshare(id: String): Await<Bean<Any>> {
+            return RxHttp.postForm("lg/user_article/delete/$id/json")
+                .toAwait()
+        }
+
     }
 
 }

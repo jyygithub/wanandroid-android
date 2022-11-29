@@ -58,6 +58,7 @@
         <activity android:name="com.jiangyy.wanandroid.ui.user.LoginActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.user.CoinHistoryActivity" />
         <activity android:name="com.jiangyy.wanandroid.wxapi.WXEntryActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.user.ShareActivity" />
     </application>
 
 </manifest>

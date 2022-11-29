@@ -1,9 +1,13 @@
 package com.jiangyy.wanandroid.ui.user
 
 import androidx.lifecycle.lifecycleScope
+import com.jiangyy.core.doneToast
+import com.jiangyy.core.errorToast
+import com.jiangyy.dialog.StringBottomListDialog
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.databinding.ContentArticlesBinding
+import com.jiangyy.wanandroid.logic.ArticleUrl
 import com.jiangyy.wanandroid.logic.UserUrl
 import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
 import com.jiangyy.wanandroid.ui.article.ArticleActivity
@@ -23,6 +27,16 @@ class ShareHistoryFragment : BaseLoadFragment<ContentArticlesBinding>(), Multipl
         mAdapter.setOnItemClickListener { _, _, position ->
             ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
         }
+        mAdapter.setOnItemLongClickListener { _, _, position ->
+            StringBottomListDialog()
+                .bindConfig { title = "文章操作" }
+                .items("取消分享") { _, _ ->
+                    unshare(position)
+                }
+                .show(childFragmentManager)
+
+            false
+        }
         binding.refreshLayout.setOnRefreshListener {
             refresh()
         }
@@ -33,6 +47,24 @@ class ShareHistoryFragment : BaseLoadFragment<ContentArticlesBinding>(), Multipl
 
     override fun preLoad() {
         refresh()
+    }
+
+    private fun unshare(position: Int) {
+        val article = mAdapter.getItem(position)
+        lifecycleScope.launch {
+            ArticleUrl.unshare(article.id.orEmpty())
+                .awaitResult {
+                    if (it.isSuccess()) {
+                        doneToast("取消分享成功")
+                        mAdapter.removeAt(position)
+                    } else {
+                        errorToast(it.errorMsg.orEmpty())
+                    }
+                }
+                .onFailure {
+                    errorToast("取消分享失败")
+                }
+        }
     }
 
     private var mPage = 1

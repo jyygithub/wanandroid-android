@@ -14,6 +14,7 @@ import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.ui.user.CollectionHistoryFragment
 import com.jiangyy.wanandroid.ui.user.ScanHistoryFragment
+import com.jiangyy.wanandroid.ui.user.ShareActivity
 import com.jiangyy.wanandroid.ui.user.ShareHistoryFragment
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 
@@ -48,6 +49,10 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
             "share" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ShareHistoryFragment.newInstance()).commit()
                 binding.toolbar.setTitle("我的分享")
+                binding.toolbar.setEnd(ContextCompat.getDrawable(this, R.drawable.ic_share), null)
+                binding.toolbar.setOnEndListener {
+                    ShareActivity.actionStart(this)
+                }
             }
             "collection" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, CollectionHistoryFragment.newInstance())
