@@ -1,12 +1,13 @@
 package com.jiangyy.wanandroid.ui.adapter
 
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.module.LoadMoreModule
 import com.jiangyy.core.millis2String
 import com.jiangyy.core.orZero
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.entity.Message
 
-class MessageAdapter : BaseQuickAdapter<Message, AdapterViewHolder>(R.layout.recycler_item_message) {
+class MessageAdapter : BaseQuickAdapter<Message, AdapterViewHolder>(R.layout.recycler_item_message), LoadMoreModule {
 
     override fun convert(holder: AdapterViewHolder, item: Message) {
         holder.setText(R.id.tvTag, item.tag.orEmpty())

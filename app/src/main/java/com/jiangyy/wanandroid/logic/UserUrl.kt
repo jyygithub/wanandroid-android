@@ -9,7 +9,7 @@ class UserUrl {
 
     companion object {
 
-        suspend fun getUnreadMessageCount(): Await<Bean<Any>> {
+        suspend fun getUnreadMessageCount(): Await<Bean<Int>> {
             return RxHttp.get("message/lg/count_unread/json")
                 .toAwait()
         }

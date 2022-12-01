@@ -1,7 +1,7 @@
 package com.jiangyy.wanandroid.ui.main
 
 import android.app.Activity
-import android.provider.ContactsContract.Data
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -24,7 +24,7 @@ import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
 import com.jiangyy.wanandroid.ui.user.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
-import com.jiangyy.wanandroid.ui.user.MessageActivity
+import com.jiangyy.wanandroid.ui.user.UnreadMessageActivity
 import com.jiangyy.wanandroid.ui.user.RankingActivity
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 import kotlinx.coroutines.launch
@@ -49,7 +49,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
     override fun initWidget() {
 
         binding.toolbar.setOnStartListener {
-            MessageActivity.actionStart(requireActivity())
+            UnreadMessageActivity.actionStart(requireActivity())
         }
 
         binding.toolbar.setOnEndListener {
@@ -192,10 +192,15 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         lifecycleScope.launch {
             UserUrl.getUnreadMessageCount()
                 .awaitResult {
-
+                    if (it.data != null && it.data > 0) {
+                        binding.tvMessageCount.text = "${it.data.orZero()}"
+                        binding.tvMessageCount.visibility = View.VISIBLE
+                    } else {
+                        binding.tvMessageCount.visibility = View.GONE
+                    }
                 }
                 .onFailure {
-
+                    binding.tvMessageCount.visibility = View.GONE
                 }
         }
     }
