@@ -1,11 +1,12 @@
 package com.jiangyy.wanandroid.ui.main
 
 import android.app.Activity
-import android.provider.ContactsContract.Data
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.jiangyy.core.errorToast
 import com.jiangyy.core.orZero
 import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.viewbinding.base.BaseLoadFragment
@@ -23,6 +24,7 @@ import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
 import com.jiangyy.wanandroid.ui.user.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
+import com.jiangyy.wanandroid.ui.user.UnreadMessageActivity
 import com.jiangyy.wanandroid.ui.user.RankingActivity
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 import kotlinx.coroutines.launch
@@ -46,6 +48,10 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
     override fun initWidget() {
 
+        binding.toolbar.setOnStartListener {
+            UnreadMessageActivity.actionStart(requireActivity())
+        }
+
         binding.toolbar.setOnEndListener {
             ConfirmDialog()
                 .bindConfig {
@@ -53,8 +59,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                     content = "确认退出登录"
                 }
                 .confirm {
-                    DataStoreUtils.logout()
-                    mViewModel.loginOrOut(false)
+                    logout()
                 }
                 .show(childFragmentManager)
         }
@@ -75,6 +80,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 binding.tvNickname.text = "登录 / 注册"
             }
             infoUser()
+            getMessageCount()
         }
         mViewModel.myData().observe(this) {
             mAdapter.getItem(0).let { item ->
@@ -136,6 +142,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
     override fun preLoad() {
         mViewModel.loginOrOut(DataStoreUtils.logged)
         infoUser()
+        getMessageCount()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -143,6 +150,23 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         mAdapter.getItem(2).let { item ->
             item.text = "${DataStoreUtils.getScanHistory().size}"
             mAdapter.setData(2, item)
+        }
+    }
+
+    private fun logout() {
+        lifecycleScope.launch {
+            UserUrl.logout()
+                .awaitResult {
+                    if (it.isSuccess()) {
+                        DataStoreUtils.logout()
+                        mViewModel.loginOrOut(false)
+                    } else {
+                        errorToast(it.errorMsg.orEmpty())
+                    }
+                }
+                .onFailure {
+                    errorToast("操作失败，请稍后重试")
+                }
         }
     }
 
@@ -159,6 +183,24 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 }
                 .onFailure {
 
+                }
+        }
+    }
+
+    private fun getMessageCount() {
+        if (!DataStoreUtils.logged) return
+        lifecycleScope.launch {
+            UserUrl.getUnreadMessageCount()
+                .awaitResult {
+                    if (it.data != null && it.data > 0) {
+                        binding.tvMessageCount.text = "${it.data.orZero()}"
+                        binding.tvMessageCount.visibility = View.VISIBLE
+                    } else {
+                        binding.tvMessageCount.visibility = View.GONE
+                    }
+                }
+                .onFailure {
+                    binding.tvMessageCount.visibility = View.GONE
                 }
         }
     }

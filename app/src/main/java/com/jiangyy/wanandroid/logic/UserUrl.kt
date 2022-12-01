@@ -9,6 +9,21 @@ class UserUrl {
 
     companion object {
 
+        suspend fun getUnreadMessageCount(): Await<Bean<Int>> {
+            return RxHttp.get("message/lg/count_unread/json")
+                .toAwait()
+        }
+
+        suspend fun listReadedMessage(page: Int): Await<Beans<Message>> {
+            return RxHttp.get("message/lg/readed_list/$page/json")
+                .toAwait()
+        }
+
+        suspend fun listUnreadMessage(page: Int): Await<Beans<Message>> {
+            return RxHttp.get("message/lg/unread_list/$page/json")
+                .toAwait()
+        }
+
         suspend fun ranking(page: Int): Await<Beans<Coin>> {
             return RxHttp.get("coin/rank/$page/json")
                 .toAwait()
@@ -18,6 +33,11 @@ class UserUrl {
             return RxHttp.postForm("user/login")
                 .add("username", username)
                 .add("password", password)
+                .toAwait()
+        }
+
+        suspend fun logout(): Await<Bean<Any>> {
+            return RxHttp.postForm("user/logout/json")
                 .toAwait()
         }
 
