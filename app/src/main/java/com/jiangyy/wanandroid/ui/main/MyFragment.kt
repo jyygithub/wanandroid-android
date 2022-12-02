@@ -22,6 +22,7 @@ import com.jiangyy.wanandroid.ui.article.ArticlesActivity
 import com.jiangyy.wanandroid.ui.article.SubListActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
+import com.jiangyy.wanandroid.ui.todo.TodosActivity
 import com.jiangyy.wanandroid.ui.user.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
 import com.jiangyy.wanandroid.ui.user.UnreadMessageActivity
@@ -107,6 +108,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 1 -> ArticlesActivity.actionStart(requireActivity(), "collection")
                 2 -> ArticlesActivity.actionStart(requireActivity(), "scan")
                 4 -> ArticlesActivity.actionStart(requireActivity(), "share")
+                5 -> TodosActivity.actionStart(requireActivity())
                 7 -> ArticlesActivity.actionStart(requireActivity(), "square")
                 8 -> ArticlesActivity.actionStart(requireActivity(), "wenda")
                 9 -> TreeActivity.actionStart(requireActivity())
