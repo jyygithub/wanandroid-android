@@ -14,6 +14,14 @@ class TodoUrl {
                 .toAwait()
         }
 
+        suspend fun addTodo(title: String, content: String, date: String): Await<Beans<Any>> {
+            return RxHttp.postForm("lg/todo/add/json")
+                .add("title", title)
+                .add("content", content)
+                .add("date", date)
+                .toAwait()
+        }
+
     }
 
 }

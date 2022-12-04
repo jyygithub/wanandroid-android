@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.jiangyy.core.click
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityTodosBinding
 
@@ -14,7 +15,9 @@ class TodosActivity : BaseLoadActivity<ActivityTodosBinding>() {
     }
 
     override fun initWidget() {
-
+        binding.button.click {
+            AddTodoActivity.actionStart(this)
+        }
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
                 return 2
