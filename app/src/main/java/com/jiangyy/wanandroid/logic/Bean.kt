@@ -9,7 +9,7 @@ public var BASE_URL = "https://www.wanandroid.com/"
 class Bean<T>(
     val errorCode: Int?,
     val errorMsg: String?,
-    val data: T?
+    val data: T?,
 ) {
     fun isSuccess(): Boolean = (this.errorCode == SUCCESS)
 
@@ -21,7 +21,7 @@ class Bean<T>(
 class Beans<T>(
     val errorCode: Int?,
     val errorMsg: String?,
-    val data: PageData<T>?
+    val data: PageData<T>?,
 ) {
     fun isSuccess(): Boolean = (this.errorCode == SUCCESS)
 
@@ -37,5 +37,5 @@ class PageData<T>(
     val over: Boolean?,
     val pageCount: Int?,
     val size: Int?,
-    val total: Int?
+    val total: Int?,
 )
