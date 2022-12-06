@@ -9,8 +9,6 @@ import com.jiangyy.wanandroid.ui.article.ArticleActivity
 
 class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleStateModule {
 
-    private var mPage = 0
-
     private val mAdapter = ArticleAdapter()
 
     private val mViewModel by viewModels<ArticlesViewModel>()
@@ -46,7 +44,6 @@ class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleSt
                     mAdapter.loadMoreModule.loadMoreEnd()
                 } else {
                     mAdapter.loadMoreModule.loadMoreComplete()
-                    ++mPage
                 }
             }
         }
@@ -59,7 +56,6 @@ class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleSt
                     mAdapter.loadMoreModule.loadMoreEnd()
                 } else {
                     mAdapter.loadMoreModule.loadMoreComplete()
-                    ++mPage
                 }
             }
         }

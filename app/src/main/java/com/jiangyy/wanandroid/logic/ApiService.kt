@@ -9,4 +9,7 @@ interface ApiService {
     @GET("article/list/{page}/json")
     suspend fun pageHomeArticle(@Path("page") page: Int): Bean<PageData<Article>>
 
+    @GET("article/listproject/{page}/json")
+    suspend fun pageHomeProject(@Path("page") page: Int): Bean<PageData<Article>>
+
 }
