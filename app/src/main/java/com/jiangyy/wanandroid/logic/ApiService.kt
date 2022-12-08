@@ -1,6 +1,7 @@
 package com.jiangyy.wanandroid.logic
 
 import com.jiangyy.wanandroid.entity.Article
+import com.jiangyy.wanandroid.entity.Coin
 import com.jiangyy.wanandroid.entity.UserInfo
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -22,5 +23,8 @@ interface ApiService {
 
     @GET("message/lg/count_unread/json")
     suspend fun getUnreadMessageCount(): Bean<Int>
+
+    @GET("coin/rank/{page}/json")
+    suspend fun ranking(@Path("page") page: Int): Bean<PageData<Coin>>
 
 }
