@@ -29,7 +29,7 @@ class RankingViewModel : ViewModel() {
     }
 
     fun firstLoad() {
-        mPage = 0
+        mPage = 1
         netRequest {
             request { API_SERVICE.ranking(mPage) }
             success { refreshLiveData.value = it }
