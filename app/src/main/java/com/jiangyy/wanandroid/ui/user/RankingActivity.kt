@@ -35,6 +35,7 @@ class RankingActivity : BaseLoadActivity<ActivityRankingBinding>(), MultipleStat
                     mAdapter.loadMoreModule.loadMoreEnd()
                 } else {
                     mAdapter.loadMoreModule.loadMoreComplete()
+                    mViewModel.mPage++
                 }
             }
         }
@@ -47,6 +48,7 @@ class RankingActivity : BaseLoadActivity<ActivityRankingBinding>(), MultipleStat
                     mAdapter.loadMoreModule.loadMoreEnd()
                 } else {
                     mAdapter.loadMoreModule.loadMoreComplete()
+                    mViewModel.mPage++
                 }
             }
         }

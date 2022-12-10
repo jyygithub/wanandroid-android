@@ -44,6 +44,7 @@ class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleSt
                     mAdapter.loadMoreModule.loadMoreEnd()
                 } else {
                     mAdapter.loadMoreModule.loadMoreComplete()
+                    mViewModel.mPage++
                 }
             }
         }
@@ -56,6 +57,7 @@ class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleSt
                     mAdapter.loadMoreModule.loadMoreEnd()
                 } else {
                     mAdapter.loadMoreModule.loadMoreComplete()
+                    mViewModel.mPage++
                 }
             }
         }

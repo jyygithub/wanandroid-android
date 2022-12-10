@@ -1,10 +1,8 @@
 package com.jiangyy.wanandroid.logic
 
-import com.jiangyy.wanandroid.entity.Article
-import com.jiangyy.wanandroid.entity.Coin
-import com.jiangyy.wanandroid.entity.User
-import com.jiangyy.wanandroid.entity.UserInfo
+import com.jiangyy.wanandroid.entity.*
 import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -29,7 +27,11 @@ interface ApiService {
     @GET("coin/rank/{page}/json")
     suspend fun ranking(@Path("page") page: Int): Bean<PageData<Coin>>
 
+    @FormUrlEncoded
     @POST("user/login")
     suspend fun login(@Field("username") username: String, @Field("password") password: String): Bean<User>
+
+    @GET("lg/coin/list/{page}/json")
+    suspend fun pageCoinHistory(@Path("page") page: Int): Bean<PageData<CoinHistory>>
 
 }
