@@ -1,11 +1,7 @@
 package com.jiangyy.wanandroid.logic
 
 import com.jiangyy.wanandroid.entity.*
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -33,5 +29,8 @@ interface ApiService {
 
     @GET("lg/coin/list/{page}/json")
     suspend fun pageCoinHistory(@Path("page") page: Int): Bean<PageData<CoinHistory>>
+
+    @GET("lg/todo/v2/list/{page}/json")
+    suspend fun pageTodo(@Path("page") page: Int, @Query("status") status: Int?): Bean<PageData<Todo>>
 
 }

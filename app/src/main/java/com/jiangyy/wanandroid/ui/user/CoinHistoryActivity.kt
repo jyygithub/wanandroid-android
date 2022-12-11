@@ -27,6 +27,8 @@ class CoinHistoryActivity : BaseLoadActivity<ActivityCoinHistoryBinding>(), Mult
             mViewModel.loadMore()
         }
         mViewModel.firstData().observe(this) {
+            mAdapter.setList(null)
+            binding.refreshLayout.isRefreshing = false
             if (it.datas.isEmpty()) {
                 preLoadWithEmpty("暂无数据")
             } else {
@@ -57,6 +59,7 @@ class CoinHistoryActivity : BaseLoadActivity<ActivityCoinHistoryBinding>(), Mult
             if (it.second) {
                 mAdapter.loadMoreModule.loadMoreFail()
             } else {
+                binding.refreshLayout.isRefreshing = false
                 preLoadWithFailure(it.first.message.orEmpty()) {
                     preLoad()
                 }

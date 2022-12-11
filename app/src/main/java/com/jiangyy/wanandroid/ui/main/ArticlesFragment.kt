@@ -35,6 +35,8 @@ class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleSt
         }
 
         mViewModel.firstData().observe(this) {
+            mAdapter.setList(null)
+            binding.refreshLayout.isRefreshing = false
             if (it.datas.isEmpty()) {
                 preLoadWithEmpty("暂无数据")
             } else {
@@ -49,6 +51,7 @@ class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleSt
             }
         }
         mViewModel.loadMoreData().observe(this) {
+            binding.refreshLayout.isRefreshing = false
             if (it.datas.isEmpty()) {
                 mAdapter.loadMoreModule.loadMoreEnd()
             } else {
@@ -65,6 +68,7 @@ class ArticlesFragment : BaseLoadFragment<FragmentArticlesBinding>(), MultipleSt
             if (it.second) {
                 mAdapter.loadMoreModule.loadMoreFail()
             } else {
+                binding.refreshLayout.isRefreshing = false
                 preLoadWithFailure(it.first.message.orEmpty()) {
                     preLoad()
                 }
