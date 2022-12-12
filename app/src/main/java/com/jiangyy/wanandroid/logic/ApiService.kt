@@ -14,6 +14,9 @@ interface ApiService {
     @GET("article/listproject/{page}/json")
     suspend fun pageHomeProject(@Path("page") page: Int): Bean<PageData<Article>>
 
+    @GET("tree/json")
+    suspend fun tree(): Bean<MutableList<Tree>>
+
     @GET("user/lg/userinfo/json")
     suspend fun infoUser(): Bean<UserInfo>
 
