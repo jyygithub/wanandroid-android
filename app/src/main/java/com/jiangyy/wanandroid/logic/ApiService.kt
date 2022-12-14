@@ -2,6 +2,9 @@ package com.jiangyy.wanandroid.logic
 
 import com.jiangyy.wanandroid.entity.*
 import retrofit2.http.*
+import rxhttp.toAwait
+import rxhttp.wrapper.coroutines.Await
+import rxhttp.wrapper.param.RxHttp
 
 interface ApiService {
 
@@ -38,5 +41,8 @@ interface ApiService {
 
     @GET("article/list/{page}/json")
     suspend fun pageArticleInTree(@Path("page") page: Int, @Query("cid") cid: String): Bean<PageData<Article>>
+
+    @GET("wxarticle/chapters/json")
+    suspend fun listWechat(): Bean<MutableList<Tree>>
 
 }
