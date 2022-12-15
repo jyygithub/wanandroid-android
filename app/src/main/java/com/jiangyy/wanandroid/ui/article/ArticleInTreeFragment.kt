@@ -16,7 +16,7 @@ class ArticleInTreeFragment : BaseLoadFragment<ContentArticlesBinding>(), Multip
     private val mViewModel by viewModels<ArticleIntTreeViewModel>()
 
     override fun initValue() {
-
+        mViewModel.mCid = mTree?.id.orEmpty()
     }
 
     override fun initWidget() {
@@ -73,7 +73,6 @@ class ArticleInTreeFragment : BaseLoadFragment<ContentArticlesBinding>(), Multip
     }
 
     override fun preLoad() {
-        mViewModel.mCid = mTree?.id.orEmpty()
         mViewModel.firstLoad()
     }
 
