@@ -45,4 +45,7 @@ interface ApiService {
     @GET("wxarticle/list/{id}/{page}/json")
     suspend fun listArticleInWechat(@Path("page") page: Int, @Path("id") id: String): Bean<PageData<Article>>
 
+    @GET("wenda/list/{page}/json")
+    suspend fun listWenda(@Path("page") page: Int): Bean<PageData<Article>>
+
 }
