@@ -2,6 +2,9 @@ package com.jiangyy.wanandroid.logic
 
 import com.jiangyy.wanandroid.entity.*
 import retrofit2.http.*
+import rxhttp.toAwait
+import rxhttp.wrapper.coroutines.Await
+import rxhttp.wrapper.param.RxHttp
 
 interface ApiService {
 
@@ -47,5 +50,8 @@ interface ApiService {
 
     @GET("wenda/list/{page}/json")
     suspend fun listWenda(@Path("page") page: Int): Bean<PageData<Article>>
+
+    @GET("user_article/list/{page}/json")
+    suspend fun listSquare(@Path("page") page: Int): Bean<PageData<Article>>
 
 }
