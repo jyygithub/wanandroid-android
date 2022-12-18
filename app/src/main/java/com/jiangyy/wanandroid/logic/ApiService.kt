@@ -54,4 +54,7 @@ interface ApiService {
     @GET("user_article/list/{page}/json")
     suspend fun listSquare(@Path("page") page: Int): Bean<PageData<Article>>
 
+    @GET("article/list/{page}/json")
+    suspend fun listArticleInSub(@Path("page") page: Int, @Query("cid") cid: String): Bean<PageData<Article>>
+
 }
