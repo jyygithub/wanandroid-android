@@ -8,6 +8,12 @@ interface ApiService {
     @POST("user/logout/json")
     suspend fun logout(): Bean<Any>
 
+    @POST("article/query/{page}/json")
+    suspend fun search(@Path("page") page: Int, @Query("k") key: String): Bean<PageData<Article>>
+
+    @GET("hotkey/json")
+    suspend fun hotKey(): Bean<MutableList<HotKey>>
+
     @GET("article/list/{page}/json")
     suspend fun pageHomeArticle(@Path("page") page: Int): Bean<PageData<Article>>
 
