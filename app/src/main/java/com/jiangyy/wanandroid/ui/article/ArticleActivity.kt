@@ -6,20 +6,18 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.LinearLayout
-import androidx.lifecycle.lifecycleScope
+import androidx.activity.viewModels
 import com.jiangyy.core.doneToast
+import com.jiangyy.core.errorToast
 import com.jiangyy.core.orDefault
 import com.jiangyy.core.parcelableIntent
 import com.jiangyy.dialog.StringBottomListDialog
 import com.jiangyy.viewbinding.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityArticleBinding
 import com.jiangyy.wanandroid.entity.Article
-import com.jiangyy.wanandroid.logic.ArticleUrl
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 import com.jiangyy.wanandroid.utils.SharesFactory
 import com.just.agentweb.AgentWeb
-import kotlinx.coroutines.launch
-import rxhttp.awaitResult
 
 class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
 
@@ -48,8 +46,17 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
                 }
                 .show(supportFragmentManager)
         }
-
+        mViewModel.opResult.observe(this) {
+            if (it.isSuccess) {
+                mArticle?.collect = it.getOrNull()
+                doneToast("操作成功")
+            } else {
+                errorToast(it.exceptionOrNull()?.message.orEmpty())
+            }
+        }
     }
+
+    private val mViewModel by viewModels<ArticleViewModel>()
 
     private fun menuClick(position: Int) {
         if (mArticle == null) return
@@ -57,9 +64,9 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
             when (position) {
                 0 -> { // 收藏
                     if (it.collect.orDefault()) {
-                        uncollect(it.id.orEmpty())
+                        mViewModel.uncollect(it.id.orEmpty())
                     } else {
-                        collect(it.id.orEmpty())
+                        mViewModel.collect(it.id.orEmpty())
                     }
                 }
                 1 -> { // 复制链接
@@ -92,36 +99,6 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
                 }
                 else -> Unit
             }
-        }
-    }
-
-    private fun uncollect(id: String) {
-        lifecycleScope.launch {
-            ArticleUrl.uncollect(id)
-                .awaitResult {
-                    if (it.isSuccess()) {
-                        mArticle?.collect = false
-                        doneToast("取消收藏成功")
-                    }
-                }
-                .onFailure {
-
-                }
-        }
-    }
-
-    private fun collect(id: String) {
-        lifecycleScope.launch {
-            ArticleUrl.collect(id)
-                .awaitResult {
-                    if (it.isSuccess()) {
-                        mArticle?.collect = true
-                        doneToast("收藏成功")
-                    }
-                }
-                .onFailure {
-
-                }
         }
     }
 

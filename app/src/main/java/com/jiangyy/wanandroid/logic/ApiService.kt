@@ -63,4 +63,16 @@ interface ApiService {
     @GET("chapter/547/sublist/json")
     suspend fun listSub(): Bean<MutableList<Tree>>
 
+    /**
+     * 收藏站内文章
+     */
+    @POST("lg/collect/{id}/json")
+    suspend fun collect(@Path("id") id: String): Bean<Any>
+
+    /**
+     * 取消收藏
+     */
+    @POST("lg/uncollect_originId/{id}/json")
+    suspend fun uncollect(@Path("id") id: String): Bean<Any>
+
 }
