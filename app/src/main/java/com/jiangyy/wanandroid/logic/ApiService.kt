@@ -42,6 +42,14 @@ interface ApiService {
     @GET("lg/todo/v2/list/{page}/json")
     suspend fun pageTodo(@Path("page") page: Int, @Query("status") status: Int?): Bean<PageData<Todo>>
 
+    @FormUrlEncoded
+    @POST("lg/todo/add/json")
+    suspend fun addTodo(
+        @Field("title") title: String,
+        @Field("content") content: String,
+        @Field("date") date: String
+    ): Bean<Any>
+
     @GET("article/list/{page}/json")
     suspend fun pageArticleInTree(@Path("page") page: Int, @Query("cid") cid: String): Bean<PageData<Article>>
 
