@@ -83,4 +83,7 @@ interface ApiService {
     @POST("lg/uncollect_originId/{id}/json")
     suspend fun uncollect(@Path("id") id: String): Bean<Any>
 
+    @GET("message/lg/unread_list/{page}/json")
+    suspend fun listUnreadMessage(@Path("page") page: Int): Bean<PageData<Message>>
+
 }

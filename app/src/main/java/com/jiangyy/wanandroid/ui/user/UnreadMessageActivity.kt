@@ -2,18 +2,17 @@ package com.jiangyy.wanandroid.ui.user
 
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.lifecycleScope
+import androidx.activity.viewModels
 import com.jiangyy.core.click
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityUnreadMessageBinding
-import com.jiangyy.wanandroid.logic.UserUrl
 import com.jiangyy.wanandroid.ui.adapter.MessageAdapter
-import kotlinx.coroutines.launch
-import rxhttp.awaitResult
 
 class UnreadMessageActivity : BaseLoadActivity<ActivityUnreadMessageBinding>() {
 
     private val mAdapter = MessageAdapter()
+
+    private val mViewModel by viewModels<UnreadMessageViewModel>()
 
     override fun initValue() {
 
@@ -24,17 +23,14 @@ class UnreadMessageActivity : BaseLoadActivity<ActivityUnreadMessageBinding>() {
         binding.tvReaded.click {
             ReadedMessageActivity.actionStart(this)
         }
+        mViewModel.messages.observe(this){
+            mAdapter.setList(it.getOrNull()?.datas)
+        }
     }
 
     override fun preLoad() {
-        lifecycleScope.launch {
-            UserUrl.listUnreadMessage(1)
-                .awaitResult {
-                    mAdapter.setList(it.data?.datas)
-                }
-                .onFailure {
-                }
-        }
+        mViewModel.listMessage()
+
     }
 
     companion object {
