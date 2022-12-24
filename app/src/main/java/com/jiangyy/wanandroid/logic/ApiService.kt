@@ -2,6 +2,9 @@ package com.jiangyy.wanandroid.logic
 
 import com.jiangyy.wanandroid.entity.*
 import retrofit2.http.*
+import rxhttp.toAwait
+import rxhttp.wrapper.coroutines.Await
+import rxhttp.wrapper.param.RxHttp
 
 interface ApiService {
 
@@ -47,7 +50,7 @@ interface ApiService {
     suspend fun addTodo(
         @Field("title") title: String,
         @Field("content") content: String,
-        @Field("date") date: String
+        @Field("date") date: String,
     ): Bean<Any>
 
     @GET("article/list/{page}/json")
@@ -70,6 +73,10 @@ interface ApiService {
 
     @GET("chapter/547/sublist/json")
     suspend fun listSub(): Bean<MutableList<Tree>>
+
+    @FormUrlEncoded
+    @POST("lg/user_article/add/json")
+    suspend fun share(@Field("title") title: String, @Field("link") link: String): Bean<Any>
 
     /**
      * 收藏站内文章
