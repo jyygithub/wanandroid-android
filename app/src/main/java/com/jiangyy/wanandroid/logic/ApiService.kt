@@ -2,9 +2,6 @@ package com.jiangyy.wanandroid.logic
 
 import com.jiangyy.wanandroid.entity.*
 import retrofit2.http.*
-import rxhttp.toAwait
-import rxhttp.wrapper.coroutines.Await
-import rxhttp.wrapper.param.RxHttp
 
 interface ApiService {
 
@@ -92,5 +89,8 @@ interface ApiService {
 
     @GET("message/lg/unread_list/{page}/json")
     suspend fun listUnreadMessage(@Path("page") page: Int): Bean<PageData<Message>>
+
+    @GET("message/lg/readed_list/{page}/json")
+    suspend fun listReadedMessage(@Path("page") page: Int): Bean<PageData<Message>>
 
 }
