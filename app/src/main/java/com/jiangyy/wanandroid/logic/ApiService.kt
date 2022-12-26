@@ -71,9 +71,15 @@ interface ApiService {
     @GET("chapter/547/sublist/json")
     suspend fun listSub(): Bean<MutableList<Tree>>
 
+    @GET("user/lg/private_articles/{page}/json")
+    suspend fun listShareHistory(@Path("page") page: Int): Bean<PageData<Article>>
+
     @FormUrlEncoded
     @POST("lg/user_article/add/json")
     suspend fun share(@Field("title") title: String, @Field("link") link: String): Bean<Any>
+
+    @POST("lg/user_article/delete/{id}/json")
+    suspend fun unshare(@Path("id") id: String): Bean<Any>
 
     /**
      * 收藏站内文章

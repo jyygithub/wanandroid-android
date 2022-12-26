@@ -1,16 +1,12 @@
 package com.jiangyy.wanandroid.ui.article
 
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.jiangyy.core.parcelableIntent
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.databinding.ContentArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.logic.ArticleUrl
 import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
-import kotlinx.coroutines.launch
-import rxhttp.awaitResult
 
 class ArticleInWechatFragment : BaseLoadFragment<ContentArticlesBinding>(), MultipleStateModule {
 

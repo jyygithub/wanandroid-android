@@ -3,15 +3,11 @@ package com.jiangyy.wanandroid.ui.article
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ContentPageListBinding
-import com.jiangyy.wanandroid.logic.ArticleUrl
 import com.jiangyy.wanandroid.ui.adapter.TreeAdapter
-import kotlinx.coroutines.launch
-import rxhttp.awaitResult
 
 class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateModule {
 
