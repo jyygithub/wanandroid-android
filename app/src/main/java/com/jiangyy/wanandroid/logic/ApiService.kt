@@ -74,6 +74,9 @@ interface ApiService {
     @GET("user/lg/private_articles/{page}/json")
     suspend fun listShareHistory(@Path("page") page: Int): Bean<PageData<Article>>
 
+    @GET("lg/collect/list/{page}/json")
+    suspend fun listCollect(@Path("page") page: Int): Bean<PageData<Article>>
+
     @FormUrlEncoded
     @POST("lg/user_article/add/json")
     suspend fun share(@Field("title") title: String, @Field("link") link: String): Bean<Any>

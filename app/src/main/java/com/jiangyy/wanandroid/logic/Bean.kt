@@ -1,9 +1,5 @@
 package com.jiangyy.wanandroid.logic
 
-import rxhttp.wrapper.annotation.DefaultDomain
-
-@JvmField
-@DefaultDomain
 public var BASE_URL = "https://www.wanandroid.com/"
 
 class Bean<T>(
@@ -11,20 +7,6 @@ class Bean<T>(
     val errorMsg: String?,
     val data: T?,
 ) {
-    fun isSuccess(): Boolean = (this.errorCode == SUCCESS)
-
-    companion object {
-        const val SUCCESS = 0
-    }
-}
-
-class Beans<T>(
-    val errorCode: Int?,
-    val errorMsg: String?,
-    val data: PageData<T>?,
-) {
-    fun isSuccess(): Boolean = (this.errorCode == SUCCESS)
-
     companion object {
         const val SUCCESS = 0
     }

@@ -1,4 +1,4 @@
-package com.jiangyy.wanandroid.ui.main
+package com.jiangyy.wanandroid.ui.user
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,13 +8,13 @@ import com.jiangyy.wanandroid.logic.API_SERVICE
 import com.jiangyy.wanandroid.logic.PageData
 import com.jiangyy.wanandroid.logic.netRequest
 
-class ArticlesViewModel : ViewModel() {
+class CollectionHistoryViewModel : ViewModel() {
 
     private val refreshLiveData = MutableLiveData<PageData<Article>>()
     private val loadMoreLiveData = MutableLiveData<PageData<Article>>()
     private val errorLiveData = MutableLiveData<Pair<Throwable, Boolean>>()
 
-    var mPage = 0
+    var mPage = 1
 
     fun firstData(): LiveData<PageData<Article>> {
         return refreshLiveData
@@ -29,9 +29,9 @@ class ArticlesViewModel : ViewModel() {
     }
 
     fun firstLoad() {
-        mPage = 0
+        mPage = 1
         netRequest {
-            request { API_SERVICE.pageHomeArticle(mPage) }
+            request { API_SERVICE.listCollect(mPage) }
             success { refreshLiveData.value = it }
             error { errorLiveData.value = it to false }
         }
@@ -39,7 +39,7 @@ class ArticlesViewModel : ViewModel() {
 
     fun loadMore() {
         netRequest {
-            request { API_SERVICE.pageHomeArticle(mPage) }
+            request { API_SERVICE.listCollect(mPage) }
             success { loadMoreLiveData.value = it }
             error { errorLiveData.value = it to true }
         }
