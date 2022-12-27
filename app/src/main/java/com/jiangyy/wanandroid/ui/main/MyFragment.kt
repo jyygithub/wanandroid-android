@@ -5,16 +5,12 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import com.jiangyy.core.errorToast
 import com.jiangyy.core.orZero
 import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.R
-import com.jiangyy.wanandroid.data.MyViewModel
 import com.jiangyy.wanandroid.data.RefreshScan
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
-import com.jiangyy.wanandroid.logic.UserUrl
 import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.adapter.MyAdapter
 import com.jiangyy.wanandroid.ui.adapter.MyItem
@@ -22,16 +18,15 @@ import com.jiangyy.wanandroid.ui.article.ArticlesActivity
 import com.jiangyy.wanandroid.ui.article.SubListActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
+import com.jiangyy.wanandroid.ui.todo.TodosActivity
 import com.jiangyy.wanandroid.ui.user.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
-import com.jiangyy.wanandroid.ui.user.UnreadMessageActivity
 import com.jiangyy.wanandroid.ui.user.RankingActivity
+import com.jiangyy.wanandroid.ui.user.UnreadMessageActivity
 import com.jiangyy.wanandroid.utils.DataStoreUtils
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import rxhttp.awaitResult
 
 class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
@@ -59,7 +54,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                     content = "确认退出登录"
                 }
                 .confirm {
-                    logout()
+                    mViewModel.logout()
                 }
                 .show(childFragmentManager)
         }
@@ -79,10 +74,10 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 binding.toolbar.setEnd(null, null)
                 binding.tvNickname.text = "登录 / 注册"
             }
-            infoUser()
-            getMessageCount()
+            mViewModel.infoUser()
+            mViewModel.getMessageCount()
         }
-        mViewModel.myData().observe(this) {
+        mViewModel.userInfo().observe(this) {
             mAdapter.getItem(0).let { item ->
                 item.text = "${it.first}"
                 mAdapter.setData(0, item)
@@ -96,8 +91,20 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 mAdapter.setData(2, item)
             }
         }
+        mViewModel.messageCount().first.observe(this) {
+            if (it != null && it > 0) {
+                binding.tvMessageCount.text = "${it.orZero()}"
+                binding.tvMessageCount.visibility = View.VISIBLE
+            } else {
+                binding.tvMessageCount.visibility = View.GONE
+            }
+        }
+        mViewModel.messageCount().second.observe(this) {
+            binding.tvMessageCount.visibility = View.GONE
+        }
 
         binding.recyclerView.adapter = mAdapter
+        binding.recyclerView.itemAnimator?.changeDuration = 0
         mAdapter.setGridSpanSizeLookup { _, _, position ->
             return@setGridSpanSizeLookup mAdapter.getItem(position).row
         }
@@ -107,6 +114,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 1 -> ArticlesActivity.actionStart(requireActivity(), "collection")
                 2 -> ArticlesActivity.actionStart(requireActivity(), "scan")
                 4 -> ArticlesActivity.actionStart(requireActivity(), "share")
+                5 -> TodosActivity.actionStart(requireActivity())
                 7 -> ArticlesActivity.actionStart(requireActivity(), "square")
                 8 -> ArticlesActivity.actionStart(requireActivity(), "wenda")
                 9 -> TreeActivity.actionStart(requireActivity())
@@ -141,8 +149,8 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
     override fun preLoad() {
         mViewModel.loginOrOut(DataStoreUtils.logged)
-        infoUser()
-        getMessageCount()
+        mViewModel.infoUser()
+        mViewModel.getMessageCount()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -150,58 +158,6 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         mAdapter.getItem(2).let { item ->
             item.text = "${DataStoreUtils.getScanHistory().size}"
             mAdapter.setData(2, item)
-        }
-    }
-
-    private fun logout() {
-        lifecycleScope.launch {
-            UserUrl.logout()
-                .awaitResult {
-                    if (it.isSuccess()) {
-                        DataStoreUtils.logout()
-                        mViewModel.loginOrOut(false)
-                    } else {
-                        errorToast(it.errorMsg.orEmpty())
-                    }
-                }
-                .onFailure {
-                    errorToast("操作失败，请稍后重试")
-                }
-        }
-    }
-
-    private fun infoUser() {
-        if (!DataStoreUtils.logged) return
-        lifecycleScope.launch {
-            UserUrl.infoUser()
-                .awaitResult {
-                    if (it.data != null) {
-                        mViewModel.myData(
-                            it.data.userInfo?.coinCount.orZero() to it.data.userInfo?.collectIds?.size.orZero()
-                        )
-                    }
-                }
-                .onFailure {
-
-                }
-        }
-    }
-
-    private fun getMessageCount() {
-        if (!DataStoreUtils.logged) return
-        lifecycleScope.launch {
-            UserUrl.getUnreadMessageCount()
-                .awaitResult {
-                    if (it.data != null && it.data > 0) {
-                        binding.tvMessageCount.text = "${it.data.orZero()}"
-                        binding.tvMessageCount.visibility = View.VISIBLE
-                    } else {
-                        binding.tvMessageCount.visibility = View.GONE
-                    }
-                }
-                .onFailure {
-                    binding.tvMessageCount.visibility = View.GONE
-                }
         }
     }
 

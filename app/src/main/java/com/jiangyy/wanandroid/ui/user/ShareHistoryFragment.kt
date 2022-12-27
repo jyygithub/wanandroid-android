@@ -1,22 +1,21 @@
 package com.jiangyy.wanandroid.ui.user
 
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import com.jiangyy.core.doneToast
 import com.jiangyy.core.errorToast
 import com.jiangyy.dialog.StringBottomListDialog
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.databinding.ContentArticlesBinding
-import com.jiangyy.wanandroid.logic.ArticleUrl
-import com.jiangyy.wanandroid.logic.UserUrl
 import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
 import com.jiangyy.wanandroid.ui.article.ArticleActivity
-import kotlinx.coroutines.launch
-import rxhttp.awaitResult
 
 class ShareHistoryFragment : BaseLoadFragment<ContentArticlesBinding>(), MultipleStateModule {
 
     private val mAdapter = ArticleAdapter()
+
+    private val mViewModel by viewModels<ShareHistoryViewModel>()
+    private var mCurrentPosition = 0
 
     override fun initValue() {
 
@@ -28,106 +27,75 @@ class ShareHistoryFragment : BaseLoadFragment<ContentArticlesBinding>(), Multipl
             ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
         }
         mAdapter.setOnItemLongClickListener { _, _, position ->
+            mCurrentPosition = position
             StringBottomListDialog()
                 .bindConfig { title = "文章操作" }
                 .items("取消分享") { _, _ ->
-                    unshare(position)
+                    val article = mAdapter.getItem(position)
+                    mViewModel.unshare(article.id.orEmpty())
                 }
                 .show(childFragmentManager)
 
             false
         }
         binding.refreshLayout.setOnRefreshListener {
-            refresh()
+            mViewModel.firstLoad()
         }
         mAdapter.loadMoreModule.setOnLoadMoreListener {
-            loadMore()
+            mViewModel.loadMore()
+        }
+        mViewModel.firstData().observe(this) {
+            mAdapter.setList(null)
+            binding.refreshLayout.isRefreshing = false
+            if (it.datas.isEmpty()) {
+                preLoadWithEmpty("暂无数据")
+            } else {
+                preLoadSuccess()
+                mAdapter.addData(it.datas)
+                if (mAdapter.data.size == it.total) {
+                    mAdapter.loadMoreModule.loadMoreEnd()
+                } else {
+                    mAdapter.loadMoreModule.loadMoreComplete()
+                    mViewModel.mPage++
+                }
+            }
+        }
+        mViewModel.loadMoreData().observe(this) {
+            binding.refreshLayout.isRefreshing = false
+            if (it.datas.isEmpty()) {
+                mAdapter.loadMoreModule.loadMoreEnd()
+            } else {
+                mAdapter.addData(it.datas)
+                if (mAdapter.data.size == it.total) {
+                    mAdapter.loadMoreModule.loadMoreEnd()
+                } else {
+                    mAdapter.loadMoreModule.loadMoreComplete()
+                    mViewModel.mPage++
+                }
+            }
+        }
+        mViewModel.dataError().observe(this) {
+            if (it.second) {
+                mAdapter.loadMoreModule.loadMoreFail()
+            } else {
+                binding.refreshLayout.isRefreshing = false
+                preLoadWithFailure(it.first.message.orEmpty()) {
+                    preLoad()
+                }
+            }
+        }
+        mViewModel.unshare.observe(this) {
+            if (it.isSuccess) {
+                doneToast("取消分享成功")
+                mAdapter.removeAt(mCurrentPosition)
+            } else {
+                errorToast(it.exceptionOrNull()?.message.orEmpty())
+            }
         }
     }
 
     override fun preLoad() {
-        refresh()
-    }
-
-    private fun unshare(position: Int) {
-        val article = mAdapter.getItem(position)
-        lifecycleScope.launch {
-            ArticleUrl.unshare(article.id.orEmpty())
-                .awaitResult {
-                    if (it.isSuccess()) {
-                        doneToast("取消分享成功")
-                        mAdapter.removeAt(position)
-                    } else {
-                        errorToast(it.errorMsg.orEmpty())
-                    }
-                }
-                .onFailure {
-                    errorToast("取消分享失败")
-                }
-        }
-    }
-
-    private var mPage = 1
-
-    private fun refresh() {
-        mPage = 1
-        mAdapter.setList(null)
-        lifecycleScope.launch {
-            UserUrl.listShareHistory(mPage)
-                .awaitResult {
-                    binding.refreshLayout.isRefreshing = false
-                    if (it.isSuccess()) {
-                        if (it.data?.datas.isNullOrEmpty()) {
-                            preLoadWithEmpty("暂无数据")
-                        } else {
-                            preLoadSuccess()
-                            mAdapter.addData(it.data?.datas!!)
-                            if (mAdapter.data.size == it.data.total) {
-                                mAdapter.loadMoreModule.loadMoreEnd()
-                            } else {
-                                mAdapter.loadMoreModule.loadMoreComplete()
-                                ++mPage
-                            }
-                        }
-                    } else {
-                        preLoadWithFailure(it.errorMsg.orEmpty()) {
-                            preLoad()
-                        }
-                    }
-                }
-                .onFailure {
-                    binding.refreshLayout.isRefreshing = false
-                    preLoadWithFailure {
-                        preLoad()
-                    }
-                }
-        }
-    }
-
-    private fun loadMore() {
-        lifecycleScope.launch {
-            UserUrl.listShareHistory(mPage)
-                .awaitResult {
-                    if (it.isSuccess()) {
-                        if (it.data?.datas.isNullOrEmpty()) {
-                            mAdapter.loadMoreModule.loadMoreEnd()
-                        } else {
-                            mAdapter.addData(it.data?.datas!!)
-                            if (mAdapter.data.size == it.data.total) {
-                                mAdapter.loadMoreModule.loadMoreEnd()
-                            } else {
-                                mAdapter.loadMoreModule.loadMoreComplete()
-                                ++mPage
-                            }
-                        }
-                    } else {
-                        mAdapter.loadMoreModule.loadMoreFail()
-                    }
-                }
-                .onFailure {
-                    mAdapter.loadMoreModule.loadMoreFail()
-                }
-        }
+        mViewModel.firstLoad()
     }
 
     companion object {

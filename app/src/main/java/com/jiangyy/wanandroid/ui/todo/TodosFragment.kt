@@ -1,20 +1,27 @@
-package com.jiangyy.wanandroid.ui.article
+package com.jiangyy.wanandroid.ui.todo
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
-import com.jiangyy.core.parcelableIntent
+import com.jiangyy.core.orZero
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadFragment
-import com.jiangyy.wanandroid.databinding.ContentArticlesBinding
-import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
+import com.jiangyy.wanandroid.databinding.FragmentTodosBinding
+import com.jiangyy.wanandroid.ui.adapter.TodoAdapter
 
-class ArticleInSubFragment : BaseLoadFragment<ContentArticlesBinding>(), MultipleStateModule {
+private const val ARG_PARAM1 = "status"
 
-    private val mAdapter = ArticleAdapter()
+class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(), MultipleStateModule {
 
-    private val mTree by parcelableIntent<Tree>("tree")
+    private var param1: Int? = null
+    private val mAdapter = TodoAdapter()
+    private val mViewModel by viewModels<TodosViewModel>()
 
-    private val mViewModel by viewModels<ArticleInSubViewModel>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getInt(ARG_PARAM1)
+        }
+    }
 
     override fun initValue() {
 
@@ -22,9 +29,6 @@ class ArticleInSubFragment : BaseLoadFragment<ContentArticlesBinding>(), Multipl
 
     override fun initWidget() {
         binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { _, _, position ->
-            ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
-        }
         binding.refreshLayout.setOnRefreshListener {
             mViewModel.firstLoad()
         }
@@ -48,7 +52,6 @@ class ArticleInSubFragment : BaseLoadFragment<ContentArticlesBinding>(), Multipl
             }
         }
         mViewModel.loadMoreData().observe(this) {
-            binding.refreshLayout.isRefreshing = false
             if (it.datas.isEmpty()) {
                 mAdapter.loadMoreModule.loadMoreEnd()
             } else {
@@ -74,14 +77,16 @@ class ArticleInSubFragment : BaseLoadFragment<ContentArticlesBinding>(), Multipl
     }
 
     override fun preLoad() {
-        mViewModel.mCid = mTree?.id.orEmpty()
-        mViewModel.firstLoad()
+        mViewModel.fetchStatus(param1.orZero())
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = ArticleInSubFragment()
+        fun newInstance(param1: Int) =
+            TodosFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_PARAM1, param1)
+                }
+            }
     }
-
-
 }

@@ -2,19 +2,18 @@ package com.jiangyy.wanandroid.ui.article
 
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.lifecycleScope
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ContentPageListBinding
-import com.jiangyy.wanandroid.logic.ArticleUrl
 import com.jiangyy.wanandroid.ui.adapter.TreeAdapter
-import kotlinx.coroutines.launch
-import rxhttp.awaitResult
 
 class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateModule {
 
     private val mAdapter = TreeAdapter()
+
+    private val mViewModel by viewModels<TreeViewModel>()
 
     override fun initValue() {
 
@@ -37,16 +36,13 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateMo
         binding.refreshLayout.setOnRefreshListener {
             preLoad()
         }
-    }
-
-    override fun preLoad() {
-        lifecycleScope.launch {
-            ArticleUrl.tree()
-                .awaitResult {
+        mViewModel.treeResult().observe(this) {
+            binding.refreshLayout.isRefreshing = false
+            when (it) {
+                is TreeResultSuccess -> {
                     preLoadSuccess()
-                    binding.refreshLayout.isRefreshing = false
                     mAdapter.setList(null)
-                    if (it.data.isNullOrEmpty()) return@awaitResult
+                    if (it.data.isNullOrEmpty()) return@observe
                     for (parent in it.data) {
                         mAdapter.addData(parent)
                         parent.children?.forEach { children ->
@@ -54,10 +50,17 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateMo
                         }
                     }
                 }
-                .onFailure {
-                    preLoadWithFailure { preLoad() }
+                is TreeResultError -> {
+                    preLoadWithFailure(it.error.message.orEmpty()) { preLoad() }
                 }
+            }
+
+
         }
+    }
+
+    override fun preLoad() {
+        mViewModel.tree()
     }
 
     companion object {

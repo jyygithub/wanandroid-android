@@ -17,6 +17,13 @@
         android:theme="@style/Theme.Wanandroid"
         tools:targetApi="31">
         <activity
+            android:name=".AddTodoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:exported="true"
             android:launchMode="singleTask"
@@ -61,6 +68,9 @@
         <activity android:name="com.jiangyy.wanandroid.ui.user.ShareActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.user.UnreadMessageActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.user.ReadedMessageActivity" />
+        <activity android:name=".TodosActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.todo.TodosActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.todo.AddTodoActivity" />
     </application>
 
 </manifest>
