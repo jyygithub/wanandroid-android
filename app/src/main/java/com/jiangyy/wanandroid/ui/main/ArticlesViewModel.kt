@@ -1,48 +1,43 @@
 package com.jiangyy.wanandroid.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jiangyy.wanandroid.entity.Article
-import com.jiangyy.wanandroid.logic.API_SERVICE
-import com.jiangyy.wanandroid.logic.PageData
-import com.jiangyy.wanandroid.logic.netRequest
+import com.jiangyy.wanandroid.logic.*
 
-class ArticlesViewModel : ViewModel() {
+abstract class PageViewModel<T> : ViewModel() {
 
-    private val refreshLiveData = MutableLiveData<PageData<Article>>()
-    private val loadMoreLiveData = MutableLiveData<PageData<Article>>()
-    private val errorLiveData = MutableLiveData<Pair<Throwable, Boolean>>()
+    protected open var firstPage = 0
 
-    var mPage = 0
+    private var page = 0
 
-    fun firstData(): LiveData<PageData<Article>> {
-        return refreshLiveData
-    }
-
-    fun loadMoreData(): LiveData<PageData<Article>> {
-        return loadMoreLiveData
-    }
-
-    fun dataError(): LiveData<Pair<Throwable, Boolean>> {
-        return errorLiveData
-    }
+    private val _pageData = ResultPageMutableLiveData<T>()
+    val pageData = _pageData
 
     fun firstLoad() {
-        mPage = 0
-        netRequest {
-            request { API_SERVICE.pageHomeArticle(mPage) }
-            success { refreshLiveData.value = it }
-            error { errorLiveData.value = it to false }
+        page = firstPage
+        flowRequest {
+            request { realRequest(page) }
+            response { _pageData.value = false to it }
         }
     }
 
     fun loadMore() {
-        netRequest {
-            request { API_SERVICE.pageHomeArticle(mPage) }
-            success { loadMoreLiveData.value = it }
-            error { errorLiveData.value = it to true }
+        flowRequest {
+            request { realRequest(page) }
+            response { _pageData.value = true to it }
         }
+    }
+
+    fun increasePage() = page++
+
+    protected abstract suspend fun realRequest(page: Int): Bean<PageData<T>>
+
+}
+
+class ArticlesViewModel : PageViewModel<Article>() {
+
+    override suspend fun realRequest(page: Int): Bean<PageData<Article>> {
+        return API_SERVICE.pageHomeArticle(page)
     }
 
 }
