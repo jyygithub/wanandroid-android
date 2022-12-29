@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityReadedMessageBinding
+import com.jiangyy.wanandroid.logic.loadData
 import com.jiangyy.wanandroid.ui.adapter.MessageAdapter
 
 class ReadedMessageActivity : BaseLoadActivity<ActivityReadedMessageBinding>(), MultipleStateModule {
@@ -26,45 +27,8 @@ class ReadedMessageActivity : BaseLoadActivity<ActivityReadedMessageBinding>(), 
         mAdapter.loadMoreModule.setOnLoadMoreListener {
             mViewModel.loadMore()
         }
-        mViewModel.firstData().observe(this) {
-            mAdapter.setList(null)
-            binding.refreshLayout.isRefreshing = false
-            if (it.datas.isEmpty()) {
-                preLoadWithEmpty("暂无数据")
-            } else {
-                preLoadSuccess()
-                mAdapter.addData(it.datas)
-                if (mAdapter.data.size == it.total) {
-                    mAdapter.loadMoreModule.loadMoreEnd()
-                } else {
-                    mAdapter.loadMoreModule.loadMoreComplete()
-                    mViewModel.mPage++
-                }
-            }
-        }
-        mViewModel.loadMoreData().observe(this) {
-            binding.refreshLayout.isRefreshing = false
-            if (it.datas.isEmpty()) {
-                mAdapter.loadMoreModule.loadMoreEnd()
-            } else {
-                mAdapter.addData(it.datas)
-                if (mAdapter.data.size == it.total) {
-                    mAdapter.loadMoreModule.loadMoreEnd()
-                } else {
-                    mAdapter.loadMoreModule.loadMoreComplete()
-                    mViewModel.mPage++
-                }
-            }
-        }
-        mViewModel.dataError().observe(this) {
-            if (it.second) {
-                mAdapter.loadMoreModule.loadMoreFail()
-            } else {
-                binding.refreshLayout.isRefreshing = false
-                preLoadWithFailure(it.first.message.orEmpty()) {
-                    preLoad()
-                }
-            }
+        mViewModel.pageData.observe(this){
+            this.loadData(it,mAdapter,binding.refreshLayout,mViewModel)
         }
     }
 

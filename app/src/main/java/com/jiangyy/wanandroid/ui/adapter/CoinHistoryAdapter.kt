@@ -7,9 +7,9 @@ import com.jiangyy.core.millis2String
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.entity.CoinHistory
 
-class CoinHistoryAdapter : BaseQuickAdapter<CoinHistory, BaseViewHolder>(R.layout.recycler_item_coin_history), LoadMoreModule {
+class CoinHistoryAdapter : BaseQuickAdapter<CoinHistory, AdapterViewHolder>(R.layout.recycler_item_coin_history), LoadMoreModule {
 
-    override fun convert(holder: BaseViewHolder, item: CoinHistory) {
+    override fun convert(holder: AdapterViewHolder, item: CoinHistory) {
         holder.setText(R.id.tvType, item.reason)
         holder.setText(R.id.tvDate, item.date?.millis2String())
         holder.setText(R.id.tvCoin, "+${item.coinCount}")
