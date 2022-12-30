@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.jiangyy.core.toast
@@ -58,6 +59,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         val fragments = arrayOf(HomeArticlesFragment.newInstance(), ProjectsFragment.newInstance(), MyFragment.newInstance())
         val itemTabs = intArrayOf(R.id.nav_article, R.id.nav_project, R.id.nav_my)
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
+
+            override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+                super.onAttachedToRecyclerView(recyclerView)
+                recyclerView.setItemViewCacheSize(fragments.size)
+            }
+
             override fun createFragment(position: Int): Fragment {
                 return fragments[position]
             }

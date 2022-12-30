@@ -1,21 +1,21 @@
 package com.jiangyy.wanandroid.ui.article
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.jiangyy.core.parcelableIntent
-import com.jiangyy.wanandroid.entity.Tree
+import com.jiangyy.core.stringArgument
 import com.jiangyy.wanandroid.ui.BaseArticlesFragment
 import com.jiangyy.wanandroid.ui.main.ArticlesViewModel
 import kotlinx.coroutines.launch
 
 class ArticleInWechatFragment private constructor() : BaseArticlesFragment() {
 
-    private val mTree by parcelableIntent<Tree>("tree")
+    private val wechatId by stringArgument("wechatId")
 
     override fun initObserver() {
         val viewModel by viewModels<ArticlesViewModel>()
         lifecycleScope.launch {
-            viewModel.listArticleInWechat(mTree?.id.orEmpty()).collect { pagingData ->
+            viewModel.listArticleInWechat(wechatId.orEmpty()).collect { pagingData ->
                 mAdapter.submitData(pagingData)
             }
         }
@@ -23,7 +23,9 @@ class ArticleInWechatFragment private constructor() : BaseArticlesFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = ArticleInWechatFragment()
+        fun newInstance(wechatId: String) = ArticleInWechatFragment().apply {
+            arguments = Bundle().apply { putString("wechatId", wechatId) }
+        }
     }
 
 }

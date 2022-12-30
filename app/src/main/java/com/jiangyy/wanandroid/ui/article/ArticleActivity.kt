@@ -17,6 +17,7 @@ import com.jiangyy.wanandroid.databinding.ActivityArticleBinding
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 import com.jiangyy.wanandroid.utils.SharesFactory
+import com.jiangyy.wanandroid.utils.htmlString
 import com.just.agentweb.AgentWeb
 
 class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
@@ -31,7 +32,7 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
     }
 
     override fun initWidget() {
-        binding.tvTitle.text = mArticle?.title.orEmpty()
+        binding.tvTitle.text = mArticle?.title.orEmpty().htmlString
         mAgentWeb = AgentWeb.with(this)
             .setAgentWebParent(binding.frameLayout, LinearLayout.LayoutParams(-1, -1))
             .useDefaultIndicator()

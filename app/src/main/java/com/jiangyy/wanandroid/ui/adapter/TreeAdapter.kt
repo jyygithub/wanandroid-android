@@ -30,4 +30,8 @@ class TreeAdapter : BaseVBAdapter<Tree>() {
 
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return getItem(position).itemType
+    }
+
 }

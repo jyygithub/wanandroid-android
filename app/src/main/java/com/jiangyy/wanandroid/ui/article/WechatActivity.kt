@@ -3,15 +3,19 @@ package com.jiangyy.wanandroid.ui.article
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.jiangyy.core.orZero
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadActivity
-import com.jiangyy.wanandroid.databinding.ContentPageListBinding
+import com.jiangyy.wanandroid.databinding.ActivityWechatBinding
 import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.ui.adapter.TreeAdapter
+import com.jiangyy.wanandroid.utils.Firewood
 
-class WechatActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateModule {
-
-    private val mAdapter = TreeAdapter()
+class WechatActivity : BaseLoadActivity<ActivityWechatBinding>(), MultipleStateModule {
 
     private val mViewModel by viewModels<WechatViewModel>()
 
@@ -20,36 +24,41 @@ class WechatActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleState
     }
 
     override fun initWidget() {
-        binding.toolbar.setTitle("公众号")
-        binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { position ->
-            mAdapter.currentList[position].let {
-                if (it.itemType == 1) {
-                    ArticlesActivity.actionStart(this, "wechat", it)
-                }
-            }
-        }
-        binding.refreshLayout.setOnRefreshListener {
-            preLoad()
-        }
+
+    }
+
+    override fun initObserver() {
         mViewModel.wechatResult.observe(this) {
-            val result = mutableListOf<Tree>()
             if (it.isSuccess) {
                 preLoadSuccess()
-                binding.refreshLayout.isRefreshing = false
-                mAdapter.submitList(null)
-                if (it.getOrNull().isNullOrEmpty()) return@observe
-                it.getOrNull()?.forEach { parent ->
-                    result.add(parent)
-                    parent.children?.forEach { children ->
-                        result.add(children)
-                    }
+                it.getOrNull()?.forEach { _ ->
+                    binding.tabLayout.addTab(binding.tabLayout.newTab())
                 }
-                mAdapter.submitList(result)
+                initViewPager(it.getOrNull())
             } else {
                 preLoadWithFailure { preLoad() }
             }
         }
+    }
+
+    private fun initViewPager(data: MutableList<Tree>?) {
+        if (data.isNullOrEmpty()) return
+        binding.viewPager.adapter = object : FragmentStateAdapter(this) {
+
+            override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+                super.onAttachedToRecyclerView(recyclerView)
+                recyclerView.setItemViewCacheSize(data.size)
+            }
+
+            override fun getItemCount(): Int {
+                return data.size
+            }
+
+            override fun createFragment(position: Int): Fragment {
+                return ArticleInWechatFragment.newInstance(data[position].id.orEmpty())
+            }
+        }
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position -> tab.text = data[position].name.orEmpty() }.attach()
     }
 
     override fun preLoad() {
