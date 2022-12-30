@@ -1,22 +1,31 @@
 package com.jiangyy.wanandroid.ui.todo
 
-import com.jiangyy.wanandroid.data.PageViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.jiangyy.wanandroid.data.PagesSource
 import com.jiangyy.wanandroid.entity.Todo
 import com.jiangyy.wanandroid.logic.API_SERVICE
 import com.jiangyy.wanandroid.logic.Bean
 import com.jiangyy.wanandroid.logic.PageData
+import kotlinx.coroutines.flow.Flow
 
-class TodosViewModel : PageViewModel<Todo>() {
+class TodosViewModel : ViewModel() {
 
-    private var mStatus = 0
-
-    fun fetchStatus(status: Int) {
-        mStatus = status
-        firstLoad()
-    }
-
-    override suspend fun realRequest(page: Int): Bean<PageData<Todo>> {
-        return API_SERVICE.pageTodo(page, mStatus)
+    fun pageTodo(status: Int): Flow<PagingData<Todo>> {
+        return Pager(
+            config = PagingConfig(25),
+            pagingSourceFactory = {
+                object : PagesSource<Todo>(1) {
+                    override suspend fun request(page: Int): Bean<PageData<Todo>> {
+                        return API_SERVICE.pageTodo(page, status)
+                    }
+                }
+            }
+        ).flow.cachedIn(viewModelScope)
     }
 
 }

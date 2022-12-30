@@ -6,9 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.jiangyy.wanandroid.data.PageViewModel
 import com.jiangyy.wanandroid.data.PagesSource
-import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.Coin
 import com.jiangyy.wanandroid.logic.API_SERVICE
 import com.jiangyy.wanandroid.logic.Bean

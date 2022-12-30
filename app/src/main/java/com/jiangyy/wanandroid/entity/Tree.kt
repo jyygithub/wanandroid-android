@@ -1,7 +1,6 @@
 package com.jiangyy.wanandroid.entity
 
 import android.os.Parcelable
-import com.chad.library.adapter.base.entity.MultiItemEntity
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
@@ -14,9 +13,9 @@ data class Tree(
     val cover: String?,
     val order: Int?,
     val parentChapterId: Int?,
-) : MultiItemEntity, Parcelable {
+) : Parcelable {
 
-    override val itemType: Int
+    val itemType: Int
         get() = if ((parentChapterId ?: 0) < 1) 0 else 1
 
     @IgnoredOnParcel

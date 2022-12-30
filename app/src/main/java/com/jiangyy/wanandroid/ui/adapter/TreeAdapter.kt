@@ -1,26 +1,33 @@
 package com.jiangyy.wanandroid.ui.adapter
 
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.jiangyy.wanandroid.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
+import com.jiangyy.viewbinding.adapter.BaseVBAdapter
+import com.jiangyy.wanandroid.databinding.RecyclerItemTreeChildBinding
+import com.jiangyy.wanandroid.databinding.RecyclerItemTreeParentBinding
 import com.jiangyy.wanandroid.entity.Tree
 
-class TreeAdapter : BaseMultiItemQuickAdapter<Tree, BaseViewHolder>() {
+class TreeAdapter : BaseVBAdapter<Tree>() {
 
-    init {
-        addItemType(0, R.layout.recycler_item_tree_parent)
-        addItemType(1, R.layout.recycler_item_tree_child)
-    }
-
-    override fun convert(holder: BaseViewHolder, item: Tree) {
-        when (holder.itemViewType) {
-            0 -> {
-                holder.setText(R.id.tvTitle, item.name)
-            }
-            1 -> {
-                holder.setText(R.id.tvTitle, item.name)
-            }
-            else -> Unit
+    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+        return if (viewType == 0) {
+            RecyclerItemTreeParentBinding.inflate(inflater, parent, attachToParent)
+        } else {
+            RecyclerItemTreeChildBinding.inflate(inflater, parent, attachToParent)
         }
     }
+
+    override fun convert(_binding: ViewBinding, position: Int) {
+
+        if (getItemViewType(position) == 0) {
+            val binding = _binding as RecyclerItemTreeParentBinding
+            binding.tvTitle.text = getItem(position).name
+        } else {
+            val binding = _binding as RecyclerItemTreeChildBinding
+            binding.tvTitle.text = getItem(position).name
+        }
+
+    }
+
 }

@@ -21,23 +21,21 @@ class ScanHistoryFragment : BaseLoadFragment<ContentArticlesBinding>(), Multiple
 
     override fun initWidget() {
         binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { _, _, position ->
-            ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
+        mAdapter.setOnItemClickListener { position ->
+            ArticleActivity.actionStart(requireActivity(), mAdapter.currentList[position])
         }
         binding.refreshLayout.setOnRefreshListener {
             preLoad()
         }
         mArticlesViewModel.scans().observe(this) {
-            mAdapter.setList(null)
+            mAdapter.submitList(null)
         }
     }
 
     override fun preLoad() {
-
         preLoadSuccess()
-
-        mAdapter.setList(DataStoreUtils.getScanHistory())
-
+        binding.refreshLayout.isRefreshing = false
+        mAdapter.submitList(DataStoreUtils.getScanHistory())
     }
 
     companion object {

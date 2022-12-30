@@ -1,7 +1,6 @@
 package com.jiangyy.wanandroid.entity
 
 import android.os.Parcelable
-import com.chad.library.adapter.base.entity.MultiItemEntity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -18,6 +17,6 @@ data class Article(
     var id: String?,
     var originId: String?,
     var collect: Boolean?,
-) : MultiItemEntity, Parcelable {
-    override val itemType: Int get() = if (envelopePic.isNullOrEmpty()) 0 else 1
+) : Parcelable {
+    val itemType: Int get() = if (envelopePic.isNullOrEmpty()) 0 else 1
 }

@@ -1,18 +1,25 @@
 package com.jiangyy.wanandroid.ui.adapter
 
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.module.LoadMoreModule
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
 import com.jiangyy.core.millis2String
-import com.jiangyy.wanandroid.R
+import com.jiangyy.viewbinding.adapter.BaseVBPagingDataAdapter
+import com.jiangyy.wanandroid.databinding.RecyclerItemCoinHistoryBinding
 import com.jiangyy.wanandroid.entity.CoinHistory
 
-class CoinHistoryAdapter : BaseQuickAdapter<CoinHistory, AdapterViewHolder>(R.layout.recycler_item_coin_history), LoadMoreModule {
+class CoinHistoryAdapter : BaseVBPagingDataAdapter<CoinHistory>({ it.date }) {
 
-    override fun convert(holder: AdapterViewHolder, item: CoinHistory) {
-        holder.setText(R.id.tvType, item.reason)
-        holder.setText(R.id.tvDate, item.date?.millis2String())
-        holder.setText(R.id.tvCoin, "+${item.coinCount}")
+    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+        return RecyclerItemCoinHistoryBinding.inflate(inflater, parent, attachToParent)
+    }
+
+    override fun convert(_binding: ViewBinding, position: Int) {
+        val binding = _binding as RecyclerItemCoinHistoryBinding
+        val item = getItem(position)
+        binding.tvCoin.text = "+${item?.coinCount}"
+        binding.tvDate.text = item?.date?.millis2String()
+        binding.tvType.text = item?.reason
     }
 
 }

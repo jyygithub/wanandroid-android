@@ -1,39 +1,54 @@
 package com.jiangyy.wanandroid.ui.adapter
 
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
-import com.chad.library.adapter.base.entity.MultiItemEntity
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.jiangyy.wanandroid.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
+import com.jiangyy.viewbinding.adapter.BaseVBAdapter
+import com.jiangyy.wanandroid.databinding.RecyclerItemMyBinding
+import com.jiangyy.wanandroid.databinding.RecyclerItemMyLineBinding
+import com.jiangyy.wanandroid.databinding.RecyclerItemMyMenuBinding
 
 class MyItem(
-    override val itemType: Int,
+    var viewType: Int,
     var row: Int = 0,
     var title: String = "",
     var text: String = "",
     var background: Int = 0,
     var icon: Int = 0,
-) : MultiItemEntity
+)
 
-class MyAdapter : BaseMultiItemQuickAdapter<MyItem, BaseViewHolder>() {
+class MyAdapter : BaseVBAdapter<MyItem>() {
 
-    init {
-        addItemType(0, R.layout.recycler_item_my_line)
-        addItemType(1, R.layout.recycler_item_my_menu)
-        addItemType(2, R.layout.recycler_item_my)
+    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+        return when (viewType) {
+            0 -> RecyclerItemMyLineBinding.inflate(inflater, parent, attachToParent)
+            1 -> RecyclerItemMyMenuBinding.inflate(inflater, parent, attachToParent)
+            2 -> RecyclerItemMyBinding.inflate(inflater, parent, attachToParent)
+            else -> RecyclerItemMyLineBinding.inflate(inflater, parent, attachToParent)
+        }
     }
 
-    override fun convert(holder: BaseViewHolder, item: MyItem) {
-        when (holder.itemViewType) {
+    override fun convert(_binding: ViewBinding, position: Int) {
+        val item = getItem(position)
+        when (getItemViewType(position)) {
             1 -> {
-                holder.setText(R.id.tvTitle, item.title)
-                holder.setText(R.id.tvText, item.text)
+                val binding = _binding as RecyclerItemMyMenuBinding
+                binding.tvTitle.text = item?.title.orEmpty()
+                binding.tvText.text = item?.text.orEmpty()
             }
+
             2 -> {
-                holder.setText(R.id.tvText, item.title)
-                holder.setBackgroundResource(R.id.containerView, item.background)
-                holder.setImageResource(R.id.ivIcon, item.icon)
+                val binding = _binding as RecyclerItemMyBinding
+                binding.tvText.text = item?.title.orEmpty()
+                binding.containerView.setBackgroundResource(item.background)
+                binding.ivIcon.setImageResource(item.icon)
             }
         }
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return getItem(position).viewType
     }
 
 }

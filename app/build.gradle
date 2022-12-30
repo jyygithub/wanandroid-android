@@ -49,11 +49,10 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.6.0"
     implementation "androidx.fragment:fragment-ktx:1.5.3"
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
-    implementation 'com.jiangyy.core:core:1.2.2'
-    implementation 'com.jiangyy.core:viewbinding:1.2.2'
-    implementation 'com.jiangyy.core:widget:1.2.2'
+    implementation 'com.jiangyy.core:core:1.2.3'
+    implementation 'com.jiangyy.core:viewbinding:1.2.3'
+    implementation 'com.jiangyy.core:widget:1.2.3'
     implementation 'com.jiangyy.dialog:core:1.0.14'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.11'
     implementation 'com.guolindev.permissionx:permissionx:1.7.1'
     implementation "org.greenrobot:eventbus:3.3.1"
     implementation 'com.github.li-xiaojun:XPopup:2.9.9'

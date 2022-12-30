@@ -106,4 +106,17 @@ class ArticlesViewModel : ViewModel() {
         ).flow.cachedIn(viewModelScope)
     }
 
+    fun listCollect(): Flow<PagingData<Article>> {
+        return Pager(
+            config = PagingConfig(25),
+            pagingSourceFactory = {
+                object : PagesSource<Article>(1) {
+                    override suspend fun request(page: Int): Bean<PageData<Article>> {
+                        return API_SERVICE.listCollect(page)
+                    }
+                }
+            }
+        ).flow.cachedIn(viewModelScope)
+    }
+
 }

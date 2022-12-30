@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ContentPageListBinding
+import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.ui.adapter.TreeAdapter
 
 class WechatActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateModule {
@@ -21,8 +22,8 @@ class WechatActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleState
     override fun initWidget() {
         binding.toolbar.setTitle("公众号")
         binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { _, _, position ->
-            mAdapter.getItem(position).let {
+        mAdapter.setOnItemClickListener { position ->
+            mAdapter.currentList[position].let {
                 if (it.itemType == 1) {
                     ArticlesActivity.actionStart(this, "wechat", it)
                 }
@@ -32,17 +33,19 @@ class WechatActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleState
             preLoad()
         }
         mViewModel.wechatResult.observe(this) {
+            val result = mutableListOf<Tree>()
             if (it.isSuccess) {
                 preLoadSuccess()
                 binding.refreshLayout.isRefreshing = false
-                mAdapter.setList(null)
+                mAdapter.submitList(null)
                 if (it.getOrNull().isNullOrEmpty()) return@observe
                 it.getOrNull()?.forEach { parent ->
-                    mAdapter.addData(parent)
+                    result.add(parent)
                     parent.children?.forEach { children ->
-                        mAdapter.addData(children)
+                        result.add(children)
                     }
                 }
+                mAdapter.submitList(result)
             } else {
                 preLoadWithFailure { preLoad() }
             }

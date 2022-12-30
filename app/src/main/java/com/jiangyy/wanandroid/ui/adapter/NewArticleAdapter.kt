@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import coil.load
 import com.jiangyy.core.orDefault
+import com.jiangyy.core.orZero
 import com.jiangyy.viewbinding.adapter.BaseVBPagingDataAdapter
 import com.jiangyy.wanandroid.databinding.RecyclerItemArticleBinding
 import com.jiangyy.wanandroid.databinding.RecyclerItemProjectBinding
@@ -48,6 +49,10 @@ class NewArticleAdapter : BaseVBPagingDataAdapter<Article>({ it.id }) {
         } else {
             RecyclerItemProjectBinding.inflate(inflater, parent, false)
         }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return getItem(position)?.itemType.orZero()
     }
 
 }
