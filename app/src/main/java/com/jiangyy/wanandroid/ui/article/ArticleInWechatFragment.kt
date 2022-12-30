@@ -1,46 +1,25 @@
 package com.jiangyy.wanandroid.ui.article
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.jiangyy.core.parcelableIntent
-import com.jiangyy.viewbinding.MultipleStateModule
-import com.jiangyy.viewbinding.base.BaseLoadFragment
-import com.jiangyy.wanandroid.databinding.ContentArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.logic.loadData
-import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
+import com.jiangyy.wanandroid.ui.BaseArticlesFragment
+import com.jiangyy.wanandroid.ui.main.ArticlesViewModel
+import kotlinx.coroutines.launch
 
-class ArticleInWechatFragment : BaseLoadFragment<ContentArticlesBinding>(), MultipleStateModule {
-
-    private val mAdapter = ArticleAdapter()
+class ArticleInWechatFragment private constructor() : BaseArticlesFragment() {
 
     private val mTree by parcelableIntent<Tree>("tree")
 
-    private val mViewModel by viewModels<ArticleInWechatViewModel>()
-
-    override fun initValue() {
-
-    }
-
-    override fun initWidget() {
-        binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { _, _, position ->
-            ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
-        }
-        binding.refreshLayout.setOnRefreshListener {
-            mViewModel.firstLoad()
-        }
-        mAdapter.loadMoreModule.setOnLoadMoreListener {
-            mViewModel.loadMore()
-        }
-        mViewModel.pageData.observe(this) {
-            this.loadData(it, mAdapter, binding.refreshLayout, mViewModel)
+    override fun initObserver() {
+        val viewModel by viewModels<ArticlesViewModel>()
+        lifecycleScope.launch {
+            viewModel.listArticleInWechat(mTree?.id.orEmpty()).collect { pagingData ->
+                mAdapter.submitData(pagingData)
+            }
         }
     }
-
-    override fun preLoad() {
-        mViewModel.fetchParam(mTree?.id.orEmpty())
-    }
-
 
     companion object {
         @JvmStatic

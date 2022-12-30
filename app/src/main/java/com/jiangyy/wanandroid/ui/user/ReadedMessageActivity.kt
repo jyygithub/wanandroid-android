@@ -3,6 +3,7 @@ package com.jiangyy.wanandroid.ui.user
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.paging.LoadStateAdapter
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityReadedMessageBinding

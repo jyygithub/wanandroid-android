@@ -3,7 +3,7 @@ package com.jiangyy.wanandroid.ui.user
 import androidx.fragment.app.activityViewModels
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadFragment
-import com.jiangyy.wanandroid.data.ArticlesViewModel
+import com.jiangyy.wanandroid.ui.article.ArticlesViewModel
 import com.jiangyy.wanandroid.databinding.ContentArticlesBinding
 import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
 import com.jiangyy.wanandroid.ui.article.ArticleActivity

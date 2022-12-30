@@ -3,16 +3,19 @@ package com.jiangyy.wanandroid.ui
 import android.content.Context
 import android.content.Intent
 import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.jiangyy.core.toast
+import com.jiangyy.core.warnToast
 import com.jiangyy.viewbinding.base.BaseActivity
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
-import com.jiangyy.wanandroid.ui.main.ArticlesFragment
+import com.jiangyy.wanandroid.ui.main.HomeArticlesFragment
 import com.jiangyy.wanandroid.ui.main.MyFragment
 import com.jiangyy.wanandroid.ui.main.ProjectsFragment
+import com.jiangyy.wanandroid.ui.main.SearchActivity
 import com.jiangyy.wanandroid.utils.SharesFactory
 import kotlin.system.exitProcess
 
@@ -24,18 +27,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             binding.bottomNavigationView.menu.getItem(position).isChecked = true
+            binding.toolbar.isVisible = position != 2
+            binding.toolbar.setTitle(arrayOf("首页文章", "首页项目", "")[position])
         }
     }
 
     override fun initValue() {
+
         SharesFactory.registerWXAndQQ(this)
         onBackPressedDispatcher.addCallback(this) {
             val nowTime = System.currentTimeMillis()
             when {
                 (nowTime - mPressedTime) > 2000 -> {
-                    toast("再按一次退出程序")
+                    warnToast("再按一次退出程序")
                     mPressedTime = nowTime
                 }
+
                 else -> {
                     finish()
                     exitProcess(0)
@@ -45,10 +52,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initWidget() {
-
-
-
-        val fragments = arrayOf(ArticlesFragment.newInstance(), ProjectsFragment.newInstance(), MyFragment.newInstance())
+        binding.toolbar.setOnEndListener {
+            SearchActivity.actionStart(this)
+        }
+        val fragments = arrayOf(HomeArticlesFragment.newInstance(), ProjectsFragment.newInstance(), MyFragment.newInstance())
         val itemTabs = intArrayOf(R.id.nav_article, R.id.nav_project, R.id.nav_my)
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
             override fun createFragment(position: Int): Fragment {

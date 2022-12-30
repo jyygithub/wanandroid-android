@@ -1,43 +1,24 @@
 package com.jiangyy.wanandroid.ui.article
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.jiangyy.core.parcelableIntent
-import com.jiangyy.viewbinding.MultipleStateModule
-import com.jiangyy.viewbinding.base.BaseLoadFragment
-import com.jiangyy.wanandroid.databinding.ContentArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.logic.loadData
-import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
+import com.jiangyy.wanandroid.ui.BaseArticlesFragment
+import com.jiangyy.wanandroid.ui.main.ArticlesViewModel
+import kotlinx.coroutines.launch
 
-class ArticleInTreeFragment : BaseLoadFragment<ContentArticlesBinding>(), MultipleStateModule {
+class ArticleInTreeFragment private constructor() : BaseArticlesFragment() {
 
-    private val mAdapter = ArticleAdapter()
     private val mTree by parcelableIntent<Tree>("tree")
 
-    private val mViewModel by viewModels<ArticleIntTreeViewModel>()
-
-    override fun initValue() {
-
-    }
-
-    override fun initWidget() {
-        binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { _, _, position ->
-            ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
+    override fun initObserver() {
+        val viewModel by viewModels<ArticlesViewModel>()
+        lifecycleScope.launch {
+            viewModel.pageArticleInTree(mTree?.id.orEmpty()).collect { pagingData ->
+                mAdapter.submitData(pagingData)
+            }
         }
-        binding.refreshLayout.setOnRefreshListener {
-            preLoad()
-        }
-        mAdapter.loadMoreModule.setOnLoadMoreListener {
-            mViewModel.loadMore()
-        }
-        mViewModel.pageData.observe(this) {
-            this.loadData(it, mAdapter, binding.refreshLayout, mViewModel)
-        }
-    }
-
-    override fun preLoad() {
-        mViewModel.fetchParam(mTree?.id.orEmpty())
     }
 
     companion object {

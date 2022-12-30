@@ -5,12 +5,12 @@ import androidx.lifecycle.lifecycleScope
 import com.jiangyy.wanandroid.ui.BaseArticlesFragment
 import kotlinx.coroutines.launch
 
-class ProjectsFragment private constructor() : BaseArticlesFragment() {
+class HomeArticlesFragment private constructor() : BaseArticlesFragment() {
 
     override fun initObserver() {
         val viewModel by viewModels<ArticlesViewModel>()
         lifecycleScope.launch {
-            viewModel.pageHomeProject().collect { pagingData ->
+            viewModel.pageHomeArticles().collect { pagingData ->
                 mAdapter.submitData(pagingData)
             }
         }
@@ -18,8 +18,7 @@ class ProjectsFragment private constructor() : BaseArticlesFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = ProjectsFragment()
+        fun newInstance() = HomeArticlesFragment()
     }
-
 
 }
