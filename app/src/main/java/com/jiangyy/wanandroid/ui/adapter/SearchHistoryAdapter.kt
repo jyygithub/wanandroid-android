@@ -1,13 +1,20 @@
 package com.jiangyy.wanandroid.ui.adapter
 
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.jiangyy.wanandroid.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
+import com.jiangyy.viewbinding.adapter.BaseVBAdapter
+import com.jiangyy.wanandroid.databinding.RecyclerItemSearchHistoryBinding
 
-class SearchHistoryAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layout.recycler_item_search_history) {
+class SearchHistoryAdapter : BaseVBAdapter<String>() {
 
-    override fun convert(holder: BaseViewHolder, item: String) {
-        holder.setText(R.id.tv, item)
+    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+        return RecyclerItemSearchHistoryBinding.inflate(inflater, parent, attachToParent)
+    }
+
+    override fun convert(_binding: ViewBinding, position: Int) {
+        val binding = _binding as RecyclerItemSearchHistoryBinding
+        binding.tv.text = getItem(position)
     }
 
 }

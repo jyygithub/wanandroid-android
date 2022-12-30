@@ -1,79 +1,24 @@
 package com.jiangyy.wanandroid.ui.article
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.jiangyy.core.parcelableIntent
-import com.jiangyy.viewbinding.MultipleStateModule
-import com.jiangyy.viewbinding.base.BaseLoadFragment
-import com.jiangyy.wanandroid.databinding.ContentArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
+import com.jiangyy.wanandroid.ui.BaseArticlesFragment
+import com.jiangyy.wanandroid.ui.main.ArticlesViewModel
+import kotlinx.coroutines.launch
 
-class ArticleInTreeFragment : BaseLoadFragment<ContentArticlesBinding>(), MultipleStateModule {
+class ArticleInTreeFragment private constructor() : BaseArticlesFragment() {
 
-    private val mAdapter = ArticleAdapter()
     private val mTree by parcelableIntent<Tree>("tree")
 
-    private val mViewModel by viewModels<ArticleIntTreeViewModel>()
-
-    override fun initValue() {
-        mViewModel.mCid = mTree?.id.orEmpty()
-    }
-
-    override fun initWidget() {
-        binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { _, _, position ->
-            ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
-        }
-        binding.refreshLayout.setOnRefreshListener {
-            preLoad()
-        }
-        mAdapter.loadMoreModule.setOnLoadMoreListener {
-            mViewModel.loadMore()
-        }
-        mViewModel.firstData().observe(this) {
-            mAdapter.setList(null)
-            binding.refreshLayout.isRefreshing = false
-            if (it.datas.isEmpty()) {
-                preLoadWithEmpty("暂无数据")
-            } else {
-                preLoadSuccess()
-                mAdapter.addData(it.datas)
-                if (mAdapter.data.size == it.total) {
-                    mAdapter.loadMoreModule.loadMoreEnd()
-                } else {
-                    mAdapter.loadMoreModule.loadMoreComplete()
-                    mViewModel.mPage++
-                }
+    override fun initObserver() {
+        val viewModel by viewModels<ArticlesViewModel>()
+        lifecycleScope.launch {
+            viewModel.pageArticleInTree(mTree?.id.orEmpty()).collect { pagingData ->
+                mAdapter.submitData(pagingData)
             }
         }
-        mViewModel.loadMoreData().observe(this) {
-            binding.refreshLayout.isRefreshing = false
-            if (it.datas.isEmpty()) {
-                mAdapter.loadMoreModule.loadMoreEnd()
-            } else {
-                mAdapter.addData(it.datas)
-                if (mAdapter.data.size == it.total) {
-                    mAdapter.loadMoreModule.loadMoreEnd()
-                } else {
-                    mAdapter.loadMoreModule.loadMoreComplete()
-                    mViewModel.mPage++
-                }
-            }
-        }
-        mViewModel.dataError().observe(this) {
-            if (it.second) {
-                mAdapter.loadMoreModule.loadMoreFail()
-            } else {
-                binding.refreshLayout.isRefreshing = false
-                preLoadWithFailure(it.first.message.orEmpty()) {
-                    preLoad()
-                }
-            }
-        }
-    }
-
-    override fun preLoad() {
-        mViewModel.firstLoad()
     }
 
     companion object {

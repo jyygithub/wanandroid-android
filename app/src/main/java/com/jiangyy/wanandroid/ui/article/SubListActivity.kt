@@ -23,8 +23,8 @@ class SubListActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStat
         binding.toolbar.setTitle("教程")
         binding.recyclerView.layoutManager = GridLayoutManager(this, 3)
         binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { _, _, position ->
-            mAdapter.getItem(position).let {
+        mAdapter.setOnItemClickListener { position ->
+            mAdapter.currentList[position].let {
                 ArticlesActivity.actionStart(this, "sub", it)
             }
         }
@@ -35,7 +35,7 @@ class SubListActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStat
             if (it.isSuccess) {
                 preLoadSuccess()
                 binding.refreshLayout.isRefreshing = false
-                mAdapter.setList(it.getOrNull())
+                mAdapter.submitList(it.getOrNull())
             } else {
                 preLoadWithFailure { preLoad() }
             }

@@ -1,86 +1,31 @@
 package com.jiangyy.wanandroid.ui.article
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
-import com.jiangyy.core.parcelableIntent
-import com.jiangyy.viewbinding.MultipleStateModule
-import com.jiangyy.viewbinding.base.BaseLoadFragment
-import com.jiangyy.wanandroid.databinding.ContentArticlesBinding
-import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.ui.adapter.ArticleAdapter
+import androidx.lifecycle.lifecycleScope
+import com.jiangyy.core.stringArgument
+import com.jiangyy.wanandroid.ui.BaseArticlesFragment
+import com.jiangyy.wanandroid.ui.main.ArticlesViewModel
+import kotlinx.coroutines.launch
 
-class ArticleInWechatFragment : BaseLoadFragment<ContentArticlesBinding>(), MultipleStateModule {
+class ArticleInWechatFragment private constructor() : BaseArticlesFragment() {
 
-    private val mAdapter = ArticleAdapter()
+    private val wechatId by stringArgument("wechatId")
 
-    private val mTree by parcelableIntent<Tree>("tree")
-
-    private val mViewModel by viewModels<ArticleInWechatViewModel>()
-
-    override fun initValue() {
-        mViewModel.mId = mTree?.id.orEmpty()
-    }
-
-    override fun initWidget() {
-        binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { _, _, position ->
-            ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
-        }
-        binding.refreshLayout.setOnRefreshListener {
-            mViewModel.firstLoad()
-        }
-        mAdapter.loadMoreModule.setOnLoadMoreListener {
-            mViewModel.loadMore()
-        }
-        mViewModel.firstData().observe(this) {
-            mAdapter.setList(null)
-            binding.refreshLayout.isRefreshing = false
-            if (it.datas.isEmpty()) {
-                preLoadWithEmpty("暂无数据")
-            } else {
-                preLoadSuccess()
-                mAdapter.addData(it.datas)
-                if (mAdapter.data.size == it.total) {
-                    mAdapter.loadMoreModule.loadMoreEnd()
-                } else {
-                    mAdapter.loadMoreModule.loadMoreComplete()
-                    mViewModel.mPage++
-                }
-            }
-        }
-        mViewModel.loadMoreData().observe(this) {
-            binding.refreshLayout.isRefreshing = false
-            if (it.datas.isEmpty()) {
-                mAdapter.loadMoreModule.loadMoreEnd()
-            } else {
-                mAdapter.addData(it.datas)
-                if (mAdapter.data.size == it.total) {
-                    mAdapter.loadMoreModule.loadMoreEnd()
-                } else {
-                    mAdapter.loadMoreModule.loadMoreComplete()
-                    mViewModel.mPage++
-                }
-            }
-        }
-        mViewModel.dataError().observe(this) {
-            if (it.second) {
-                mAdapter.loadMoreModule.loadMoreFail()
-            } else {
-                binding.refreshLayout.isRefreshing = false
-                preLoadWithFailure(it.first.message.orEmpty()) {
-                    preLoad()
-                }
+    override fun initObserver() {
+        val viewModel by viewModels<ArticlesViewModel>()
+        lifecycleScope.launch {
+            viewModel.listArticleInWechat(wechatId.orEmpty()).collect { pagingData ->
+                mAdapter.submitData(pagingData)
             }
         }
     }
-
-    override fun preLoad() {
-        mViewModel.firstLoad()
-    }
-
 
     companion object {
         @JvmStatic
-        fun newInstance() = ArticleInWechatFragment()
+        fun newInstance(wechatId: String) = ArticleInWechatFragment().apply {
+            arguments = Bundle().apply { putString("wechatId", wechatId) }
+        }
     }
 
 }

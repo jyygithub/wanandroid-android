@@ -1,12 +1,22 @@
 package com.jiangyy.wanandroid.ui.adapter
 
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.jiangyy.wanandroid.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
+import coil.load
+import com.jiangyy.viewbinding.adapter.BaseVBAdapter
+import com.jiangyy.wanandroid.databinding.RecyclerItemSubBinding
 import com.jiangyy.wanandroid.entity.Tree
 
-class SubAdapter : BaseQuickAdapter<Tree, AdapterViewHolder>(R.layout.recycler_item_sub) {
+class SubAdapter : BaseVBAdapter<Tree>() {
 
-    override fun convert(holder: AdapterViewHolder, item: Tree) {
-        holder.setImageUrl(R.id.iv, item.cover)
+    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+        return RecyclerItemSubBinding.inflate(inflater, parent, attachToParent)
     }
+
+    override fun convert(_binding: ViewBinding, position: Int) {
+        val binding = _binding as RecyclerItemSubBinding
+        binding.iv.load(getItem(position).cover)
+    }
+
 }

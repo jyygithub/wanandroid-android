@@ -1,22 +1,30 @@
 package com.jiangyy.wanandroid.ui.adapter
 
 import android.graphics.Color
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.module.LoadMoreModule
-import com.jiangyy.wanandroid.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
+import com.jiangyy.viewbinding.adapter.BaseVBPagingDataAdapter
+import com.jiangyy.wanandroid.databinding.RecyclerItemRankingBinding
 import com.jiangyy.wanandroid.entity.Coin
 
-class RankingAdapter : BaseQuickAdapter<Coin, AdapterViewHolder>(R.layout.recycler_item_ranking), LoadMoreModule {
+class RankingAdapter : BaseVBPagingDataAdapter<Coin>() {
 
-    override fun convert(holder: AdapterViewHolder, item: Coin) {
-        if (holder.bindingAdapterPosition % 2 == 0) {
-            holder.setBackgroundColor(R.id.viewParent, Color.parseColor("#FFFFFF"))
+    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+        return RecyclerItemRankingBinding.inflate(inflater, parent, attachToParent)
+    }
+
+    override fun convert(_binding: ViewBinding, position: Int) {
+        val item = getItem(position)
+        val binding = _binding as RecyclerItemRankingBinding
+        if (position % 2 == 0) {
+            binding.viewParent.setBackgroundColor(Color.parseColor("#FFFFFF"))
         } else {
-            holder.setBackgroundColor(R.id.viewParent, Color.parseColor("#EBF5FB"))
+            binding.viewParent.setBackgroundColor(Color.parseColor("#EBF5FB"))
         }
-        holder.setText(R.id.tvRanking, "${item.rank}")
-        holder.setText(R.id.tvNickname, item.username)
-        holder.setText(R.id.tvCoin, "${item.coinCount}")
+        binding.tvRanking.text = "${item?.rank}"
+        binding.tvNickname.text = "${item?.username}"
+        binding.tvCoin.text = "${item?.coinCount}"
     }
 
 }

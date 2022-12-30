@@ -3,72 +3,54 @@ package com.jiangyy.wanandroid.ui.user
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.jiangyy.viewbinding.MultipleStateModule
+import com.jiangyy.viewbinding.adapter.FooterAdapter
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityCoinHistoryBinding
 import com.jiangyy.wanandroid.ui.adapter.CoinHistoryAdapter
+import kotlinx.coroutines.launch
 
 class CoinHistoryActivity : BaseLoadActivity<ActivityCoinHistoryBinding>(), MultipleStateModule {
 
     private val mAdapter = CoinHistoryAdapter()
-
-    private val mViewModel by viewModels<CoinHistoryViewModel>()
 
     override fun initValue() {
 
     }
 
     override fun initWidget() {
-        binding.recyclerView.adapter = mAdapter
-        binding.refreshLayout.setOnRefreshListener {
-            mViewModel.firstLoad()
-        }
-        mAdapter.loadMoreModule.setOnLoadMoreListener {
-            mViewModel.loadMore()
-        }
-        mViewModel.firstData().observe(this) {
-            mAdapter.setList(null)
+        binding.recyclerView.adapter = mAdapter.withLoadStateFooter(
+            FooterAdapter { mAdapter.retry() }
+        )
+        mAdapter.addLoadStateListener {
             binding.refreshLayout.isRefreshing = false
-            if (it.datas.isEmpty()) {
-                preLoadWithEmpty("暂无数据")
-            } else {
-                preLoadSuccess()
-                mAdapter.addData(it.datas)
-                if (mAdapter.data.size == it.total) {
-                    mAdapter.loadMoreModule.loadMoreEnd()
-                } else {
-                    mAdapter.loadMoreModule.loadMoreComplete()
-                    mViewModel.mPage++
+            when (it.refresh) {
+                is LoadState.NotLoading -> preLoadSuccess()
+//                is LoadState.Loading -> preLoading()
+                is LoadState.Error -> preLoadWithFailure {
+                    binding.recyclerView.swapAdapter(mAdapter, true)
+                    mAdapter.refresh()
                 }
+
+                else -> Unit
             }
         }
-        mViewModel.loadMoreData().observe(this) {
-            if (it.datas.isEmpty()) {
-                mAdapter.loadMoreModule.loadMoreEnd()
-            } else {
-                mAdapter.addData(it.datas)
-                if (mAdapter.data.size == it.total) {
-                    mAdapter.loadMoreModule.loadMoreEnd()
-                } else {
-                    mAdapter.loadMoreModule.loadMoreComplete()
-                    mViewModel.mPage++
-                }
-            }
-        }
-        mViewModel.dataError().observe(this) {
-            if (it.second) {
-                mAdapter.loadMoreModule.loadMoreFail()
-            } else {
-                binding.refreshLayout.isRefreshing = false
-                preLoadWithFailure(it.first.message.orEmpty()) {
-                    preLoad()
-                }
-            }
+
+        binding.refreshLayout.setOnRefreshListener {
+            binding.recyclerView.swapAdapter(mAdapter, true)
+            mAdapter.refresh()
         }
     }
 
     override fun preLoad() {
-        mViewModel.firstLoad()
+        val viewModel by viewModels<CoinHistoryViewModel>()
+        lifecycleScope.launch {
+            viewModel.pageCoinHistory().collect { pagingData ->
+                mAdapter.submitData(pagingData)
+            }
+        }
     }
 
     companion object {

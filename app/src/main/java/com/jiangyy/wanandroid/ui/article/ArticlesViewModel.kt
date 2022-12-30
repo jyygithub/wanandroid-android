@@ -1,4 +1,4 @@
-package com.jiangyy.wanandroid.data
+package com.jiangyy.wanandroid.ui.article
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

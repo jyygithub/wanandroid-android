@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import com.jiangyy.core.orZero
 import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.viewbinding.base.BaseLoadFragment
@@ -66,49 +67,16 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
             }
         }
 
-        mViewModel.loggerStatus().observe(this) {
-            if (it) {
-                binding.toolbar.setEnd(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_logout), null)
-                binding.tvNickname.text = DataStoreUtils.currentUser.nickname.orEmpty()
-            } else {
-                binding.toolbar.setEnd(null, null)
-                binding.tvNickname.text = "登录 / 注册"
-            }
-            mViewModel.infoUser()
-            mViewModel.getMessageCount()
-        }
-        mViewModel.userInfo().observe(this) {
-            mAdapter.getItem(0).let { item ->
-                item.text = "${it.first}"
-                mAdapter.setData(0, item)
-            }
-            mAdapter.getItem(1).let { item ->
-                item.text = "${it.second}"
-                mAdapter.setData(1, item)
-            }
-            mAdapter.getItem(2).let { item ->
-                item.text = "${DataStoreUtils.getScanHistory().size}"
-                mAdapter.setData(2, item)
+        val layoutManager = GridLayoutManager(requireActivity(), 3)
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return mAdapter.currentList[position].row
             }
         }
-        mViewModel.messageCount().first.observe(this) {
-            if (it != null && it > 0) {
-                binding.tvMessageCount.text = "${it.orZero()}"
-                binding.tvMessageCount.visibility = View.VISIBLE
-            } else {
-                binding.tvMessageCount.visibility = View.GONE
-            }
-        }
-        mViewModel.messageCount().second.observe(this) {
-            binding.tvMessageCount.visibility = View.GONE
-        }
-
+        binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = mAdapter
-        binding.recyclerView.itemAnimator?.changeDuration = 0
-        mAdapter.setGridSpanSizeLookup { _, _, position ->
-            return@setGridSpanSizeLookup mAdapter.getItem(position).row
-        }
-        mAdapter.setOnItemClickListener { _, _, position ->
+
+        mAdapter.setOnItemClickListener { position ->
             when (position) {
                 0 -> CoinHistoryActivity.actionStart(requireActivity())
                 1 -> ArticlesActivity.actionStart(requireActivity(), "collection")
@@ -124,7 +92,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 15 -> AboutActivity.actionStart(requireActivity())
             }
         }
-        mAdapter.setList(
+        mAdapter.submitList(
             mutableListOf(
                 MyItem(1, 1, "积分", "0"),
                 MyItem(1, 1, "收藏", "0"),
@@ -147,6 +115,45 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
     }
 
+    override fun initObserver() {
+        mViewModel.loggerStatus().observe(this) {
+            if (it) {
+                binding.toolbar.setEnd(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_logout), null)
+                binding.tvNickname.text = DataStoreUtils.currentUser.nickname.orEmpty()
+            } else {
+                binding.toolbar.setEnd(null, null)
+                binding.tvNickname.text = "登录 / 注册"
+            }
+            mViewModel.infoUser()
+            mViewModel.getMessageCount()
+        }
+        mViewModel.userInfo().observe(this) {
+            mAdapter.currentList[0].let { item ->
+                item.text = "${it.first}"
+                mAdapter.setItem(0, item)
+            }
+            mAdapter.currentList[1].let { item ->
+                item.text = "${it.second}"
+                mAdapter.setItem(1, item)
+            }
+            mAdapter.currentList[2].let { item ->
+                item.text = "${DataStoreUtils.getScanHistory().size}"
+                mAdapter.setItem(2, item)
+            }
+        }
+        mViewModel.messageCount().first.observe(this) {
+            if (it != null && it > 0) {
+                binding.tvMessageCount.text = "${it.orZero()}"
+                binding.tvMessageCount.visibility = View.VISIBLE
+            } else {
+                binding.tvMessageCount.visibility = View.GONE
+            }
+        }
+        mViewModel.messageCount().second.observe(this) {
+            binding.tvMessageCount.visibility = View.GONE
+        }
+    }
+
     override fun preLoad() {
         mViewModel.loginOrOut(DataStoreUtils.logged)
         mViewModel.infoUser()
@@ -155,9 +162,9 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onScanUpdated(value: RefreshScan) {
-        mAdapter.getItem(2).let { item ->
+        mAdapter.currentList[2].let { item ->
             item.text = "${DataStoreUtils.getScanHistory().size}"
-            mAdapter.setData(2, item)
+            mAdapter.setItem(2, item)
         }
     }
 

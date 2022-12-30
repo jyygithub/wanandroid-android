@@ -6,11 +6,11 @@ import androidx.activity.viewModels
 import com.jiangyy.core.click
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityUnreadMessageBinding
-import com.jiangyy.wanandroid.ui.adapter.MessageAdapter
+import com.jiangyy.wanandroid.ui.adapter.UnreadMessageAdapter
 
 class UnreadMessageActivity : BaseLoadActivity<ActivityUnreadMessageBinding>() {
 
-    private val mAdapter = MessageAdapter()
+    private val mAdapter = UnreadMessageAdapter()
 
     private val mViewModel by viewModels<UnreadMessageViewModel>()
 
@@ -24,7 +24,7 @@ class UnreadMessageActivity : BaseLoadActivity<ActivityUnreadMessageBinding>() {
             ReadedMessageActivity.actionStart(this)
         }
         mViewModel.messages.observe(this){
-            mAdapter.setList(it.getOrNull()?.datas)
+            mAdapter.submitList(it.getOrNull()?.datas)
         }
     }
 

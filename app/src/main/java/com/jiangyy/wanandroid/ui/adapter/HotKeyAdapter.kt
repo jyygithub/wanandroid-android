@@ -1,14 +1,21 @@
 package com.jiangyy.wanandroid.ui.adapter
 
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.jiangyy.wanandroid.R
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
+import com.jiangyy.viewbinding.adapter.BaseVBAdapter
+import com.jiangyy.wanandroid.databinding.RecyclerItemHotKeyBinding
 import com.jiangyy.wanandroid.entity.HotKey
 
-class HotKeyAdapter : BaseQuickAdapter<HotKey, BaseViewHolder>(R.layout.recycler_item_hot_key) {
+class HotKeyAdapter : BaseVBAdapter<HotKey>() {
 
-    override fun convert(holder: BaseViewHolder, item: HotKey) {
-        holder.setText(R.id.tv, item.name.orEmpty())
+    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+        return RecyclerItemHotKeyBinding.inflate(inflater, parent, attachToParent)
+    }
+
+    override fun convert(_binding: ViewBinding, position: Int) {
+        val binding = _binding as RecyclerItemHotKeyBinding
+        binding.tv.text = getItem(position).name.orEmpty()
     }
 
 }

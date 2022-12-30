@@ -1,19 +1,45 @@
 package com.jiangyy.wanandroid.ui.adapter
 
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.module.LoadMoreModule
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.viewbinding.ViewBinding
 import com.jiangyy.core.millis2String
 import com.jiangyy.core.orZero
-import com.jiangyy.wanandroid.R
+import com.jiangyy.viewbinding.adapter.BaseVBDiffAdapter
+import com.jiangyy.viewbinding.adapter.BaseVBPagingDataAdapter
+import com.jiangyy.wanandroid.databinding.RecyclerItemMessageBinding
 import com.jiangyy.wanandroid.entity.Message
 
-class MessageAdapter : BaseQuickAdapter<Message, AdapterViewHolder>(R.layout.recycler_item_message), LoadMoreModule {
+class MessageAdapter : BaseVBPagingDataAdapter<Message>({ it.id }) {
 
-    override fun convert(holder: AdapterViewHolder, item: Message) {
-        holder.setText(R.id.tvTag, item.tag.orEmpty())
-        holder.setText(R.id.tvTime, item.date.orZero().millis2String("yyyy-MM-dd HH:mm"))
-        holder.setText(R.id.tvMessage, item.message.orEmpty())
-        holder.setText(R.id.tvFromUser, "${item.fromUser.orEmpty()} ${item.title.orEmpty()}")
+    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+        return RecyclerItemMessageBinding.inflate(inflater, parent, attachToParent)
+    }
+
+    override fun convert(_binding: ViewBinding, position: Int) {
+        val binding = _binding as RecyclerItemMessageBinding
+        val item = getItem(position)
+        binding.tvTag.text = item?.tag.orEmpty()
+        binding.tvTime.text = item?.date.orZero().millis2String("yyyy-MM-dd HH:mm")
+        binding.tvMessage.text = item?.message.orEmpty()
+        binding.tvFromUser.text = "${item?.fromUser.orEmpty()} ${item?.title.orEmpty()}"
+    }
+
+}
+
+class UnreadMessageAdapter : BaseVBDiffAdapter<Message>({ it.id }) {
+
+    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+        return RecyclerItemMessageBinding.inflate(inflater, parent, attachToParent)
+    }
+
+    override fun convert(_binding: ViewBinding, position: Int) {
+        val binding = _binding as RecyclerItemMessageBinding
+        val item = getItem(position)
+        binding.tvTag.text = item?.tag.orEmpty()
+        binding.tvTime.text = item?.date.orZero().millis2String("yyyy-MM-dd HH:mm")
+        binding.tvMessage.text = item?.message.orEmpty()
+        binding.tvFromUser.text = "${item?.fromUser.orEmpty()} ${item?.title.orEmpty()}"
     }
 
 }

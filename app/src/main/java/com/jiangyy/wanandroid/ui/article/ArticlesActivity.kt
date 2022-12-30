@@ -9,7 +9,6 @@ import com.jiangyy.core.stringIntent
 import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.viewbinding.base.BaseActivity
 import com.jiangyy.wanandroid.R
-import com.jiangyy.wanandroid.data.ArticlesViewModel
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.ui.user.CollectionHistoryFragment
@@ -32,8 +31,6 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
         binding.toolbar.setTitle(mTree?.name.orEmpty())
         when (mType) {
             "tree" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInTreeFragment.newInstance())
-                .commit()
-            "wechat" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWechatFragment.newInstance())
                 .commit()
             "wenda" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWendaFragment.newInstance()).commit()

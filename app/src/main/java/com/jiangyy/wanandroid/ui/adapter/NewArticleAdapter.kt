@@ -6,13 +6,13 @@ import androidx.viewbinding.ViewBinding
 import coil.load
 import com.jiangyy.core.orDefault
 import com.jiangyy.core.orZero
-import com.jiangyy.viewbinding.adapter.BaseVBDiffAdapter
+import com.jiangyy.viewbinding.adapter.BaseVBPagingDataAdapter
 import com.jiangyy.wanandroid.databinding.RecyclerItemArticleBinding
 import com.jiangyy.wanandroid.databinding.RecyclerItemProjectBinding
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.utils.htmlString
 
-class ArticleAdapter : BaseVBDiffAdapter<Article>({ it.id }) {
+class NewArticleAdapter : BaseVBPagingDataAdapter<Article>({ it.id }) {
 
     override fun convert(binding: ViewBinding, position: Int) {
         val item = getItem(position)!!
