@@ -41,29 +41,24 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateMo
         binding.refreshLayout.setOnRefreshListener {
             preLoad()
         }
-        mViewModel.treeResult().observe(this) {
+        mViewModel.treeResult.observe(this) {
             binding.refreshLayout.isRefreshing = false
             val result = mutableListOf<Tree>()
-            when (it) {
-                is TreeResultSuccess -> {
-                    preLoadSuccess()
-                    mAdapter.submitList(null)
-                    if (it.data.isNullOrEmpty()) return@observe
-                    for (parent in it.data) {
-                        result.add(parent)
-                        parent.children?.forEach { children ->
-                            result.add(children)
-                        }
+
+            if (it.isSuccess) {
+                preLoadSuccess()
+                mAdapter.submitList(null)
+                if (it.getOrNull().isNullOrEmpty()) return@observe
+                it.getOrNull()?.forEach { parent ->
+                    result.add(parent)
+                    parent.children?.forEach { children ->
+                        result.add(children)
                     }
-                    mAdapter.submitList(result)
                 }
-
-                is TreeResultError -> {
-                    preLoadWithFailure(it.error.message.orEmpty()) { preLoad() }
-                }
+                mAdapter.submitList(result)
+            } else {
+                preLoadWithFailure(it.exceptionOrNull()?.message.orEmpty()) { preLoad() }
             }
-
-
         }
     }
 

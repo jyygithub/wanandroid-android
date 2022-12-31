@@ -1,21 +1,20 @@
 package com.jiangyy.wanandroid.ui.todo
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jiangyy.wanandroid.logic.API_SERVICE
-import com.jiangyy.wanandroid.logic.netRequest
+import com.jiangyy.wanandroid.logic.ResultMutableLiveData
+import com.jiangyy.wanandroid.logic.flowRequest
 
 class AddTodoViewModel : ViewModel() {
 
-    private val _add = MutableLiveData<Result<Any?>>()
+    private val _add = ResultMutableLiveData<Any>()
 
     val add get() = _add
 
     fun addTodo(title: String, content: String, date: String) {
-        netRequest<Any> {
+        flowRequest {
             request { API_SERVICE.addTodo(title, content, date) }
-            success { _add.value = Result.success(it) }
-            error { _add.value = Result.failure(it) }
+            response { _add.value = it }
         }
     }
 

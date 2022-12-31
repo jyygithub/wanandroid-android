@@ -1,30 +1,21 @@
 package com.jiangyy.wanandroid.ui.article
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.logic.API_SERVICE
-import com.jiangyy.wanandroid.logic.netRequest
-
-sealed class TreeResult
-
-class TreeResultError(val error: Throwable) : TreeResult()
-class TreeResultSuccess(val data: MutableList<Tree>?) : TreeResult()
+import com.jiangyy.wanandroid.logic.ResultMutableLiveData
+import com.jiangyy.wanandroid.logic.flowRequest
 
 class TreeViewModel : ViewModel() {
 
-    private val treeLiveData = MutableLiveData<TreeResult>()
+    private val _treeLiveData = ResultMutableLiveData<MutableList<Tree>>()
 
-    fun treeResult(): LiveData<TreeResult> {
-        return treeLiveData
-    }
+    val treeResult get() = _treeLiveData
 
     fun tree() {
-        netRequest {
+        flowRequest {
             request { API_SERVICE.tree() }
-            success { treeLiveData.value = TreeResultSuccess(it) }
-            error { treeLiveData.value = TreeResultError(it) }
+            response { _treeLiveData.value = it }
         }
     }
 

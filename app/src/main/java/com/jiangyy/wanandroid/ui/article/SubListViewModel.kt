@@ -1,22 +1,21 @@
 package com.jiangyy.wanandroid.ui.article
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.logic.API_SERVICE
-import com.jiangyy.wanandroid.logic.netRequest
+import com.jiangyy.wanandroid.logic.ResultMutableLiveData
+import com.jiangyy.wanandroid.logic.flowRequest
 
 class SubListViewModel : ViewModel() {
 
-    private val _sublist = MutableLiveData<Result<MutableList<Tree>?>>()
+    private val _sublist = ResultMutableLiveData<MutableList<Tree>>()
 
     val sublist get() = _sublist
 
     fun listSub() {
-        netRequest {
+        flowRequest {
             request { API_SERVICE.listSub() }
-            success { _sublist.value = Result.success(it) }
-            error { _sublist.value = Result.failure(it) }
+            response { _sublist.value = it }
         }
     }
 
