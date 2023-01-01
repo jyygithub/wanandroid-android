@@ -68,7 +68,7 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(), View.OnFocusCh
             search()
         }
         mViewModel.hotKey.observe(this) {
-            mHotKeyAdapter.submitList(it)
+            mHotKeyAdapter.submitList(it.getOrNull())
         }
     }
 

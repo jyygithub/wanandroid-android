@@ -6,14 +6,11 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.jiangyy.core.orZero
 import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityWechatBinding
 import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.utils.Firewood
 
 class WechatActivity : BaseLoadActivity<ActivityWechatBinding>(), MultipleStateModule {
 

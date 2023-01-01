@@ -1,22 +1,21 @@
 package com.jiangyy.wanandroid.ui.article
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.logic.API_SERVICE
-import com.jiangyy.wanandroid.logic.netRequest
+import com.jiangyy.wanandroid.logic.ResultMutableLiveData
+import com.jiangyy.wanandroid.logic.flowRequest
 
 class WechatViewModel : ViewModel() {
 
-    private val wechatLiveData = MutableLiveData<Result<MutableList<Tree>?>>()
+    private val wechatLiveData = ResultMutableLiveData<MutableList<Tree>>()
 
     val wechatResult get() = wechatLiveData
 
     fun listWechat() {
-        netRequest {
+        flowRequest {
             request { API_SERVICE.listWechat() }
-            success { wechatLiveData.value = Result.success(it) }
-            error { wechatLiveData.value = Result.failure(it) }
+            response { wechatLiveData.value = it }
         }
     }
 

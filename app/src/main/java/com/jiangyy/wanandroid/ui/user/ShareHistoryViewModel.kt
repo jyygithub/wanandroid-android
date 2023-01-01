@@ -1,6 +1,5 @@
 package com.jiangyy.wanandroid.ui.user
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,23 +8,19 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.jiangyy.wanandroid.data.PagesSource
 import com.jiangyy.wanandroid.entity.Article
-import com.jiangyy.wanandroid.logic.API_SERVICE
-import com.jiangyy.wanandroid.logic.Bean
-import com.jiangyy.wanandroid.logic.PageData
-import com.jiangyy.wanandroid.logic.netRequest
+import com.jiangyy.wanandroid.logic.*
 import kotlinx.coroutines.flow.Flow
 
 class ShareHistoryViewModel : ViewModel() {
 
-    private val _unshare = MutableLiveData<Result<Any?>>()
+    private val _unshare = ResultMutableLiveData<Any>()
 
     val unshare get() = _unshare
 
     fun unshare(id: String) {
-        netRequest {
+        flowRequest {
             request { API_SERVICE.unshare(id) }
-            success { _unshare.value = Result.success(it) }
-            error { _unshare.value = Result.failure(it) }
+            response { _unshare.value = it }
         }
     }
 
