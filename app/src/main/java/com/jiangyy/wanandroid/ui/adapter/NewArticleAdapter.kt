@@ -14,8 +14,18 @@ import com.jiangyy.wanandroid.utils.htmlString
 
 class NewArticleAdapter : BaseVBPagingDataAdapter<Article>({ it.id }) {
 
+    private var block: ((Int) -> Unit)? = null
+
+    fun setOnItemLongClickListener(block: (Int) -> Unit) {
+        this.block = block
+    }
+
     override fun convert(binding: ViewBinding, position: Int) {
         val item = getItem(position)!!
+        binding.root.setOnLongClickListener {
+            block?.invoke(position)
+            false
+        }
         if (getItemViewType(position) == 0) {
             (binding as RecyclerItemArticleBinding).let {
                 it.tvArticleTitle.text = item.title.orEmpty().htmlString
@@ -43,7 +53,16 @@ class NewArticleAdapter : BaseVBPagingDataAdapter<Article>({ it.id }) {
         }
     }
 
-    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+    fun removeAt(position: Int) {
+        this.notifyItemRemoved(position)
+    }
+
+    override fun onCreateViewBinding(
+        viewType: Int,
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        attachToParent: Boolean
+    ): ViewBinding {
         return if (viewType == 0) {
             RecyclerItemArticleBinding.inflate(inflater, parent, false)
         } else {

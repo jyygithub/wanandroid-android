@@ -25,15 +25,16 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 binding.etPassword.text.toString()
             )
         }
-        mViewModel.loginResult().observe(this) {
-            doneToast("登录成功")
-            DataStoreUtils.logged = true
-            DataStoreUtils.updateUser(it)
-            setResult(Activity.RESULT_OK)
-            finish()
-        }
-        mViewModel.loginError().observe(this) {
-            errorToast(it.message.orEmpty())
+        mViewModel.loginResult.observe(this) {
+            if (it.isSuccess) {
+                doneToast("登录成功")
+                DataStoreUtils.logged = true
+                DataStoreUtils.updateUser(it.getOrNull())
+                setResult(Activity.RESULT_OK)
+                finish()
+            } else {
+                errorToast(it.exceptionOrNull()?.message.orEmpty())
+            }
         }
     }
 

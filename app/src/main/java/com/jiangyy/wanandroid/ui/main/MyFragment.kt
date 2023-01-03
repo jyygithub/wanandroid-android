@@ -127,13 +127,14 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
             mViewModel.infoUser()
             mViewModel.getMessageCount()
         }
-        mViewModel.userInfo().observe(this) {
+        mViewModel.userInfo.observe(this) {
+            if (it.getOrNull() == null) return@observe
             mAdapter.currentList[0].let { item ->
-                item.text = "${it.first}"
+                item.text = "${it.getOrNull()!!.userInfo?.coinCount.orZero()}"
                 mAdapter.setItem(0, item)
             }
             mAdapter.currentList[1].let { item ->
-                item.text = "${it.second}"
+                item.text = "${it.getOrNull()!!.userInfo?.collectIds?.size.orZero()}"
                 mAdapter.setItem(1, item)
             }
             mAdapter.currentList[2].let { item ->
@@ -141,16 +142,14 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 mAdapter.setItem(2, item)
             }
         }
-        mViewModel.messageCount().first.observe(this) {
-            if (it != null && it > 0) {
-                binding.tvMessageCount.text = "${it.orZero()}"
+        mViewModel.messageCount.observe(this) {
+            val count = it.getOrNull()
+            if (count != null && count > 0) {
+                binding.tvMessageCount.text = "${count.orZero()}"
                 binding.tvMessageCount.visibility = View.VISIBLE
             } else {
                 binding.tvMessageCount.visibility = View.GONE
             }
-        }
-        mViewModel.messageCount().second.observe(this) {
-            binding.tvMessageCount.visibility = View.GONE
         }
     }
 
