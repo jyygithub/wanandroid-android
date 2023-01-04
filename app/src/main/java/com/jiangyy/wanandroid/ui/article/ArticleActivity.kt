@@ -7,12 +7,12 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.LinearLayout
 import androidx.activity.viewModels
+import com.jiangyy.common.view.BaseActivity
 import com.jiangyy.core.doneToast
 import com.jiangyy.core.errorToast
 import com.jiangyy.core.orDefault
 import com.jiangyy.core.parcelableIntent
 import com.jiangyy.dialog.StringBottomListDialog
-import com.jiangyy.viewbinding.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityArticleBinding
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.utils.DataStoreUtils
@@ -20,18 +20,14 @@ import com.jiangyy.wanandroid.utils.SharesFactory
 import com.jiangyy.wanandroid.utils.htmlString
 import com.just.agentweb.AgentWeb
 
-class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
+class ArticleActivity : BaseActivity<ActivityArticleBinding>(ActivityArticleBinding::inflate) {
 
     private val mArticle by parcelableIntent<Article>("article")
     private lateinit var mAgentWeb: AgentWeb
-
-    override fun initValue() {
-
-        DataStoreUtils.scan(mArticle)
-
-    }
+    private val mViewModel by viewModels<ArticleViewModel>()
 
     override fun initWidget() {
+        super.initWidget()
         binding.tvTitle.text = mArticle?.title.orEmpty().htmlString
         mAgentWeb = AgentWeb.with(this)
             .setAgentWebParent(binding.frameLayout, LinearLayout.LayoutParams(-1, -1))
@@ -39,7 +35,6 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
             .createAgentWeb()
             .ready()
             .go(mArticle?.link.orEmpty().replace("http:", "https:"))
-
         binding.toolbar.setOnEndListener {
             StringBottomListDialog()
                 .items("收藏", "复制链接", "浏览器打开", "刷新", "微信", "朋友圈", "QQ", "QQ空间", "微信收藏") { position, _ ->
@@ -47,6 +42,10 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
                 }
                 .show(supportFragmentManager)
         }
+    }
+
+    override fun initObserver() {
+        super.initObserver()
         mViewModel.opResult.observe(this) {
             if (it.isSuccess) {
                 mArticle?.collect = it.getOrNull()
@@ -57,7 +56,10 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
         }
     }
 
-    private val mViewModel by viewModels<ArticleViewModel>()
+    override fun preLoad() {
+        super.preLoad()
+        DataStoreUtils.scan(mArticle)
+    }
 
     private fun menuClick(position: Int) {
         if (mArticle == null) return
@@ -110,6 +112,11 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>() {
                 else -> Unit
             }
         }
+    }
+
+    override fun onDestroy() {
+        mAgentWeb.destroy()
+        super.onDestroy()
     }
 
     companion object {

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseActivity<VB : ViewBinding>(private val inflate: (LayoutInflater) -> VB) : AppCompatActivity(), IBaseView {
+abstract class BaseActivity<VB : ViewBinding>(private val inflate: (LayoutInflater) -> VB) : AppCompatActivity() {
 
     lateinit var binding: VB
 
@@ -19,12 +19,12 @@ abstract class BaseActivity<VB : ViewBinding>(private val inflate: (LayoutInflat
         preLoad()
     }
 
-    override fun initValue() {}
+    protected open fun initValue() {}
 
-    override fun initWidget() {}
+    protected open fun initWidget() {}
 
-    override fun initObserver() {}
+    protected open fun initObserver() {}
 
-    override fun preLoad() {}
+    protected open fun preLoad() {}
 
 }

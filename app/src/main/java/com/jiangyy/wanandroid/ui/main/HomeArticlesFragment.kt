@@ -17,7 +17,6 @@ class HomeArticlesFragment private constructor() : BaseArticlesFragment() {
     }
 
     companion object {
-        @JvmStatic
         fun newInstance() = HomeArticlesFragment()
     }
 

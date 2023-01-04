@@ -3,22 +3,20 @@ package com.jiangyy.wanandroid.ui.todo
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
-import com.jiangyy.core.doneToast
-import com.jiangyy.core.errorToast
-import com.jiangyy.core.getNowString
-import com.jiangyy.viewbinding.base.BaseActivity
+import com.jiangyy.common.utils.NOW_DATE
+import com.jiangyy.common.utils.date2string
+import com.jiangyy.common.utils.doneToast
+import com.jiangyy.common.utils.errorToast
+import com.jiangyy.common.view.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityAddTodoBinding
 
-class AddTodoActivity : BaseActivity<ActivityAddTodoBinding>() {
+class AddTodoActivity : BaseActivity<ActivityAddTodoBinding>(ActivityAddTodoBinding::inflate) {
 
     private val mViewModel by viewModels<AddTodoViewModel>()
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
-        binding.tvDate.text = getNowString("yyyy-MM-dd")
+        super.initWidget()
+        binding.tvDate.text = NOW_DATE.date2string("yyyy-MM-dd")
 
         binding.toolbar.setOnEndListener {
             mViewModel.addTodo(
@@ -27,12 +25,15 @@ class AddTodoActivity : BaseActivity<ActivityAddTodoBinding>() {
                 binding.tvDate.text.toString().trim(),
             )
         }
+    }
 
-        mViewModel.add.observe(this){
-            if(it.isSuccess){
+    override fun initObserver() {
+        super.initObserver()
+        mViewModel.add.observe(this) {
+            if (it.isSuccess) {
                 doneToast("新增成功")
                 finish()
-            }else{
+            } else {
                 errorToast(it.exceptionOrNull()?.message.orEmpty())
             }
         }

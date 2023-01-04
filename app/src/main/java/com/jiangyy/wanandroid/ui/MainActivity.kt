@@ -31,8 +31,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     override fun initValue() {
+        super.initValue()
         SharesFactory.registerWXAndQQ(this)
-         var pressedTime: Long = 0
+        var pressedTime: Long = 0
         onBackPressedDispatcher.addCallback(this) {
             val nowTime = System.currentTimeMillis()
             when {
@@ -50,6 +51,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     override fun initWidget() {
+        super.initWidget()
         binding.toolbar.setOnEndListener {
             SearchActivity.actionStart(this)
         }

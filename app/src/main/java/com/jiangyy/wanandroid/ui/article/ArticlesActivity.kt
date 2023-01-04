@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import com.jiangyy.common.view.BaseActivity
 import com.jiangyy.core.parcelableIntent
 import com.jiangyy.core.stringIntent
 import com.jiangyy.dialog.ConfirmDialog
-import com.jiangyy.viewbinding.base.BaseActivity
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
@@ -17,15 +17,11 @@ import com.jiangyy.wanandroid.ui.user.ShareActivity
 import com.jiangyy.wanandroid.ui.user.ShareHistoryFragment
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 
-class ArticlesActivity : BaseActivity<ActivityArticlesBinding>() {
+class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesBinding::inflate) {
 
     private val mTree by parcelableIntent<Tree>("tree")
     private val mType by stringIntent("type")
     private val mArticlesViewModel by viewModels<ArticlesViewModel>()
-
-    override fun initValue() {
-
-    }
 
     override fun initWidget() {
         binding.toolbar.setTitle(mTree?.name.orEmpty())
