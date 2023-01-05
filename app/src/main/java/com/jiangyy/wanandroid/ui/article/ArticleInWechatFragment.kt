@@ -13,6 +13,7 @@ class ArticleInWechatFragment private constructor() : BaseArticlesFragment() {
     private val wechatId by stringArgument("wechatId")
 
     override fun initObserver() {
+        super.initObserver()
         val viewModel by viewModels<ArticlesViewModel>()
         lifecycleScope.launch {
             viewModel.listArticleInWechat(wechatId.orEmpty()).collect { pagingData ->

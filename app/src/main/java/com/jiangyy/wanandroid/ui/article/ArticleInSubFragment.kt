@@ -13,6 +13,7 @@ class ArticleInSubFragment private constructor() : BaseArticlesFragment() {
     private val mTree by parcelableIntent<Tree>("tree")
 
     override fun initObserver() {
+        super.initObserver()
         val viewModel by viewModels<ArticlesViewModel>()
         lifecycleScope.launch {
             viewModel.listArticleInSub(mTree?.id.orEmpty()).collect { pagingData ->

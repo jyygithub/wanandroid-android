@@ -2,25 +2,24 @@ package com.jiangyy.wanandroid.ui.user
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import com.jiangyy.viewbinding.MultipleStateModule
+import com.jiangyy.common.view.BaseLoadActivity
 import com.jiangyy.viewbinding.adapter.FooterAdapter
-import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityCoinHistoryBinding
 import com.jiangyy.wanandroid.ui.adapter.CoinHistoryAdapter
 import kotlinx.coroutines.launch
 
-class CoinHistoryActivity : BaseLoadActivity<ActivityCoinHistoryBinding>(), MultipleStateModule {
+class CoinHistoryActivity : BaseLoadActivity<ActivityCoinHistoryBinding>(ActivityCoinHistoryBinding::inflate) {
+
+    override val viewBindStatus: View get() = binding.refreshLayout
 
     private val mAdapter = CoinHistoryAdapter()
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
+        super.initWidget()
         binding.recyclerView.adapter = mAdapter.withLoadStateFooter(
             FooterAdapter { mAdapter.retry() }
         )
@@ -29,7 +28,7 @@ class CoinHistoryActivity : BaseLoadActivity<ActivityCoinHistoryBinding>(), Mult
             when (it.refresh) {
                 is LoadState.NotLoading -> preLoadSuccess()
 //                is LoadState.Loading -> preLoading()
-                is LoadState.Error -> preLoadWithFailure {
+                is LoadState.Error -> preLoadError {
                     binding.recyclerView.swapAdapter(mAdapter, true)
                     mAdapter.refresh()
                 }
@@ -45,6 +44,7 @@ class CoinHistoryActivity : BaseLoadActivity<ActivityCoinHistoryBinding>(), Mult
     }
 
     override fun preLoad() {
+        super.preLoad()
         val viewModel by viewModels<CoinHistoryViewModel>()
         lifecycleScope.launch {
             viewModel.pageCoinHistory().collect { pagingData ->

@@ -2,26 +2,25 @@ package com.jiangyy.wanandroid.ui.article
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-import com.jiangyy.viewbinding.MultipleStateModule
-import com.jiangyy.viewbinding.base.BaseLoadActivity
+import com.jiangyy.common.view.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ContentPageListBinding
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.ui.adapter.TreeAdapter
 
-class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateModule {
+class TreeActivity : BaseLoadActivity<ContentPageListBinding>(ContentPageListBinding::inflate) {
+
+    override val viewBindStatus: View get() = binding.refreshLayout
 
     private val mAdapter = TreeAdapter()
 
     private val mViewModel by viewModels<TreeViewModel>()
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
+        super.initWidget()
         binding.toolbar.setTitle("体系")
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2).apply {
             spanSizeLookup = object : SpanSizeLookup() {
@@ -41,6 +40,10 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateMo
         binding.refreshLayout.setOnRefreshListener {
             preLoad()
         }
+    }
+
+    override fun initObserver() {
+        super.initObserver()
         mViewModel.treeResult.observe(this) {
             binding.refreshLayout.isRefreshing = false
             val result = mutableListOf<Tree>()
@@ -57,12 +60,13 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(), MultipleStateMo
                 }
                 mAdapter.submitList(result)
             } else {
-                preLoadWithFailure(it.exceptionOrNull()?.message.orEmpty()) { preLoad() }
+                preLoadError(it.exceptionOrNull()?.message.orEmpty())
             }
         }
     }
 
     override fun preLoad() {
+        super.preLoad()
         mViewModel.tree()
     }
 

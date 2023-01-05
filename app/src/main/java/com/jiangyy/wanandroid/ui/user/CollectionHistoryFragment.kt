@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 class CollectionHistoryFragment private constructor() : BaseArticlesFragment() {
 
     override fun initObserver() {
+        super.initObserver()
         val viewModel by viewModels<ArticlesViewModel>()
         lifecycleScope.launch {
             viewModel.listCollect().collect { pagingData ->

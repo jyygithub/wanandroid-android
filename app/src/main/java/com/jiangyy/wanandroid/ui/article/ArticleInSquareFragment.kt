@@ -6,9 +6,10 @@ import com.jiangyy.wanandroid.ui.BaseArticlesFragment
 import com.jiangyy.wanandroid.ui.main.ArticlesViewModel
 import kotlinx.coroutines.launch
 
-class ArticleInSquareFragment private constructor(): BaseArticlesFragment() {
+class ArticleInSquareFragment private constructor() : BaseArticlesFragment() {
 
     override fun initObserver() {
+        super.initObserver()
         val viewModel by viewModels<ArticlesViewModel>()
         lifecycleScope.launch {
             viewModel.listSquare().collect { pagingData ->

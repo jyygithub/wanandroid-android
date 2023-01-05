@@ -1,29 +1,28 @@
 package com.jiangyy.wanandroid.ui.todo
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import com.jiangyy.common.view.BaseLoadFragment
 import com.jiangyy.core.intArgument
 import com.jiangyy.core.orZero
-import com.jiangyy.viewbinding.MultipleStateModule
 import com.jiangyy.viewbinding.adapter.FooterAdapter
-import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.databinding.FragmentTodosBinding
 import com.jiangyy.wanandroid.ui.adapter.TodoAdapter
 import kotlinx.coroutines.launch
 
-class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(), MultipleStateModule {
+class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(FragmentTodosBinding::inflate) {
+
+    override val viewBindStatus: View get() = binding.refreshLayout
 
     private val mStatus by intArgument("status")
 
     private val mAdapter = TodoAdapter()
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
+        super.initWidget()
         binding.recyclerView.adapter = mAdapter.withLoadStateFooter(
             FooterAdapter { mAdapter.retry() }
         )
@@ -32,7 +31,7 @@ class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(), MultipleStateMod
             when (it.refresh) {
                 is LoadState.NotLoading -> preLoadSuccess()
 //                is LoadState.Loading -> preLoading()
-                is LoadState.Error -> preLoadWithFailure {
+                is LoadState.Error -> preLoadError {
                     binding.recyclerView.swapAdapter(mAdapter, true)
                     mAdapter.refresh()
                 }
@@ -47,12 +46,8 @@ class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(), MultipleStateMod
         }
     }
 
-    override fun initObserver() {
-
-
-    }
-
     override fun preLoad() {
+        super.preLoad()
         val viewModel by viewModels<TodosViewModel>()
         lifecycleScope.launch {
             viewModel.pageTodo(mStatus.orZero()).collect { pagingData ->

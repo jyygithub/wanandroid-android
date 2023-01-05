@@ -2,29 +2,24 @@ package com.jiangyy.wanandroid.ui.article
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.jiangyy.viewbinding.MultipleStateModule
-import com.jiangyy.viewbinding.base.BaseLoadActivity
+import com.jiangyy.common.view.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityWechatBinding
 import com.jiangyy.wanandroid.entity.Tree
 
-class WechatActivity : BaseLoadActivity<ActivityWechatBinding>(), MultipleStateModule {
+class WechatActivity : BaseLoadActivity<ActivityWechatBinding>(ActivityWechatBinding::inflate) {
+
+    override val viewBindStatus: View get() = binding.viewPager
 
     private val mViewModel by viewModels<WechatViewModel>()
 
-    override fun initValue() {
-
-    }
-
-    override fun initWidget() {
-
-    }
-
     override fun initObserver() {
+        super.initObserver()
         mViewModel.wechatResult.observe(this) {
             if (it.isSuccess) {
                 preLoadSuccess()
@@ -33,7 +28,7 @@ class WechatActivity : BaseLoadActivity<ActivityWechatBinding>(), MultipleStateM
                 }
                 initViewPager(it.getOrNull())
             } else {
-                preLoadWithFailure { preLoad() }
+                preLoadError()
             }
         }
     }
@@ -59,6 +54,7 @@ class WechatActivity : BaseLoadActivity<ActivityWechatBinding>(), MultipleStateM
     }
 
     override fun preLoad() {
+        super.preLoad()
         mViewModel.listWechat()
     }
 

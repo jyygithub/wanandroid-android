@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 class HomeArticlesFragment private constructor() : BaseArticlesFragment() {
 
     override fun initObserver() {
+        super.initObserver()
         val viewModel by viewModels<ArticlesViewModel>()
         lifecycleScope.launch {
             viewModel.pageHomeArticles().collect { pagingData ->

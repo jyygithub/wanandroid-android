@@ -14,8 +14,25 @@ class ShareHistoryFragment private constructor() : BaseArticlesFragment() {
 
     private var mCurrentPosition = 0
 
-    override fun initObserver() {
+    override fun initWidget() {
+        super.initWidget()
+        mAdapter.setOnItemLongClickListener { position ->
+            mCurrentPosition = position
+            StringBottomListDialog()
+                .bindConfig { title = "文章操作" }
+                .items("取消分享") { _, _ ->
+                    val article = mAdapter.peek(position)
+                    mViewModel.unshare(article?.id.orEmpty())
+                }
+                .show(childFragmentManager)
 
+            false
+        }
+
+    }
+
+    override fun initObserver() {
+        super.initObserver()
         lifecycleScope.launch {
             mViewModel.listShareHistory().collect { pagingData ->
                 mAdapter.submitData(pagingData)
@@ -29,22 +46,6 @@ class ShareHistoryFragment private constructor() : BaseArticlesFragment() {
                 errorToast(it.exceptionOrNull()?.message.orEmpty())
             }
         }
-    }
-
-    override fun initWidget() {
-        mAdapter.setOnItemLongClickListener {  position ->
-            mCurrentPosition = position
-            StringBottomListDialog()
-                .bindConfig { title = "文章操作" }
-                .items("取消分享") { _, _ ->
-                    val article = mAdapter.peek(position)
-                    mViewModel.unshare(article?.id.orEmpty())
-                }
-                .show(childFragmentManager)
-
-            false
-        }
-
     }
 
     companion object {

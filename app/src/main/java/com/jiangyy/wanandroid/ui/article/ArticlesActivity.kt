@@ -24,21 +24,26 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesB
     private val mArticlesViewModel by viewModels<ArticlesViewModel>()
 
     override fun initWidget() {
+        super.initWidget()
         binding.toolbar.setTitle(mTree?.name.orEmpty())
         when (mType) {
             "tree" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInTreeFragment.newInstance())
                 .commit()
+
             "wenda" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWendaFragment.newInstance()).commit()
                 binding.toolbar.setTitle("每日一问")
             }
+
             "square" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSquareFragment.newInstance()).commit()
                 binding.toolbar.setTitle("广场")
             }
+
             "sub" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSubFragment.newInstance()).commit()
             }
+
             "share" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ShareHistoryFragment.newInstance()).commit()
                 binding.toolbar.setTitle("我的分享")
@@ -47,11 +52,13 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesB
                     ShareActivity.actionStart(this)
                 }
             }
+
             "collection" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, CollectionHistoryFragment.newInstance())
                     .commit()
                 binding.toolbar.setTitle("我的收藏")
             }
+
             "scan" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ScanHistoryFragment.newInstance()).commit()
                 binding.toolbar.setTitle("我的浏览")

@@ -6,9 +6,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.jiangyy.common.view.BaseFragment
 import com.jiangyy.core.orZero
 import com.jiangyy.dialog.ConfirmDialog
-import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.data.RefreshScan
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
@@ -29,21 +29,17 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
+class MyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflate) {
 
     private val mAdapter = MyAdapter()
 
-    override fun preInit() {
-        super.preInit()
+    override fun initValue() {
+        super.initValue()
         EventBus.getDefault().register(this)
     }
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
-
+        super.initWidget()
         binding.toolbar.setOnStartListener {
             UnreadMessageActivity.actionStart(requireActivity())
         }
@@ -116,6 +112,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
     }
 
     override fun initObserver() {
+        super.initObserver()
         mViewModel.loggerStatus().observe(this) {
             if (it) {
                 binding.toolbar.setEnd(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_logout), null)
@@ -154,6 +151,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
     }
 
     override fun preLoad() {
+        super.preLoad()
         mViewModel.loginOrOut(DataStoreUtils.logged)
         mViewModel.infoUser()
         mViewModel.getMessageCount()

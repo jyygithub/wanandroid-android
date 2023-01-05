@@ -12,6 +12,7 @@ import com.jiangyy.wanandroid.databinding.ActivityTodosBinding
 class TodosActivity : BaseActivity<ActivityTodosBinding>(ActivityTodosBinding::inflate) {
 
     override fun initWidget() {
+        super.initWidget()
         binding.button.click {
             AddTodoActivity.actionStart(this)
         }
@@ -26,7 +27,6 @@ class TodosActivity : BaseActivity<ActivityTodosBinding>(ActivityTodosBinding::i
             }
         }
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position -> tab.text = titles[position] }.attach()
-
     }
 
     companion object {

@@ -2,25 +2,24 @@ package com.jiangyy.wanandroid.ui.user
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import com.jiangyy.viewbinding.MultipleStateModule
+import com.jiangyy.common.view.BaseLoadActivity
 import com.jiangyy.viewbinding.adapter.FooterAdapter
-import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivityReadedMessageBinding
 import com.jiangyy.wanandroid.ui.adapter.MessageAdapter
 import kotlinx.coroutines.launch
 
-class ReadedMessageActivity : BaseLoadActivity<ActivityReadedMessageBinding>(), MultipleStateModule {
+class ReadedMessageActivity : BaseLoadActivity<ActivityReadedMessageBinding>(ActivityReadedMessageBinding::inflate) {
+
+    override val viewBindStatus: View get() = binding.refreshLayout
 
     private val mAdapter = MessageAdapter()
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
+        super.initWidget()
         binding.recyclerView.adapter = mAdapter.withLoadStateFooter(
             FooterAdapter { mAdapter.retry() }
         )
@@ -29,7 +28,7 @@ class ReadedMessageActivity : BaseLoadActivity<ActivityReadedMessageBinding>(), 
             when (it.refresh) {
                 is LoadState.NotLoading -> preLoadSuccess()
 //                is LoadState.Loading -> preLoading()
-                is LoadState.Error -> preLoadWithFailure {
+                is LoadState.Error -> preLoadError {
                     binding.recyclerView.swapAdapter(mAdapter, true)
                     mAdapter.refresh()
                 }
@@ -45,6 +44,7 @@ class ReadedMessageActivity : BaseLoadActivity<ActivityReadedMessageBinding>(), 
     }
 
     override fun preLoad() {
+        super.preLoad()
         val viewModel by viewModels<ReadedMessageViewModel>()
         lifecycleScope.launch {
             viewModel.listReadedMessage().collect { pagingData ->

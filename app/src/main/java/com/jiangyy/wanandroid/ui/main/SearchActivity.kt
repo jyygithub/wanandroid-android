@@ -6,9 +6,9 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import com.jiangyy.common.view.BaseLoadActivity
 import com.jiangyy.core.hideSoftInput
 import com.jiangyy.viewbinding.adapter.FooterAdapter
-import com.jiangyy.viewbinding.base.BaseLoadActivity
 import com.jiangyy.wanandroid.databinding.ActivitySearchBinding
 import com.jiangyy.wanandroid.ui.adapter.HotKeyAdapter
 import com.jiangyy.wanandroid.ui.adapter.NewArticleAdapter
@@ -17,18 +17,18 @@ import com.jiangyy.wanandroid.ui.article.ArticleActivity
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 import kotlinx.coroutines.launch
 
-class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(), View.OnFocusChangeListener {
+class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(ActivitySearchBinding::inflate), View.OnFocusChangeListener {
+
+    override val viewBindStatus: View
+        get() = binding.contentArticles.recyclerView
 
     private val mAdapter = NewArticleAdapter()
 
     private val mHotKeyAdapter = HotKeyAdapter()
     private val mSearchHistoryAdapter = SearchHistoryAdapter()
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
+        super.initWidget()
         binding.contentArticles.recyclerView.adapter = mAdapter.withLoadStateFooter(
             FooterAdapter { mAdapter.retry() }
         )
@@ -37,7 +37,7 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(), View.OnFocusCh
             when (it.refresh) {
                 is LoadState.NotLoading -> preLoadSuccess()
 //                is LoadState.Loading -> preLoading()
-                is LoadState.Error -> preLoadWithFailure {
+                is LoadState.Error -> preLoadError {
                     binding.contentArticles.recyclerView.swapAdapter(mAdapter, true)
                     mAdapter.refresh()
                 }
@@ -67,18 +67,20 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(), View.OnFocusCh
             mKey = mSearchHistoryAdapter.currentList[position]
             search()
         }
-        mViewModel.hotKey.observe(this) {
-            mHotKeyAdapter.submitList(it.getOrNull())
-        }
+
     }
 
     private val mViewModel by viewModels<SearchViewModel>()
 
     override fun initObserver() {
-
+        super.initObserver()
+        mViewModel.hotKey.observe(this) {
+            mHotKeyAdapter.submitList(it.getOrNull())
+        }
     }
 
     override fun preLoad() {
+        super.preLoad()
         mViewModel.hotKey()
     }
 
