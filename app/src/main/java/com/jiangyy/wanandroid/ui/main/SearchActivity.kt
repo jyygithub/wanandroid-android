@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.jiangyy.common.view.BaseLoadActivity
-import com.jiangyy.core.hideSoftInput
 import com.jiangyy.common.adapter.FooterAdapter
 import com.jiangyy.wanandroid.databinding.ActivitySearchBinding
 import com.jiangyy.wanandroid.ui.adapter.HotKeyAdapter
@@ -49,7 +48,7 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(ActivitySearchBin
             mKey = if (binding.etSearch.text.isNullOrBlank()) null else binding.etSearch.text.toString().trim()
             search()
         }
-        mAdapter.setOnItemClickListener { position ->
+        mAdapter.itemClick { position ->
             ArticleActivity.actionStart(this, mAdapter.peek(position))
         }
         binding.contentArticles.refreshLayout.setOnRefreshListener {
@@ -59,12 +58,12 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(ActivitySearchBin
         binding.etSearch.onFocusChangeListener = this
         binding.contentSearch.recyclerViewHot.adapter = mHotKeyAdapter
         binding.contentSearch.recyclerViewHistory.adapter = mSearchHistoryAdapter
-        mHotKeyAdapter.setOnItemClickListener { position ->
-            mKey = mHotKeyAdapter.currentList[position].name
+        mHotKeyAdapter.itemClick { position ->
+            mKey = mHotKeyAdapter.getItem(position).name
             search()
         }
-        mSearchHistoryAdapter.setOnItemClickListener { position ->
-            mKey = mSearchHistoryAdapter.currentList[position]
+        mSearchHistoryAdapter.itemClick { position ->
+            mKey = mSearchHistoryAdapter.getItem(position)
             search()
         }
 
@@ -75,7 +74,7 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(ActivitySearchBin
     override fun initObserver() {
         super.initObserver()
         mViewModel.hotKey.observe(this) {
-            mHotKeyAdapter.submitList(it.getOrNull())
+            mHotKeyAdapter.submitList = it.getOrNull()
         }
     }
 
@@ -86,7 +85,7 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(ActivitySearchBin
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
         if (hasFocus) {
-            mSearchHistoryAdapter.submitList(DataStoreUtils.getSearchHistory())
+            mSearchHistoryAdapter.submitList = DataStoreUtils.getSearchHistory()
             binding.contentSearch.rootView.visibility = View.VISIBLE
         } else {
             binding.contentSearch.rootView.visibility = View.GONE
@@ -96,7 +95,6 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(ActivitySearchBin
     private var mKey: String? = null
 
     private fun search() {
-        hideSoftInput()
         binding.etSearch.clearFocus()
         if (mKey.isNullOrBlank()) return
         DataStoreUtils.search(mKey.orEmpty())

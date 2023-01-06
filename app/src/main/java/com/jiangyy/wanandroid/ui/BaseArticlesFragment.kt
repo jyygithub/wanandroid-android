@@ -16,7 +16,7 @@ abstract class BaseArticlesFragment : BaseLoadFragment<FragmentBaseArticlesBindi
 
     override fun initWidget() {
         super.initWidget()
-        mAdapter.setOnItemClickListener {
+        mAdapter.itemClick {
             ArticleActivity.actionStart(requireActivity(), mAdapter.peek(it))
         }
         binding.recyclerView.adapter = mAdapter.withLoadStateFooter(

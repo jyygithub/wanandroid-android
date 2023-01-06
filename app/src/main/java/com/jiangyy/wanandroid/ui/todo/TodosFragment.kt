@@ -5,12 +5,12 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import com.jiangyy.common.view.BaseLoadFragment
-import com.jiangyy.core.intArgument
-import com.jiangyy.core.orZero
 import com.jiangyy.common.adapter.FooterAdapter
+import com.jiangyy.common.utils.orZero
+import com.jiangyy.common.view.BaseLoadFragment
 import com.jiangyy.wanandroid.databinding.FragmentTodosBinding
 import com.jiangyy.wanandroid.ui.adapter.TodoAdapter
+import com.jiangyy.wanandroid.utils.intArgument
 import kotlinx.coroutines.launch
 
 class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(FragmentTodosBinding::inflate) {
