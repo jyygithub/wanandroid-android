@@ -2,7 +2,7 @@ package com.jiangyy.wanandroid.entity
 
 import android.annotation.SuppressLint
 import android.net.Uri
-import com.jiangyy.core.orZero
+import com.jiangyy.common.utils.orZero
 import java.text.SimpleDateFormat
 import java.util.*
 

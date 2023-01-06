@@ -3,7 +3,7 @@ package com.jiangyy.wanandroid.ui
 import android.view.View
 import androidx.paging.LoadState
 import com.jiangyy.common.view.BaseLoadFragment
-import com.jiangyy.viewbinding.adapter.FooterAdapter
+import com.jiangyy.common.adapter.FooterAdapter
 import com.jiangyy.wanandroid.databinding.FragmentBaseArticlesBinding
 import com.jiangyy.wanandroid.ui.adapter.NewArticleAdapter
 import com.jiangyy.wanandroid.ui.article.ArticleActivity

@@ -2,19 +2,22 @@ package com.jiangyy.wanandroid.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.viewbinding.ViewBinding
-import com.jiangyy.viewbinding.adapter.BaseVBAdapter
+import com.jiangyy.common.adapter.BaseAdapter
 import com.jiangyy.wanandroid.databinding.RecyclerItemSearchHistoryBinding
 
-class SearchHistoryAdapter : BaseVBAdapter<String>() {
+class SearchHistoryAdapter : BaseAdapter<String, RecyclerItemSearchHistoryBinding>() {
 
-    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
-        return RecyclerItemSearchHistoryBinding.inflate(inflater, parent, attachToParent)
+    override fun convert(binding: RecyclerItemSearchHistoryBinding, position: Int, item: String) {
+        binding.tv.text = getItem(position)
     }
 
-    override fun convert(_binding: ViewBinding, position: Int) {
-        val binding = _binding as RecyclerItemSearchHistoryBinding
-        binding.tv.text = getItem(position)
+    override fun createViewBinding(
+        viewType: Int,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
+    ): RecyclerItemSearchHistoryBinding {
+        return RecyclerItemSearchHistoryBinding.inflate(inflater, container, attachToParent)
     }
 
 }

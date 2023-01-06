@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.jiangyy.common.view.BaseLoadActivity
 import com.jiangyy.core.hideSoftInput
-import com.jiangyy.viewbinding.adapter.FooterAdapter
+import com.jiangyy.common.adapter.FooterAdapter
 import com.jiangyy.wanandroid.databinding.ActivitySearchBinding
 import com.jiangyy.wanandroid.ui.adapter.HotKeyAdapter
 import com.jiangyy.wanandroid.ui.adapter.NewArticleAdapter

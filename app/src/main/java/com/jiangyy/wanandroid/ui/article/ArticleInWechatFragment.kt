@@ -3,9 +3,9 @@ package com.jiangyy.wanandroid.ui.article
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.jiangyy.core.stringArgument
 import com.jiangyy.wanandroid.ui.BaseArticlesFragment
 import com.jiangyy.wanandroid.ui.main.ArticlesViewModel
+import com.jiangyy.wanandroid.utils.stringArgument
 import kotlinx.coroutines.launch
 
 class ArticleInWechatFragment private constructor() : BaseArticlesFragment() {

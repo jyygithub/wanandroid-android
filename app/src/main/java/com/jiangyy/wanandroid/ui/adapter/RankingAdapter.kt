@@ -3,20 +3,22 @@ package com.jiangyy.wanandroid.ui.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.viewbinding.ViewBinding
-import com.jiangyy.viewbinding.adapter.BaseVBPagingDataAdapter
+import com.jiangyy.common.adapter.BasePagingDataAdapter
 import com.jiangyy.wanandroid.databinding.RecyclerItemRankingBinding
 import com.jiangyy.wanandroid.entity.Coin
 
-class RankingAdapter : BaseVBPagingDataAdapter<Coin>() {
+class RankingAdapter : BasePagingDataAdapter<Coin, RecyclerItemRankingBinding>() {
 
-    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
-        return RecyclerItemRankingBinding.inflate(inflater, parent, attachToParent)
+    override fun createViewBinding(
+        viewType: Int,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
+    ): RecyclerItemRankingBinding {
+        return RecyclerItemRankingBinding.inflate(inflater, container, attachToParent)
     }
 
-    override fun convert(_binding: ViewBinding, position: Int) {
-        val item = getItem(position)
-        val binding = _binding as RecyclerItemRankingBinding
+    override fun convert(binding: RecyclerItemRankingBinding, position: Int, item: Coin?) {
         if (position % 2 == 0) {
             binding.viewParent.setBackgroundColor(Color.parseColor("#FFFFFF"))
         } else {

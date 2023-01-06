@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.jiangyy.common.view.BaseLoadActivity
-import com.jiangyy.viewbinding.adapter.FooterAdapter
+import com.jiangyy.common.adapter.FooterAdapter
 import com.jiangyy.wanandroid.databinding.ActivityRankingBinding
 import com.jiangyy.wanandroid.ui.adapter.RankingAdapter
 import kotlinx.coroutines.launch

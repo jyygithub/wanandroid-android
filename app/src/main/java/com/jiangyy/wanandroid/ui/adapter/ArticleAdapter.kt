@@ -4,18 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import coil.load
-import com.jiangyy.core.orDefault
-import com.jiangyy.core.orZero
-import com.jiangyy.viewbinding.adapter.BaseVBDiffAdapter
+import com.jiangyy.common.adapter.BaseMultipleDiffAdapter
+import com.jiangyy.common.utils.orDefault
+import com.jiangyy.common.utils.orZero
 import com.jiangyy.wanandroid.databinding.RecyclerItemArticleBinding
 import com.jiangyy.wanandroid.databinding.RecyclerItemProjectBinding
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.utils.htmlString
 
-class ArticleAdapter : BaseVBDiffAdapter<Article>({ it.id }) {
+class ArticleAdapter : BaseMultipleDiffAdapter<Article>({ it.id }) {
 
-    override fun convert(binding: ViewBinding, position: Int) {
-        val item = getItem(position)!!
+    override fun convert(binding: ViewBinding, position: Int, item: Article) {
         if (getItemViewType(position) == 0) {
             (binding as RecyclerItemArticleBinding).let {
                 it.tvArticleTitle.text = item.title.orEmpty().htmlString
@@ -43,16 +42,16 @@ class ArticleAdapter : BaseVBDiffAdapter<Article>({ it.id }) {
         }
     }
 
-    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
+    override fun createViewBinding(viewType: Int, inflater: LayoutInflater, container: ViewGroup?, attachToParent: Boolean): ViewBinding {
         return if (viewType == 0) {
-            RecyclerItemArticleBinding.inflate(inflater, parent, false)
+            RecyclerItemArticleBinding.inflate(inflater, container, false)
         } else {
-            RecyclerItemProjectBinding.inflate(inflater, parent, false)
+            RecyclerItemProjectBinding.inflate(inflater, container, false)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return getItem(position)?.itemType.orZero()
+        return getItem(position).itemType.orZero()
     }
 
 }

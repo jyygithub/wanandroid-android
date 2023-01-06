@@ -8,7 +8,7 @@ import androidx.paging.LoadState
 import com.jiangyy.common.view.BaseLoadFragment
 import com.jiangyy.core.intArgument
 import com.jiangyy.core.orZero
-import com.jiangyy.viewbinding.adapter.FooterAdapter
+import com.jiangyy.common.adapter.FooterAdapter
 import com.jiangyy.wanandroid.databinding.FragmentTodosBinding
 import com.jiangyy.wanandroid.ui.adapter.TodoAdapter
 import kotlinx.coroutines.launch
