@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.jiangyy.core.AppContext
+import com.jiangyy.wanandroid.AppContext
 import com.jiangyy.wanandroid.data.RefreshScan
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.User

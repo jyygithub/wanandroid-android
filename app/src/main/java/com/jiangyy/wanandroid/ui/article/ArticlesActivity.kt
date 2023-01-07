@@ -5,8 +5,6 @@ import android.content.Intent
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.jiangyy.common.view.BaseActivity
-import com.jiangyy.core.parcelableIntent
-import com.jiangyy.core.stringIntent
 import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
@@ -16,6 +14,8 @@ import com.jiangyy.wanandroid.ui.user.ScanHistoryFragment
 import com.jiangyy.wanandroid.ui.user.ShareActivity
 import com.jiangyy.wanandroid.ui.user.ShareHistoryFragment
 import com.jiangyy.wanandroid.utils.DataStoreUtils
+import com.jiangyy.wanandroid.utils.parcelableIntent
+import com.jiangyy.wanandroid.utils.stringIntent
 
 class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesBinding::inflate) {
 

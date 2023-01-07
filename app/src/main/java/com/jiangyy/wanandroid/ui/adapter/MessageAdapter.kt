@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.viewbinding.ViewBinding
+import com.jiangyy.common.adapter.BaseDiffAdapter
 import com.jiangyy.common.adapter.BasePagingDataAdapter
 import com.jiangyy.common.adapter.BaseViewHolder
 import com.jiangyy.common.utils.milli2string
@@ -31,7 +32,7 @@ class MessageAdapter : BasePagingDataAdapter<Message, RecyclerItemMessageBinding
 
 }
 
-class UnreadMessageAdapter : BasePagingDataAdapter<Message, RecyclerItemMessageBinding>({ it.id }) {
+class UnreadMessageAdapter : BaseDiffAdapter<Message, RecyclerItemMessageBinding>({ it.id }) {
 
     override fun createViewBinding(
         viewType: Int,
@@ -42,11 +43,11 @@ class UnreadMessageAdapter : BasePagingDataAdapter<Message, RecyclerItemMessageB
         return RecyclerItemMessageBinding.inflate(inflater, container, attachToParent)
     }
 
-    override fun convert(binding: RecyclerItemMessageBinding, position: Int, item: Message?) {
-        binding.tvTag.text = item?.tag.orEmpty()
-        binding.tvTime.text = item?.date.orZero().milli2string("yyyy-MM-dd HH:mm")
-        binding.tvMessage.text = item?.message.orEmpty()
-        binding.tvFromUser.text = "${item?.fromUser.orEmpty()} ${item?.title.orEmpty()}"
+    override fun convert(binding: RecyclerItemMessageBinding, position: Int, item: Message) {
+        binding.tvTag.text = item.tag.orEmpty()
+        binding.tvTime.text = item.date.orZero().milli2string("yyyy-MM-dd HH:mm")
+        binding.tvMessage.text = item.message.orEmpty()
+        binding.tvFromUser.text = "${item.fromUser.orEmpty()} ${item?.title.orEmpty()}"
     }
 
 }

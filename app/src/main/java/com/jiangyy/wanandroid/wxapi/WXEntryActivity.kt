@@ -2,8 +2,8 @@ package com.jiangyy.wanandroid.wxapi
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.jiangyy.core.doneToast
 import com.jiangyy.wanandroid.utils.SharesFactory
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelbase.BaseReq
@@ -45,7 +45,7 @@ class WXEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
     override fun onReq(req: BaseReq?) {
         // 微信发送的请求回调
         when (req?.type) {
-            BaseResp.ErrCode.ERR_OK -> doneToast("分享成功")
+            BaseResp.ErrCode.ERR_OK -> Toast.makeText(this, "分享成功", Toast.LENGTH_SHORT).show()
             BaseResp.ErrCode.ERR_USER_CANCEL -> Log.d("wxshare", "cancel")
             BaseResp.ErrCode.ERR_AUTH_DENIED -> Log.d("wxshare", "denied")
             BaseResp.ErrCode.ERR_UNSUPPORT -> Log.d("wxshare", "unsupport")

@@ -4,9 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
+import com.jiangyy.common.utils.doneToast
+import com.jiangyy.common.utils.errorToast
 import com.jiangyy.common.view.BaseActivity
-import com.jiangyy.core.doneToast
-import com.jiangyy.core.errorToast
 import com.jiangyy.wanandroid.databinding.ActivityLoginBinding
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 

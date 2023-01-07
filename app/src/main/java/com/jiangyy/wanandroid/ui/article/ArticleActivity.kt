@@ -7,17 +7,17 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.LinearLayout
 import androidx.activity.viewModels
+import com.jiangyy.common.utils.doneToast
+import com.jiangyy.common.utils.errorToast
+import com.jiangyy.common.utils.orDefault
 import com.jiangyy.common.view.BaseActivity
-import com.jiangyy.core.doneToast
-import com.jiangyy.core.errorToast
-import com.jiangyy.core.orDefault
-import com.jiangyy.core.parcelableIntent
 import com.jiangyy.dialog.StringBottomListDialog
 import com.jiangyy.wanandroid.databinding.ActivityArticleBinding
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 import com.jiangyy.wanandroid.utils.SharesFactory
 import com.jiangyy.wanandroid.utils.htmlString
+import com.jiangyy.wanandroid.utils.parcelableIntent
 import com.just.agentweb.AgentWeb
 
 class ArticleActivity : BaseActivity<ActivityArticleBinding>(ActivityArticleBinding::inflate) {

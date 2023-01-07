@@ -3,8 +3,8 @@ package com.jiangyy.wanandroid.ui.user
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
+import com.jiangyy.common.utils.click
 import com.jiangyy.common.view.BaseActivity
-import com.jiangyy.core.click
 import com.jiangyy.wanandroid.databinding.ActivityUnreadMessageBinding
 import com.jiangyy.wanandroid.ui.adapter.UnreadMessageAdapter
 
@@ -25,7 +25,7 @@ class UnreadMessageActivity : BaseActivity<ActivityUnreadMessageBinding>(Activit
     override fun initObserver() {
         super.initObserver()
         mViewModel.messages.observe(this) {
-            mAdapter.submitList(it.getOrNull()?.datas)
+            mAdapter.submitList = it.getOrNull()?.datas
         }
     }
 

@@ -3,13 +3,13 @@ package com.jiangyy.wanandroid.ui.user
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
-import com.jiangyy.core.doneToast
-import com.jiangyy.core.errorToast
-import com.jiangyy.core.warnToast
-import com.jiangyy.viewbinding.base.BaseActivity
+import com.jiangyy.common.utils.doneToast
+import com.jiangyy.common.utils.errorToast
+import com.jiangyy.common.utils.warnToast
+import com.jiangyy.common.view.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityShareBinding
 
-class ShareActivity : BaseActivity<ActivityShareBinding>() {
+class ShareActivity : BaseActivity<ActivityShareBinding>(ActivityShareBinding::inflate) {
 
     private val mViewModel by viewModels<ShareViewModel>()
 

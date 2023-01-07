@@ -5,8 +5,8 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.jiangyy.common.utils.click
 import com.jiangyy.common.view.BaseActivity
-import com.jiangyy.core.click
 import com.jiangyy.wanandroid.databinding.ActivityTodosBinding
 
 class TodosActivity : BaseActivity<ActivityTodosBinding>(ActivityTodosBinding::inflate) {

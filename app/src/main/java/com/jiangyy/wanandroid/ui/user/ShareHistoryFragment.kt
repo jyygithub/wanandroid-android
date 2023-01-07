@@ -2,8 +2,8 @@ package com.jiangyy.wanandroid.ui.user
 
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.jiangyy.core.doneToast
-import com.jiangyy.core.errorToast
+import com.jiangyy.common.utils.doneToast
+import com.jiangyy.common.utils.errorToast
 import com.jiangyy.dialog.StringBottomListDialog
 import com.jiangyy.wanandroid.ui.BaseArticlesFragment
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ class ShareHistoryFragment private constructor() : BaseArticlesFragment() {
 
     override fun initWidget() {
         super.initWidget()
-        mAdapter.setOnItemLongClickListener { position ->
+        mAdapter.itemLongClick { position ->
             mCurrentPosition = position
             StringBottomListDialog()
                 .bindConfig { title = "文章操作" }
