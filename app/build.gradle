@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation project(path: ':common')
+    implementation project(path: ':widget')
     implementation files('libs/open_sdk_3.5.13.83_rc564928_lite.jar')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -49,7 +50,6 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.6.0"
     implementation "androidx.fragment:fragment-ktx:1.5.3"
     implementation 'androidx.datastore:datastore-preferences:1.0.0'
-    implementation 'com.jiangyy.core:widget:1.2.3'
     implementation 'com.jiangyy.dialog:core:1.0.14'
     implementation 'com.guolindev.permissionx:permissionx:1.7.1'
     implementation "org.greenrobot:eventbus:3.3.1"
