@@ -20,14 +20,14 @@ class ScanHistoryFragment : BaseLoadFragment<ContentArticlesBinding>(ContentArti
     override fun initWidget() {
         super.initWidget()
         binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { position ->
-            ArticleActivity.actionStart(requireActivity(), mAdapter.currentList[position])
+        mAdapter.itemClick { position ->
+            ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
         }
         binding.refreshLayout.setOnRefreshListener {
             preLoad()
         }
         mArticlesViewModel.scans().observe(this) {
-            mAdapter.submitList(null)
+            mAdapter.submitList = null
         }
     }
 
@@ -35,7 +35,7 @@ class ScanHistoryFragment : BaseLoadFragment<ContentArticlesBinding>(ContentArti
         super.preLoad()
         preLoadSuccess()
         binding.refreshLayout.isRefreshing = false
-        mAdapter.submitList(DataStoreUtils.getScanHistory())
+        mAdapter.submitList = DataStoreUtils.getScanHistory()
     }
 
     companion object {

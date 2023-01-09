@@ -30,8 +30,8 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(ContentPageListBin
             }
         }
         binding.recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener { position ->
-            mAdapter.currentList[position].let {
+        mAdapter.itemClick { position ->
+            mAdapter.getItem(position).let {
                 if (it.itemType == 1) {
                     ArticlesActivity.actionStart(this, "tree", it)
                 }
@@ -50,7 +50,7 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(ContentPageListBin
 
             if (it.isSuccess) {
                 preLoadSuccess()
-                mAdapter.submitList(null)
+                mAdapter.submitList = null
                 if (it.getOrNull().isNullOrEmpty()) return@observe
                 it.getOrNull()?.forEach { parent ->
                     result.add(parent)
@@ -58,7 +58,7 @@ class TreeActivity : BaseLoadActivity<ContentPageListBinding>(ContentPageListBin
                         result.add(children)
                     }
                 }
-                mAdapter.submitList(result)
+                mAdapter.submitList = result
             } else {
                 preLoadError(it.exceptionOrNull()?.message.orEmpty())
             }
