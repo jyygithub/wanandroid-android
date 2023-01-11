@@ -42,26 +42,26 @@ dependencies {
     implementation project(path: ':widget')
     implementation project(path: ':dialog')
     implementation files('libs/open_sdk_3.5.13.83_rc564928_lite.jar')
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+    debugImplementation rootProject.ext.dependencies.androidx.leakcanary
+    implementation rootProject.ext.dependencies.androidx.activity
     implementation rootProject.ext.dependencies.androidx.appcompat
+    implementation rootProject.ext.dependencies.androidx.activity
+    implementation rootProject.ext.dependencies.androidx.fragment
+    implementation rootProject.ext.dependencies.androidx.paging
+    implementation rootProject.ext.dependencies.androidx.constraintlayout
+    implementation rootProject.ext.dependencies.androidx.recyclerview
+    implementation rootProject.ext.dependencies.androidx.swiperefreshlayout
+    implementation rootProject.ext.dependencies.androidx.datastore
     implementation rootProject.ext.dependencies.google.material
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-    implementation "androidx.activity:activity-ktx:1.6.0"
-    implementation "androidx.fragment:fragment-ktx:1.5.3"
-    implementation 'androidx.datastore:datastore-preferences:1.0.0'
-    implementation 'com.guolindev.permissionx:permissionx:1.7.1'
-    implementation "org.greenrobot:eventbus:3.3.1"
-    implementation 'io.coil-kt:coil:2.2.2'
-
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-
-    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0'
-    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
-    implementation 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx'
+    implementation rootProject.ext.dependencies.github.permissionx
+    implementation rootProject.ext.dependencies.github.eventbus
+    implementation rootProject.ext.dependencies.github.coil
+    implementation rootProject.ext.dependencies.github.retrofit
+    implementation rootProject.ext.dependencies.github.retrofit_converter_gson
+    implementation rootProject.ext.dependencies.github.okhttp_logging_interceptor
+    implementation rootProject.ext.dependencies.github.wechat
+    implementation rootProject.ext.dependencies.github.PersistentCookieJar
+    implementation rootProject.ext.dependencies.github.agentweb
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
