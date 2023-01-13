@@ -170,6 +170,12 @@ interface ApiService {
     suspend fun pageTodo(@Path("page") page: Int, @Query("status") status: Int?): Bean<PageData<Todo>>
 
     /**
+     * 删除待办
+     */
+    @POST("lg/todo/delete/{id}/json")
+    suspend fun deleteTodo(@Path("id") id: Int): Bean<Any>
+
+    /**
      * 新增待办
      */
     @FormUrlEncoded
