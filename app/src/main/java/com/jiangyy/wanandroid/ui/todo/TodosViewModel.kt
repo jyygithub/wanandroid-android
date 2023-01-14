@@ -37,4 +37,11 @@ class TodosViewModel : ViewModel() {
         }
     }
 
+    fun doneTodo(id: Int, status: Int) {
+        flowRequest {
+            request { API_SERVICE.doneTodo(id, status) }
+            response { _delete.value = it }
+        }
+    }
+
 }

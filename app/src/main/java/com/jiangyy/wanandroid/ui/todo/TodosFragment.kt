@@ -12,6 +12,7 @@ import com.jiangyy.common.utils.errorToast
 import com.jiangyy.common.utils.orZero
 import com.jiangyy.common.view.BaseLoadFragment
 import com.jiangyy.dialog.ConfirmDialog
+import com.jiangyy.dialog.StringBottomListDialog
 import com.jiangyy.wanandroid.databinding.FragmentTodosBinding
 import com.jiangyy.wanandroid.logic.isSuccessOrNull
 import com.jiangyy.wanandroid.ui.adapter.TodoAdapter
@@ -31,13 +32,15 @@ class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(FragmentTodosBindin
     override fun initWidget() {
         super.initWidget()
         mAdapter.itemClick {
-            ConfirmDialog()
-                .bindConfig {
-                    title = "提示"
-                    content = "确认删除该待办"
-                }
-                .confirm { _ ->
-                    mViewModel.deleteTodo(mAdapter.peek(it)?.id.orZero())
+            val item = mAdapter.peek(it)
+            val statusName = if (item?.status == 0) "设置完成" else "设置未完成"
+            StringBottomListDialog()
+                .items("删除", statusName) { position, _ ->
+                    if (position == 0) {
+                        mViewModel.deleteTodo(mAdapter.peek(it)?.id.orZero())
+                    } else {
+                        mViewModel.doneTodo(mAdapter.peek(it)?.id.orZero(), item?.status.orZero() xor 1)
+                    }
                 }
                 .show(childFragmentManager)
         }

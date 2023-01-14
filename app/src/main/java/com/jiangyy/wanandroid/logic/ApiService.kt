@@ -176,6 +176,13 @@ interface ApiService {
     suspend fun deleteTodo(@Path("id") id: Int): Bean<Any>
 
     /**
+     * 删除待办
+     */
+    @FormUrlEncoded
+    @POST("lg/todo/done/{id}/json")
+    suspend fun doneTodo(@Path("id") id: Int, @Field("status") status: Int): Bean<Any>
+
+    /**
      * 新增待办
      */
     @FormUrlEncoded
