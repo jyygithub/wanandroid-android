@@ -14,10 +14,8 @@ import com.jiangyy.common.view.BaseActivity
 import com.jiangyy.dialog.StringBottomListDialog
 import com.jiangyy.wanandroid.databinding.ActivityArticleBinding
 import com.jiangyy.wanandroid.entity.Article
-import com.jiangyy.wanandroid.utils.DataStoreUtils
-import com.jiangyy.wanandroid.utils.SharesFactory
-import com.jiangyy.wanandroid.utils.htmlString
-import com.jiangyy.wanandroid.utils.parcelableIntent
+import com.jiangyy.wanandroid.logic.isSuccessOrNull
+import com.jiangyy.wanandroid.utils.*
 import com.just.agentweb.AgentWeb
 
 class ArticleActivity : BaseActivity<ActivityArticleBinding>(ActivityArticleBinding::inflate) {
@@ -36,8 +34,8 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(ActivityArticleBind
             .ready()
             .go(mArticle?.link.orEmpty().replace("http:", "https:"))
         binding.toolbar.setOnEndListener {
-            StringBottomListDialog()
-                .items("收藏", "复制链接", "浏览器打开", "刷新", "微信", "朋友圈", "QQ", "QQ空间", "微信收藏") { position, _ ->
+            ShareDialog()
+                .success { position ->
                     menuClick(position)
                 }
                 .show(supportFragmentManager)
@@ -47,7 +45,7 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(ActivityArticleBind
     override fun initObserver() {
         super.initObserver()
         mViewModel.opResult.observe(this) {
-            if (it.isSuccess) {
+            if (it.isSuccessOrNull) {
                 mArticle?.collect = it.getOrNull()
                 doneToast("操作成功")
             } else {
