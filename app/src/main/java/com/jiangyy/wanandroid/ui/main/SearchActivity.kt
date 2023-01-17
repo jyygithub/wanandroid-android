@@ -79,7 +79,7 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(ActivitySearchBin
     }
 
     override fun preLoad() {
-        super.preLoad()
+//        super.preLoad()
         mViewModel.hotKey()
     }
 
