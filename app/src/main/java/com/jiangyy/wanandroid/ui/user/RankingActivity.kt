@@ -2,25 +2,24 @@ package com.jiangyy.wanandroid.ui.user
 
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import com.jiangyy.viewbinding.MultipleStateModule
-import com.jiangyy.viewbinding.adapter.FooterAdapter
-import com.jiangyy.viewbinding.base.BaseLoadActivity
+import com.jiangyy.common.view.BaseLoadActivity
+import com.jiangyy.common.adapter.FooterAdapter
 import com.jiangyy.wanandroid.databinding.ActivityRankingBinding
 import com.jiangyy.wanandroid.ui.adapter.RankingAdapter
 import kotlinx.coroutines.launch
 
-class RankingActivity : BaseLoadActivity<ActivityRankingBinding>(), MultipleStateModule {
+class RankingActivity : BaseLoadActivity<ActivityRankingBinding>(ActivityRankingBinding::inflate) {
+
+    override val viewBindStatus: View get() = binding.refreshLayout
 
     private val mAdapter = RankingAdapter()
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
+        super.initWidget()
         binding.recyclerView.adapter = mAdapter.withLoadStateFooter(
             FooterAdapter { mAdapter.retry() }
         )
@@ -29,7 +28,7 @@ class RankingActivity : BaseLoadActivity<ActivityRankingBinding>(), MultipleStat
             when (it.refresh) {
                 is LoadState.NotLoading -> preLoadSuccess()
 //                is LoadState.Loading -> preLoading()
-                is LoadState.Error -> preLoadWithFailure {
+                is LoadState.Error -> preLoadError {
                     binding.recyclerView.swapAdapter(mAdapter, true)
                     mAdapter.refresh()
                 }
@@ -45,6 +44,7 @@ class RankingActivity : BaseLoadActivity<ActivityRankingBinding>(), MultipleStat
     }
 
     override fun preLoad() {
+        super.preLoad()
         val viewModel by viewModels<RankingViewModel>()
         lifecycleScope.launch {
             viewModel.ranking().collect { pagingData ->

@@ -1,29 +1,49 @@
 package com.jiangyy.wanandroid.ui.todo
 
 import android.os.Bundle
+import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import com.jiangyy.core.intArgument
-import com.jiangyy.core.orZero
-import com.jiangyy.viewbinding.MultipleStateModule
-import com.jiangyy.viewbinding.adapter.FooterAdapter
-import com.jiangyy.viewbinding.base.BaseLoadFragment
+import com.jiangyy.common.adapter.FooterAdapter
+import com.jiangyy.common.utils.doneToast
+import com.jiangyy.common.utils.errorToast
+import com.jiangyy.common.utils.orZero
+import com.jiangyy.common.view.BaseLoadFragment
+import com.jiangyy.dialog.ConfirmDialog
+import com.jiangyy.dialog.StringBottomListDialog
 import com.jiangyy.wanandroid.databinding.FragmentTodosBinding
+import com.jiangyy.wanandroid.logic.isSuccessOrNull
 import com.jiangyy.wanandroid.ui.adapter.TodoAdapter
+import com.jiangyy.wanandroid.utils.intArgument
 import kotlinx.coroutines.launch
 
-class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(), MultipleStateModule {
+class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(FragmentTodosBinding::inflate) {
+
+    override val viewBindStatus: View get() = binding.refreshLayout
 
     private val mStatus by intArgument("status")
 
     private val mAdapter = TodoAdapter()
 
-    override fun initValue() {
-
-    }
+    private val mViewModel by activityViewModels<TodosViewModel>()
 
     override fun initWidget() {
+        super.initWidget()
+        mAdapter.itemClick {
+            val item = mAdapter.peek(it)
+            val statusName = if (item?.status == 0) "设置完成" else "设置未完成"
+            StringBottomListDialog()
+                .items("删除", statusName) { position, _ ->
+                    if (position == 0) {
+                        mViewModel.deleteTodo(mAdapter.peek(it)?.id.orZero())
+                    } else {
+                        mViewModel.doneTodo(mAdapter.peek(it)?.id.orZero(), item?.status.orZero() xor 1)
+                    }
+                }
+                .show(childFragmentManager)
+        }
         binding.recyclerView.adapter = mAdapter.withLoadStateFooter(
             FooterAdapter { mAdapter.retry() }
         )
@@ -32,7 +52,7 @@ class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(), MultipleStateMod
             when (it.refresh) {
                 is LoadState.NotLoading -> preLoadSuccess()
 //                is LoadState.Loading -> preLoading()
-                is LoadState.Error -> preLoadWithFailure {
+                is LoadState.Error -> preLoadError {
                     binding.recyclerView.swapAdapter(mAdapter, true)
                     mAdapter.refresh()
                 }
@@ -48,14 +68,22 @@ class TodosFragment : BaseLoadFragment<FragmentTodosBinding>(), MultipleStateMod
     }
 
     override fun initObserver() {
-
-
+        super.initObserver()
+        mViewModel.delete.observe(this) {
+            if (it.isSuccessOrNull) {
+                doneToast("删除成功")
+                preLoad()
+            } else {
+                errorToast(it.exceptionOrNull()?.message.orEmpty())
+            }
+        }
     }
 
     override fun preLoad() {
-        val viewModel by viewModels<TodosViewModel>()
+        super.preLoad()
+
         lifecycleScope.launch {
-            viewModel.pageTodo(mStatus.orZero()).collect { pagingData ->
+            mViewModel.pageTodo(mStatus.orZero()).collect { pagingData ->
                 mAdapter.submitData(pagingData)
             }
         }

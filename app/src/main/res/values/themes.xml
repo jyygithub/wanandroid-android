@@ -14,7 +14,6 @@
         <item name="toolbarStyle">@style/Theme.Wanandroid.Toolbar</item>
         <item name="android:textViewStyle">@style/Theme.Wanandroid.TextView</item>
         <item name="editTextStyle">@style/Widget.Theme.Wanandroid.EditText</item>
-        <item name="multipleStateLayoutStyle">@style/Theme.Wanandroid.MutleState</item>
     </style>
 
     <style name="Theme.Wanandroid.Launcher" parent="Theme.Wanandroid">
@@ -44,10 +43,4 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="Theme.Wanandroid.MutleState">
-        <item name="networkImage">@drawable/ic_state_network</item>
-        <item name="emptyImage">@drawable/ic_state_empty</item>
-        <item name="failureImage">@drawable/ic_state_failure</item>
-        <item name="retryText">点击重试</item>
-    </style>
 </resources>

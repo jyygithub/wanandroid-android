@@ -6,9 +6,8 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import com.jiangyy.core.hideSoftInput
-import com.jiangyy.viewbinding.adapter.FooterAdapter
-import com.jiangyy.viewbinding.base.BaseLoadActivity
+import com.jiangyy.common.view.BaseLoadActivity
+import com.jiangyy.common.adapter.FooterAdapter
 import com.jiangyy.wanandroid.databinding.ActivitySearchBinding
 import com.jiangyy.wanandroid.ui.adapter.HotKeyAdapter
 import com.jiangyy.wanandroid.ui.adapter.NewArticleAdapter
@@ -17,18 +16,18 @@ import com.jiangyy.wanandroid.ui.article.ArticleActivity
 import com.jiangyy.wanandroid.utils.DataStoreUtils
 import kotlinx.coroutines.launch
 
-class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(), View.OnFocusChangeListener {
+class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(ActivitySearchBinding::inflate), View.OnFocusChangeListener {
+
+    override val viewBindStatus: View
+        get() = binding.contentArticles.recyclerView
 
     private val mAdapter = NewArticleAdapter()
 
     private val mHotKeyAdapter = HotKeyAdapter()
     private val mSearchHistoryAdapter = SearchHistoryAdapter()
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
+        super.initWidget()
         binding.contentArticles.recyclerView.adapter = mAdapter.withLoadStateFooter(
             FooterAdapter { mAdapter.retry() }
         )
@@ -37,7 +36,7 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(), View.OnFocusCh
             when (it.refresh) {
                 is LoadState.NotLoading -> preLoadSuccess()
 //                is LoadState.Loading -> preLoading()
-                is LoadState.Error -> preLoadWithFailure {
+                is LoadState.Error -> preLoadError {
                     binding.contentArticles.recyclerView.swapAdapter(mAdapter, true)
                     mAdapter.refresh()
                 }
@@ -49,7 +48,7 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(), View.OnFocusCh
             mKey = if (binding.etSearch.text.isNullOrBlank()) null else binding.etSearch.text.toString().trim()
             search()
         }
-        mAdapter.setOnItemClickListener { position ->
+        mAdapter.itemClick { position ->
             ArticleActivity.actionStart(this, mAdapter.peek(position))
         }
         binding.contentArticles.refreshLayout.setOnRefreshListener {
@@ -59,32 +58,34 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(), View.OnFocusCh
         binding.etSearch.onFocusChangeListener = this
         binding.contentSearch.recyclerViewHot.adapter = mHotKeyAdapter
         binding.contentSearch.recyclerViewHistory.adapter = mSearchHistoryAdapter
-        mHotKeyAdapter.setOnItemClickListener { position ->
-            mKey = mHotKeyAdapter.currentList[position].name
+        mHotKeyAdapter.itemClick { position ->
+            mKey = mHotKeyAdapter.getItem(position).name
             search()
         }
-        mSearchHistoryAdapter.setOnItemClickListener { position ->
-            mKey = mSearchHistoryAdapter.currentList[position]
+        mSearchHistoryAdapter.itemClick { position ->
+            mKey = mSearchHistoryAdapter.getItem(position)
             search()
         }
-        mViewModel.hotKey.observe(this) {
-            mHotKeyAdapter.submitList(it.getOrNull())
-        }
+
     }
 
     private val mViewModel by viewModels<SearchViewModel>()
 
     override fun initObserver() {
-
+        super.initObserver()
+        mViewModel.hotKey.observe(this) {
+            mHotKeyAdapter.submitList = it.getOrNull()
+        }
     }
 
     override fun preLoad() {
+//        super.preLoad()
         mViewModel.hotKey()
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
         if (hasFocus) {
-            mSearchHistoryAdapter.submitList(DataStoreUtils.getSearchHistory())
+            mSearchHistoryAdapter.submitList = DataStoreUtils.getSearchHistory()
             binding.contentSearch.rootView.visibility = View.VISIBLE
         } else {
             binding.contentSearch.rootView.visibility = View.GONE
@@ -94,7 +95,6 @@ class SearchActivity : BaseLoadActivity<ActivitySearchBinding>(), View.OnFocusCh
     private var mKey: String? = null
 
     private fun search() {
-        hideSoftInput()
         binding.etSearch.clearFocus()
         if (mKey.isNullOrBlank()) return
         DataStoreUtils.search(mKey.orEmpty())

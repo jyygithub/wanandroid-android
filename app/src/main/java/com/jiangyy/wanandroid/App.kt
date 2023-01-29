@@ -1,11 +1,17 @@
 package com.jiangyy.wanandroid
 
-import com.jiangyy.core.CoreApp
+import android.app.Application
+import android.content.ContextWrapper
 
-class App : CoreApp() {
+private lateinit var INSTANCE: Application
+
+object AppContext : ContextWrapper(INSTANCE)
+
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        INSTANCE = this
     }
 
 }

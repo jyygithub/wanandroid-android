@@ -1,14 +1,12 @@
 package com.jiangyy.wanandroid.ui
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.jiangyy.wanandroid.R
+import com.jiangyy.common.view.BaseActivity
+import com.jiangyy.wanandroid.databinding.ActivityLauncherBinding
 
-class LauncherActivity : AppCompatActivity() {
+class LauncherActivity : BaseActivity<ActivityLauncherBinding>(ActivityLauncherBinding::inflate) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_launcher)
+    override fun initWidget() {
+        super.initWidget()
         MainActivity.actionStart(this)
         finish()
     }

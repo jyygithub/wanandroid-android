@@ -8,9 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.jiangyy.wanandroid.data.PagesSource
 import com.jiangyy.wanandroid.entity.Article
-import com.jiangyy.wanandroid.logic.API_SERVICE
-import com.jiangyy.wanandroid.logic.Bean
-import com.jiangyy.wanandroid.logic.PageData
+import com.jiangyy.wanandroid.logic.*
 import kotlinx.coroutines.flow.Flow
 
 class ArticlesViewModel : ViewModel() {
@@ -117,6 +115,17 @@ class ArticlesViewModel : ViewModel() {
                 }
             }
         ).flow.cachedIn(viewModelScope)
+    }
+
+    private val _uncoolect = ResultMutableLiveData<Any>()
+
+    val uncollect get() = _uncoolect
+
+    fun uncollect(id: String) {
+        flowRequest {
+            request { API_SERVICE.uncollect(id) }
+            response { _uncoolect.value = it }
+        }
     }
 
 }

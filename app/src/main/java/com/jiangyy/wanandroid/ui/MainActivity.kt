@@ -8,9 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.jiangyy.core.toast
-import com.jiangyy.core.warnToast
-import com.jiangyy.viewbinding.base.BaseActivity
+import com.jiangyy.common.utils.warnToast
+import com.jiangyy.common.view.BaseActivity
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
 import com.jiangyy.wanandroid.ui.main.HomeArticlesFragment
@@ -20,9 +19,7 @@ import com.jiangyy.wanandroid.ui.main.SearchActivity
 import com.jiangyy.wanandroid.utils.SharesFactory
 import kotlin.system.exitProcess
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
-
-    private var mPressedTime: Long = 0
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     private val mPnPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -34,14 +31,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initValue() {
-
+        super.initValue()
         SharesFactory.registerWXAndQQ(this)
+        var pressedTime: Long = 0
         onBackPressedDispatcher.addCallback(this) {
             val nowTime = System.currentTimeMillis()
             when {
-                (nowTime - mPressedTime) > 2000 -> {
+                (nowTime - pressedTime) > 2000 -> {
                     warnToast("再按一次退出程序")
-                    mPressedTime = nowTime
+                    pressedTime = nowTime
                 }
 
                 else -> {
@@ -53,6 +51,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initWidget() {
+        super.initWidget()
         binding.toolbar.setOnEndListener {
             SearchActivity.actionStart(this)
         }

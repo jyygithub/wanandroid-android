@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dialog_ripple_color">#ccc</color>
+    <color name="dialog_bg_color">#F8F8F8</color>
+    <color name="dialog_text_color">@android:color/black</color>
+    <color name="dialog_sub_text_color">#888888</color>
+    <color name="dialog_divider_color">#F8F8F8</color>
+    <color name="dialog_item_color">@android:color/white</color>
+</resources>

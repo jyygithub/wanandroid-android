@@ -3,7 +3,7 @@ package com.jiangyy.wanandroid.logic
 import com.franmontiel.persistentcookiejar.PersistentCookieJar
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
-import com.jiangyy.core.AppContext
+import com.jiangyy.wanandroid.AppContext
 import com.jiangyy.wanandroid.utils.Firewood
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

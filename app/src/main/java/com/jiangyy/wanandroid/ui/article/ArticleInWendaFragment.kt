@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 class ArticleInWendaFragment private constructor() : BaseArticlesFragment() {
 
     override fun initObserver() {
+        super.initObserver()
         val viewModel by viewModels<ArticlesViewModel>()
         lifecycleScope.launch {
             viewModel.listWenda().collect { pagingData ->

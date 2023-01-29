@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import com.jiangyy.core.AppContext
+import com.jiangyy.wanandroid.AppContext
 import com.jiangyy.wanandroid.entity.Article
 import com.tencent.connect.common.Constants
 import com.tencent.connect.share.QQShare

@@ -8,9 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.jiangyy.wanandroid.data.PagesSource
 import com.jiangyy.wanandroid.entity.Todo
-import com.jiangyy.wanandroid.logic.API_SERVICE
-import com.jiangyy.wanandroid.logic.Bean
-import com.jiangyy.wanandroid.logic.PageData
+import com.jiangyy.wanandroid.logic.*
 import kotlinx.coroutines.flow.Flow
 
 class TodosViewModel : ViewModel() {
@@ -26,6 +24,24 @@ class TodosViewModel : ViewModel() {
                 }
             }
         ).flow.cachedIn(viewModelScope)
+    }
+
+    private val _delete = ResultMutableLiveData<Any>()
+
+    val delete get() = _delete
+
+    fun deleteTodo(id: Int) {
+        flowRequest {
+            request { API_SERVICE.deleteTodo(id) }
+            response { _delete.value = it }
+        }
+    }
+
+    fun doneTodo(id: Int, status: Int) {
+        flowRequest {
+            request { API_SERVICE.doneTodo(id, status) }
+            response { _delete.value = it }
+        }
     }
 
 }

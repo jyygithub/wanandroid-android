@@ -16,3 +16,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "wanandroid"
 include ':app'
+include ':common'
+include ':widget'
+include ':dialog'

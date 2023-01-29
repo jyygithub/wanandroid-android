@@ -16,6 +16,8 @@ class ResultLiveData<T> : LiveData<Result<T>>()
 class NoLoginException() : Exception("用户未登录")
 class NullDataException() : Exception("数据为空")
 
+public val <T> Result<T>.isSuccessOrNull: Boolean get() = isSuccess || exceptionOrNull() is NullDataException
+
 class FlowAction<T> {
     var request: (suspend () -> Bean<T>)? = null
         private set

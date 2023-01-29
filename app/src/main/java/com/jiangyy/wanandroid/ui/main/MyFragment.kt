@@ -6,9 +6,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.jiangyy.core.orZero
+import com.jiangyy.common.utils.orZero
+import com.jiangyy.common.view.BaseFragment
 import com.jiangyy.dialog.ConfirmDialog
-import com.jiangyy.viewbinding.base.BaseLoadFragment
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.data.RefreshScan
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
@@ -29,21 +29,17 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
+class MyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflate) {
 
     private val mAdapter = MyAdapter()
 
-    override fun preInit() {
-        super.preInit()
+    override fun initValue() {
+        super.initValue()
         EventBus.getDefault().register(this)
     }
 
-    override fun initValue() {
-
-    }
-
     override fun initWidget() {
-
+        super.initWidget()
         binding.toolbar.setOnStartListener {
             UnreadMessageActivity.actionStart(requireActivity())
         }
@@ -70,13 +66,13 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         val layoutManager = GridLayoutManager(requireActivity(), 3)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return mAdapter.currentList[position].row
+                return mAdapter.getItem(position).row
             }
         }
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = mAdapter
 
-        mAdapter.setOnItemClickListener { position ->
+        mAdapter.itemClick { position ->
             when (position) {
                 0 -> CoinHistoryActivity.actionStart(requireActivity())
                 1 -> ArticlesActivity.actionStart(requireActivity(), "collection")
@@ -92,7 +88,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 15 -> AboutActivity.actionStart(requireActivity())
             }
         }
-        mAdapter.submitList(
+        mAdapter.submitList =
             mutableListOf(
                 MyItem(1, 1, "积分", "0"),
                 MyItem(1, 1, "收藏", "0"),
@@ -111,11 +107,11 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
                 MyItem(0, 3),
                 MyItem(2, 3, "关于", "", R.drawable.shape_my_round, R.drawable.ic_settings),
             )
-        )
 
     }
 
     override fun initObserver() {
+        super.initObserver()
         mViewModel.loggerStatus().observe(this) {
             if (it) {
                 binding.toolbar.setEnd(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_logout), null)
@@ -129,15 +125,15 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
         }
         mViewModel.userInfo.observe(this) {
             if (it.getOrNull() == null) return@observe
-            mAdapter.currentList[0].let { item ->
+            mAdapter.getItem(0).let { item ->
                 item.text = "${it.getOrNull()!!.userInfo?.coinCount.orZero()}"
                 mAdapter.setItem(0, item)
             }
-            mAdapter.currentList[1].let { item ->
+            mAdapter.getItem(1).let { item ->
                 item.text = "${it.getOrNull()!!.userInfo?.collectIds?.size.orZero()}"
                 mAdapter.setItem(1, item)
             }
-            mAdapter.currentList[2].let { item ->
+            mAdapter.getItem(2).let { item ->
                 item.text = "${DataStoreUtils.getScanHistory().size}"
                 mAdapter.setItem(2, item)
             }
@@ -154,6 +150,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
     }
 
     override fun preLoad() {
+        super.preLoad()
         mViewModel.loginOrOut(DataStoreUtils.logged)
         mViewModel.infoUser()
         mViewModel.getMessageCount()
@@ -161,7 +158,7 @@ class MyFragment : BaseLoadFragment<FragmentMyBinding>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public fun onScanUpdated(value: RefreshScan) {
-        mAdapter.currentList[2].let { item ->
+        mAdapter.getItem(2).let { item ->
             item.text = "${DataStoreUtils.getScanHistory().size}"
             mAdapter.setItem(2, item)
         }

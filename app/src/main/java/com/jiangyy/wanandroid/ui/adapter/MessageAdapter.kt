@@ -2,44 +2,52 @@ package com.jiangyy.wanandroid.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.viewbinding.ViewBinding
-import com.jiangyy.core.millis2String
-import com.jiangyy.core.orZero
-import com.jiangyy.viewbinding.adapter.BaseVBDiffAdapter
-import com.jiangyy.viewbinding.adapter.BaseVBPagingDataAdapter
+import com.jiangyy.common.adapter.BaseDiffAdapter
+import com.jiangyy.common.adapter.BasePagingDataAdapter
+import com.jiangyy.common.adapter.BaseViewHolder
+import com.jiangyy.common.utils.milli2string
+import com.jiangyy.common.utils.orZero
 import com.jiangyy.wanandroid.databinding.RecyclerItemMessageBinding
 import com.jiangyy.wanandroid.entity.Message
 
-class MessageAdapter : BaseVBPagingDataAdapter<Message>({ it.id }) {
+class MessageAdapter : BasePagingDataAdapter<Message, RecyclerItemMessageBinding>({ it.id }) {
 
-    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
-        return RecyclerItemMessageBinding.inflate(inflater, parent, attachToParent)
+    override fun createViewBinding(
+        viewType: Int,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
+    ): RecyclerItemMessageBinding {
+        return RecyclerItemMessageBinding.inflate(inflater, container, attachToParent)
     }
 
-    override fun convert(_binding: ViewBinding, position: Int) {
-        val binding = _binding as RecyclerItemMessageBinding
-        val item = getItem(position)
+    override fun convert(binding: RecyclerItemMessageBinding, position: Int, item: Message?) {
         binding.tvTag.text = item?.tag.orEmpty()
-        binding.tvTime.text = item?.date.orZero().millis2String("yyyy-MM-dd HH:mm")
+        binding.tvTime.text = item?.date.orZero().milli2string("yyyy-MM-dd HH:mm")
         binding.tvMessage.text = item?.message.orEmpty()
         binding.tvFromUser.text = "${item?.fromUser.orEmpty()} ${item?.title.orEmpty()}"
     }
 
 }
 
-class UnreadMessageAdapter : BaseVBDiffAdapter<Message>({ it.id }) {
+class UnreadMessageAdapter : BaseDiffAdapter<Message, RecyclerItemMessageBinding>({ it.id }) {
 
-    override fun onCreateViewBinding(viewType: Int, inflater: LayoutInflater, parent: ViewGroup, attachToParent: Boolean): ViewBinding {
-        return RecyclerItemMessageBinding.inflate(inflater, parent, attachToParent)
+    override fun createViewBinding(
+        viewType: Int,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        attachToParent: Boolean
+    ): RecyclerItemMessageBinding {
+        return RecyclerItemMessageBinding.inflate(inflater, container, attachToParent)
     }
 
-    override fun convert(_binding: ViewBinding, position: Int) {
-        val binding = _binding as RecyclerItemMessageBinding
-        val item = getItem(position)
-        binding.tvTag.text = item?.tag.orEmpty()
-        binding.tvTime.text = item?.date.orZero().millis2String("yyyy-MM-dd HH:mm")
-        binding.tvMessage.text = item?.message.orEmpty()
-        binding.tvFromUser.text = "${item?.fromUser.orEmpty()} ${item?.title.orEmpty()}"
+    override fun convert(binding: RecyclerItemMessageBinding, position: Int, item: Message) {
+        binding.tvTag.text = item.tag.orEmpty()
+        binding.tvTime.text = item.date.orZero().milli2string("yyyy-MM-dd HH:mm")
+        binding.tvMessage.text = item.message.orEmpty()
+        binding.tvFromUser.text = "${item.fromUser.orEmpty()} ${item?.title.orEmpty()}"
     }
 
 }

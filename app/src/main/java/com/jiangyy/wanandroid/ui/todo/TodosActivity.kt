@@ -5,17 +5,14 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.jiangyy.core.click
-import com.jiangyy.viewbinding.base.BaseLoadActivity
+import com.jiangyy.common.utils.click
+import com.jiangyy.common.view.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityTodosBinding
 
-class TodosActivity : BaseLoadActivity<ActivityTodosBinding>() {
-
-    override fun initValue() {
-
-    }
+class TodosActivity : BaseActivity<ActivityTodosBinding>(ActivityTodosBinding::inflate) {
 
     override fun initWidget() {
+        super.initWidget()
         binding.button.click {
             AddTodoActivity.actionStart(this)
         }
@@ -30,11 +27,6 @@ class TodosActivity : BaseLoadActivity<ActivityTodosBinding>() {
             }
         }
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position -> tab.text = titles[position] }.attach()
-
-    }
-
-    override fun preLoad() {
-
     }
 
     companion object {

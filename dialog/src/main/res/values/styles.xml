@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Base.Theme.Jiang.Dialog" parent="@style/Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:textViewStyle">@style/Theme.Jiang.Dialog.TextView</item>
+        <item name="android:buttonStyle">@style/Theme.Jiang.Dialog.Button</item>
+    </style>
+
+    <style name="Theme.Jiang.Dialog" parent="Base.Theme.Jiang.Dialog">
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="Theme.Jiang.Dialog.Bottom" parent="Theme.Jiang.Dialog">
+        <item name="android:windowAnimationStyle">@style/Animation.Jiang.Dialog</item>
+    </style>
+
+    <style name="Animation.Jiang.Dialog" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/show_up</item>
+        <item name="android:windowExitAnimation">@anim/dismiss_down</item>
+    </style>
+
+    <style name="Animation.Jiang.Dialog.Bottom" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/show_up</item>
+        <item name="android:windowExitAnimation">@anim/dismiss_down</item>
+    </style>
+
+    <style name="Theme.Jiang.Dialog.TextView" parent="@style/Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/dialog_text_color</item>
+    </style>
+
+    <style name="Theme.Jiang.Dialog.Button" parent="Theme.Jiang.Dialog.TextView">
+        <item name="android:textColor">@color/dialog_text_color</item>
+        <item name="android:background">@drawable/dialog_selector_button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:padding">14dp</item>
+    </style>
+
+
+</resources>
