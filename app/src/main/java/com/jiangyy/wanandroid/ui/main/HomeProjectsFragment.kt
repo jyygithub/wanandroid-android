@@ -1,8 +1,8 @@
-package com.jiangyy.wanandroid.ui.user
+package com.jiangyy.wanandroid.ui.main
 
 import android.os.Bundle
 import android.view.View
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.chad.library.adapter.base.QuickAdapterHelper
 import com.chad.library.adapter.base.loadState.LoadState
 import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
@@ -17,10 +17,10 @@ import com.jiangyy.wanandroid.databinding.FragmentArticlesBinding
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.ui.article.ArticleActivity
 
-class ShareHistoryFragment private constructor() : BaseFragment<FragmentArticlesBinding>(FragmentArticlesBinding::inflate),
-    TrailingLoadStateAdapter.OnTrailingListener, SwipeRefreshLayout.OnRefreshListener, StatusModule {
+class HomeProjectsFragment : BaseFragment<FragmentArticlesBinding>(FragmentArticlesBinding::inflate),
+    TrailingLoadStateAdapter.OnTrailingListener, OnRefreshListener, StatusModule {
 
-    private var mPage = 1
+    private var mPage = 0
     private val mAdapter = ArticleAdapter()
     private lateinit var mHelper: QuickAdapterHelper
 
@@ -43,10 +43,10 @@ class ShareHistoryFragment private constructor() : BaseFragment<FragmentArticles
     private fun pageHomeArticle() {
         flowRequest<ApiResponse.Paging<Article>> {
             request {
-                if (mPage == 1) {
+                if (mPage == 0) {
                     startLoading()
                 }
-                RetrofitHelper.getInstance().create(Api::class.java).listShareHistory(mPage)
+                RetrofitHelper.getInstance().create(Api::class.java).pageHomeProject(mPage)
             }
             response {
                 if (it.isSuccess) {
@@ -67,7 +67,7 @@ class ShareHistoryFragment private constructor() : BaseFragment<FragmentArticles
     }
 
     override fun onRefresh() {
-        mPage = 1
+        mPage = 0
         pageHomeArticle()
     }
 
@@ -84,8 +84,6 @@ class ShareHistoryFragment private constructor() : BaseFragment<FragmentArticles
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance() = ShareHistoryFragment()
+        fun newInstance() = HomeProjectsFragment()
     }
-
 }

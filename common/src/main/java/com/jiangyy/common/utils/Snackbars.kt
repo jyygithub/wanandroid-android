@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.jiangyy.common.R
-import com.jiangyy.common.view.BaseActivity
+import com.jiangyy.app.BaseActivity
 import com.jiangyy.common.view.BaseFragment
 
 private fun BaseActivity<out ViewBinding>.createSnackbar(text: CharSequence): Snackbar {

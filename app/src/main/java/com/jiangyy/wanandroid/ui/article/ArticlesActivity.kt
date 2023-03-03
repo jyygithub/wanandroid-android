@@ -2,79 +2,44 @@ package com.jiangyy.wanandroid.ui.article
 
 import android.content.Context
 import android.content.Intent
-import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import com.jiangyy.common.view.BaseActivity
-import com.jiangyy.dialog.ConfirmDialog
+import android.os.Bundle
+import com.jiangyy.app.BaseActivity
+import com.jiangyy.app.core.intentParcelable
+import com.jiangyy.app.core.intentString
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.ui.user.CollectionHistoryFragment
-import com.jiangyy.wanandroid.ui.user.ScanHistoryFragment
-import com.jiangyy.wanandroid.ui.user.ShareActivity
 import com.jiangyy.wanandroid.ui.user.ShareHistoryFragment
-import com.jiangyy.wanandroid.utils.DataStoreUtils
-import com.jiangyy.wanandroid.utils.parcelableIntent
-import com.jiangyy.wanandroid.utils.stringIntent
 
 class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesBinding::inflate) {
 
-    private val mTree by parcelableIntent<Tree>("tree")
-    private val mType by stringIntent("type")
-    private val mArticlesViewModel by viewModels<ArticlesViewModel>()
+    private val mTree by intentParcelable<Tree>("tree")
+    private val mType by intentString("type")
 
-    override fun initWidget() {
-        super.initWidget()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding.toolbar.setTitle(mTree?.name.orEmpty())
         when (mType) {
-            "tree" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInTreeFragment.newInstance())
-                .commit()
-
-            "wenda" -> {
-                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWendaFragment.newInstance()).commit()
-                binding.toolbar.setTitle("每日一问")
-            }
-
+            "tree" -> supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInTreeFragment.newInstance()).commit()
             "square" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSquareFragment.newInstance()).commit()
                 binding.toolbar.setTitle("广场")
             }
-
-            "sub" -> {
-                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSubFragment.newInstance()).commit()
+            "wenda" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInWendaFragment.newInstance()).commit()
+                binding.toolbar.setTitle("每日一问")
             }
-
+            "collection" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, CollectionHistoryFragment.newInstance()).commit()
+                binding.toolbar.setTitle("我的收藏")
+            }
             "share" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ShareHistoryFragment.newInstance()).commit()
                 binding.toolbar.setTitle("我的分享")
-                binding.toolbar.setEnd(ContextCompat.getDrawable(this, R.drawable.ic_share), null)
-                binding.toolbar.setOnEndListener {
-                    ShareActivity.actionStart(this)
-                }
             }
-
-            "collection" -> {
-                supportFragmentManager.beginTransaction().add(R.id.frameLayout, CollectionHistoryFragment.newInstance())
-                    .commit()
-                binding.toolbar.setTitle("我的收藏")
-            }
-
-            "scan" -> {
-                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ScanHistoryFragment.newInstance()).commit()
-                binding.toolbar.setTitle("我的浏览")
-                binding.toolbar.setEnd(ContextCompat.getDrawable(this, R.drawable.ic_clear), null)
-                binding.toolbar.setOnEndListener {
-                    ConfirmDialog()
-                        .bindConfig {
-                            title = "提示"
-                            content = "确认清空浏览记录"
-                        }
-                        .confirm {
-                            DataStoreUtils.clearScan()
-                            mArticlesViewModel.clearScan()
-                        }
-                        .show(supportFragmentManager)
-                }
+            "sub" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSubFragment.newInstance()).commit()
             }
         }
     }

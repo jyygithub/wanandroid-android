@@ -2,62 +2,91 @@ package com.jiangyy.wanandroid.ui.user
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.LoadState
-import com.jiangyy.common.view.BaseLoadActivity
-import com.jiangyy.common.adapter.FooterAdapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.chad.library.adapter.base.QuickAdapterHelper
+import com.chad.library.adapter.base.loadState.LoadState
+import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
+import com.jiangyy.app.BaseActivity
+import com.jiangyy.app.module.StatusModule
+import com.jiangyy.wanandroid.R
+import com.jiangyy.wanandroid.adapter.RankingAdapter
+import com.jiangyy.wanandroid.data.Api
+import com.jiangyy.wanandroid.data.ApiResponse
+import com.jiangyy.wanandroid.data.RetrofitHelper
+import com.jiangyy.wanandroid.data.flowRequest
 import com.jiangyy.wanandroid.databinding.ActivityRankingBinding
-import com.jiangyy.wanandroid.ui.adapter.RankingAdapter
-import kotlinx.coroutines.launch
+import com.jiangyy.wanandroid.entity.Coin
 
-class RankingActivity : BaseLoadActivity<ActivityRankingBinding>(ActivityRankingBinding::inflate) {
+class RankingActivity : BaseActivity<ActivityRankingBinding>(ActivityRankingBinding::inflate),
+    TrailingLoadStateAdapter.OnTrailingListener, SwipeRefreshLayout.OnRefreshListener, StatusModule {
 
-    override val viewBindStatus: View get() = binding.refreshLayout
-
+    private var mPage = 1
     private val mAdapter = RankingAdapter()
+    private lateinit var mHelper: QuickAdapterHelper
 
-    override fun initWidget() {
-        super.initWidget()
-        binding.recyclerView.adapter = mAdapter.withLoadStateFooter(
-            FooterAdapter { mAdapter.retry() }
-        )
-        mAdapter.addLoadStateListener {
-            binding.refreshLayout.isRefreshing = false
-            when (it.refresh) {
-                is LoadState.NotLoading -> preLoadSuccess()
-//                is LoadState.Loading -> preLoading()
-                is LoadState.Error -> preLoadError {
-                    binding.recyclerView.swapAdapter(mAdapter, true)
-                    mAdapter.refresh()
+    override fun viewBindStatus(): View {
+        return binding.refreshLayout
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mHelper = QuickAdapterHelper.Builder(mAdapter).setTrailingLoadStateAdapter(this).build()
+        binding.recyclerView.adapter = mHelper.adapter
+        binding.refreshLayout.setOnRefreshListener(this)
+        onRefresh()
+    }
+
+    private fun pageHomeArticle() {
+        flowRequest<ApiResponse.Paging<Coin>> {
+            request {
+                if (mPage == 1) {
+                    startLoading()
                 }
-
-                else -> Unit
+                RetrofitHelper.getInstance().create(Api::class.java).ranking(mPage)
             }
-        }
-
-        binding.refreshLayout.setOnRefreshListener {
-            binding.recyclerView.swapAdapter(mAdapter, true)
-            mAdapter.refresh()
+            response {
+                if (it.isSuccess) {
+                    if (it.getOrNull()?.curPage == 1) {
+                        finishLoading()
+                        binding.refreshLayout.isRefreshing = false
+                        mAdapter.submitList(it.getOrNull()?.datas)
+                    } else {
+                        mAdapter.addAll(it.getOrNull()?.datas!!)
+                    }
+                    mHelper.trailingLoadState = LoadState.NotLoading(it.getOrNull()?.curPage == it.getOrNull()?.pageCount)
+                    ++mPage
+                } else {
+                    if (mPage == 1) {
+                        finishLoadingWithStatus(it.exceptionOrNull()?.message.orEmpty(), R.drawable.ic_state_failure)
+                    }
+                    mHelper.trailingLoadState = LoadState.Error(it.exceptionOrNull()!!)
+                }
+            }
         }
     }
 
-    override fun preLoad() {
-        super.preLoad()
-        val viewModel by viewModels<RankingViewModel>()
-        lifecycleScope.launch {
-            viewModel.ranking().collect { pagingData ->
-                mAdapter.submitData(pagingData)
-            }
-        }
+    override fun onRefresh() {
+        mPage = 1
+        pageHomeArticle()
+    }
+
+    override fun onFailRetry() {
+        pageHomeArticle()
+    }
+
+    override fun onLoad() {
+        pageHomeArticle()
+    }
+
+    override fun isAllowLoading(): Boolean {
+        return !binding.refreshLayout.isRefreshing
     }
 
     companion object {
         fun actionStart(context: Context) {
-            Intent(context, RankingActivity::class.java).apply {
-                context.startActivity(this)
-            }
+            context.startActivity(Intent(context, RankingActivity::class.java))
         }
     }
 

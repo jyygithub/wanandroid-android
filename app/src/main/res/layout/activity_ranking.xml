@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.user.RankingActivity">
 
-    <com.jiangyy.widget.Toolbar
+    <com.jiangyy.app.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

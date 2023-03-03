@@ -1,12 +1,13 @@
 package com.jiangyy.wanandroid.ui
 
-import com.jiangyy.common.view.BaseActivity
+import android.os.Bundle
+import com.jiangyy.app.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityLauncherBinding
 
 class LauncherActivity : BaseActivity<ActivityLauncherBinding>(ActivityLauncherBinding::inflate) {
 
-    override fun initWidget() {
-        super.initWidget()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         MainActivity.actionStart(this)
         finish()
     }

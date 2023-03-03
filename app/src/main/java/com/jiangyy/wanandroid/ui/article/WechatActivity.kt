@@ -2,33 +2,30 @@ package com.jiangyy.wanandroid.ui.article
 
 import android.content.Context
 import android.content.Intent
-import android.view.View
-import androidx.activity.viewModels
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
-import com.jiangyy.common.view.BaseLoadActivity
+import com.jiangyy.app.BaseActivity
+import com.jiangyy.wanandroid.data.Api
+import com.jiangyy.wanandroid.data.RetrofitHelper
+import com.jiangyy.wanandroid.data.flowRequest
 import com.jiangyy.wanandroid.databinding.ActivityWechatBinding
 import com.jiangyy.wanandroid.entity.Tree
 
-class WechatActivity : BaseLoadActivity<ActivityWechatBinding>(ActivityWechatBinding::inflate) {
+class WechatActivity : BaseActivity<ActivityWechatBinding>(ActivityWechatBinding::inflate) {
 
-    override val viewBindStatus: View get() = binding.viewPager
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    private val mViewModel by viewModels<WechatViewModel>()
-
-    override fun initObserver() {
-        super.initObserver()
-        mViewModel.wechatResult.observe(this) {
-            if (it.isSuccess) {
-                preLoadSuccess()
+        flowRequest<MutableList<Tree>> {
+            request { RetrofitHelper.getInstance().create(Api::class.java).listWechat() }
+            response {
                 it.getOrNull()?.forEach { _ ->
                     binding.tabLayout.addTab(binding.tabLayout.newTab())
                 }
                 initViewPager(it.getOrNull())
-            } else {
-                preLoadError()
             }
         }
     }
@@ -51,11 +48,6 @@ class WechatActivity : BaseLoadActivity<ActivityWechatBinding>(ActivityWechatBin
             }
         }
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position -> tab.text = data[position].name.orEmpty() }.attach()
-    }
-
-    override fun preLoad() {
-        super.preLoad()
-        mViewModel.listWechat()
     }
 
     companion object {

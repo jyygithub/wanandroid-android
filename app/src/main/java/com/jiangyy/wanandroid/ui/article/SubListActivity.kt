@@ -2,48 +2,37 @@ package com.jiangyy.wanandroid.ui.article
 
 import android.content.Context
 import android.content.Intent
-import android.view.View
-import androidx.activity.viewModels
+import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.jiangyy.common.view.BaseLoadActivity
+import com.jiangyy.app.BaseActivity
+import com.jiangyy.wanandroid.adapter.SubAdapter
+import com.jiangyy.wanandroid.data.Api
+import com.jiangyy.wanandroid.data.RetrofitHelper
+import com.jiangyy.wanandroid.data.flowRequest
 import com.jiangyy.wanandroid.databinding.ContentPageListBinding
-import com.jiangyy.wanandroid.ui.adapter.SubAdapter
+import com.jiangyy.wanandroid.entity.Tree
 
-class SubListActivity : BaseLoadActivity<ContentPageListBinding>(ContentPageListBinding::inflate) {
-
-    override val viewBindStatus: View get() = binding.refreshLayout
+class SubListActivity : BaseActivity<ContentPageListBinding>(ContentPageListBinding::inflate) {
 
     private val mAdapter = SubAdapter()
 
-    private val mViewModel by viewModels<SubListViewModel>()
-
-    override fun initWidget() {
-        super.initWidget()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding.toolbar.setTitle("教程")
         binding.recyclerView.layoutManager = GridLayoutManager(this, 3)
         binding.recyclerView.adapter = mAdapter
-        mAdapter.itemClick { position ->
+        mAdapter.setOnItemClickListener { _, _, position ->
             mAdapter.getItem(position).let {
                 ArticlesActivity.actionStart(this, "sub", it)
             }
         }
-        binding.refreshLayout.setOnRefreshListener {
-            preLoad()
-        }
-        mViewModel.sublist.observe(this) {
-            if (it.isSuccess) {
-                preLoadSuccess()
-                binding.refreshLayout.isRefreshing = false
-                mAdapter.submitList = it.getOrNull()
-            } else {
-                preLoadError()
+
+        flowRequest<MutableList<Tree>> {
+            request { RetrofitHelper.getInstance().create(Api::class.java).listSub() }
+            response {
+                mAdapter.submitList(it.getOrNull())
             }
         }
-    }
-
-    override fun preLoad() {
-        super.preLoad()
-        mViewModel.listSub()
     }
 
     companion object {
