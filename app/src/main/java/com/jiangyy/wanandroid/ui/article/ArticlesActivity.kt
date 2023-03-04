@@ -9,8 +9,6 @@ import com.jiangyy.app.core.intentString
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.ui.user.CollectionHistoryFragment
-import com.jiangyy.wanandroid.ui.user.ShareHistoryFragment
 
 class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesBinding::inflate) {
 
@@ -31,11 +29,11 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesB
                 binding.toolbar.setTitle("每日一问")
             }
             "collection" -> {
-                supportFragmentManager.beginTransaction().add(R.id.frameLayout, CollectionHistoryFragment.newInstance()).commit()
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInCollectionFragment.newInstance()).commit()
                 binding.toolbar.setTitle("我的收藏")
             }
             "share" -> {
-                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ShareHistoryFragment.newInstance()).commit()
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInShareFragment.newInstance()).commit()
                 binding.toolbar.setTitle("我的分享")
             }
             "sub" -> {

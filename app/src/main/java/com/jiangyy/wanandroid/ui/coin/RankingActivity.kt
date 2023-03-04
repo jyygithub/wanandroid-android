@@ -1,4 +1,4 @@
-package com.jiangyy.wanandroid.ui.user
+package com.jiangyy.wanandroid.ui.coin
 
 import android.content.Context
 import android.content.Intent
@@ -11,20 +11,19 @@ import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
 import com.jiangyy.app.BaseActivity
 import com.jiangyy.app.module.StatusModule
 import com.jiangyy.wanandroid.R
-import com.jiangyy.wanandroid.adapter.CoinHistoryAdapter
+import com.jiangyy.wanandroid.adapter.RankingAdapter
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.ApiResponse
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
-import com.jiangyy.wanandroid.databinding.ActivityCoinHistoryBinding
-import com.jiangyy.wanandroid.entity.CoinHistory
+import com.jiangyy.wanandroid.databinding.ActivityRankingBinding
+import com.jiangyy.wanandroid.entity.Coin
 
-class CoinHistoryActivity : BaseActivity<ActivityCoinHistoryBinding>(ActivityCoinHistoryBinding::inflate),
+class RankingActivity : BaseActivity<ActivityRankingBinding>(ActivityRankingBinding::inflate),
     TrailingLoadStateAdapter.OnTrailingListener, SwipeRefreshLayout.OnRefreshListener, StatusModule {
 
-
     private var mPage = 1
-    private val mAdapter = CoinHistoryAdapter()
+    private val mAdapter = RankingAdapter()
     private lateinit var mHelper: QuickAdapterHelper
 
     override fun viewBindStatus(): View {
@@ -40,12 +39,12 @@ class CoinHistoryActivity : BaseActivity<ActivityCoinHistoryBinding>(ActivityCoi
     }
 
     private fun pageHomeArticle() {
-        flowRequest<ApiResponse.Paging<CoinHistory>> {
+        flowRequest<ApiResponse.Paging<Coin>> {
             request {
                 if (mPage == 1) {
                     startLoading()
                 }
-                RetrofitHelper.getInstance().create(Api::class.java).pageCoinHistory(mPage)
+                RetrofitHelper.getInstance().create(Api::class.java).ranking(mPage)
             }
             response {
                 if (it.isSuccess) {
@@ -87,9 +86,7 @@ class CoinHistoryActivity : BaseActivity<ActivityCoinHistoryBinding>(ActivityCoi
 
     companion object {
         fun actionStart(context: Context) {
-            Intent(context, CoinHistoryActivity::class.java).apply {
-                context.startActivity(this)
-            }
+            context.startActivity(Intent(context, RankingActivity::class.java))
         }
     }
 

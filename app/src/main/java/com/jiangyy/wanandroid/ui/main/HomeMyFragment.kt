@@ -21,9 +21,9 @@ import com.jiangyy.wanandroid.ui.article.ArticlesActivity
 import com.jiangyy.wanandroid.ui.article.SubListActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
-import com.jiangyy.wanandroid.ui.user.CoinHistoryActivity
+import com.jiangyy.wanandroid.ui.coin.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
-import com.jiangyy.wanandroid.ui.user.RankingActivity
+import com.jiangyy.wanandroid.ui.coin.RankingActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

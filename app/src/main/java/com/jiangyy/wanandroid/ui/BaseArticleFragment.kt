@@ -1,50 +1,56 @@
-package com.jiangyy.wanandroid.ui.user
+package com.jiangyy.wanandroid.ui
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.QuickAdapterHelper
 import com.chad.library.adapter.base.loadState.LoadState
 import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
-import com.jiangyy.app.BaseActivity
+import com.jiangyy.app.BaseFragment
 import com.jiangyy.app.module.StatusModule
-import com.jiangyy.wanandroid.R
-import com.jiangyy.wanandroid.adapter.RankingAdapter
-import com.jiangyy.wanandroid.data.Api
+import com.jiangyy.wanandroid.adapter.ArticleAdapter
 import com.jiangyy.wanandroid.data.ApiResponse
-import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
-import com.jiangyy.wanandroid.databinding.ActivityRankingBinding
-import com.jiangyy.wanandroid.entity.Coin
+import com.jiangyy.wanandroid.databinding.FragmentArticlesBinding
+import com.jiangyy.wanandroid.entity.Article
+import com.jiangyy.wanandroid.ui.article.ArticleActivity
 
-class RankingActivity : BaseActivity<ActivityRankingBinding>(ActivityRankingBinding::inflate),
+/**
+ * 通用文章列表
+ */
+abstract class BaseArticleFragment : BaseFragment<FragmentArticlesBinding>(FragmentArticlesBinding::inflate),
     TrailingLoadStateAdapter.OnTrailingListener, SwipeRefreshLayout.OnRefreshListener, StatusModule {
 
-    private var mPage = 1
-    private val mAdapter = RankingAdapter()
+    protected abstract val startPage: Int
+    private var mPage = 0
+    private val mAdapter = ArticleAdapter()
     private lateinit var mHelper: QuickAdapterHelper
 
+    protected abstract suspend fun revoke(page: Int): ApiResponse<ApiResponse.Paging<Article>>
+
     override fun viewBindStatus(): View {
-        return binding.refreshLayout
+        return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         mHelper = QuickAdapterHelper.Builder(mAdapter).setTrailingLoadStateAdapter(this).build()
         binding.recyclerView.adapter = mHelper.adapter
+        mAdapter.setOnItemClickListener { _, _, position ->
+            ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
+        }
         binding.refreshLayout.setOnRefreshListener(this)
         onRefresh()
     }
 
     private fun pageHomeArticle() {
-        flowRequest<ApiResponse.Paging<Coin>> {
+        flowRequest<ApiResponse.Paging<Article>> {
             request {
-                if (mPage == 1) {
+                if (mPage == startPage) {
                     startLoading()
                 }
-                RetrofitHelper.getInstance().create(Api::class.java).ranking(mPage)
+                revoke(mPage)
             }
             response {
                 if (it.isSuccess) {
@@ -58,9 +64,6 @@ class RankingActivity : BaseActivity<ActivityRankingBinding>(ActivityRankingBind
                     mHelper.trailingLoadState = LoadState.NotLoading(it.getOrNull()?.curPage == it.getOrNull()?.pageCount)
                     ++mPage
                 } else {
-                    if (mPage == 1) {
-                        finishLoadingWithStatus(it.exceptionOrNull()?.message.orEmpty(), R.drawable.ic_state_failure)
-                    }
                     mHelper.trailingLoadState = LoadState.Error(it.exceptionOrNull()!!)
                 }
             }
@@ -68,7 +71,7 @@ class RankingActivity : BaseActivity<ActivityRankingBinding>(ActivityRankingBind
     }
 
     override fun onRefresh() {
-        mPage = 1
+        mPage = startPage
         pageHomeArticle()
     }
 
@@ -83,11 +86,4 @@ class RankingActivity : BaseActivity<ActivityRankingBinding>(ActivityRankingBind
     override fun isAllowLoading(): Boolean {
         return !binding.refreshLayout.isRefreshing
     }
-
-    companion object {
-        fun actionStart(context: Context) {
-            context.startActivity(Intent(context, RankingActivity::class.java))
-        }
-    }
-
 }

@@ -1,52 +1,50 @@
-package com.jiangyy.wanandroid.ui.user
+package com.jiangyy.wanandroid.ui.coin
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.QuickAdapterHelper
 import com.chad.library.adapter.base.loadState.LoadState
 import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
-import com.jiangyy.app.BaseFragment
+import com.jiangyy.app.BaseActivity
 import com.jiangyy.app.module.StatusModule
-import com.jiangyy.wanandroid.adapter.ArticleAdapter
+import com.jiangyy.wanandroid.R
+import com.jiangyy.wanandroid.adapter.CoinHistoryAdapter
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.ApiResponse
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
-import com.jiangyy.wanandroid.databinding.FragmentArticlesBinding
-import com.jiangyy.wanandroid.entity.Article
-import com.jiangyy.wanandroid.ui.article.ArticleActivity
+import com.jiangyy.wanandroid.databinding.ActivityCoinHistoryBinding
+import com.jiangyy.wanandroid.entity.CoinHistory
 
-class ShareHistoryFragment private constructor() : BaseFragment<FragmentArticlesBinding>(FragmentArticlesBinding::inflate),
+class CoinHistoryActivity : BaseActivity<ActivityCoinHistoryBinding>(ActivityCoinHistoryBinding::inflate),
     TrailingLoadStateAdapter.OnTrailingListener, SwipeRefreshLayout.OnRefreshListener, StatusModule {
 
     private var mPage = 1
-    private val mAdapter = ArticleAdapter()
+    private val mAdapter = CoinHistoryAdapter()
     private lateinit var mHelper: QuickAdapterHelper
 
     override fun viewBindStatus(): View {
-        return binding.root
+        return binding.refreshLayout
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         mHelper = QuickAdapterHelper.Builder(mAdapter).setTrailingLoadStateAdapter(this).build()
         binding.recyclerView.adapter = mHelper.adapter
-        mAdapter.setOnItemClickListener { _, _, position ->
-            ArticleActivity.actionStart(requireActivity(), mAdapter.getItem(position))
-        }
         binding.refreshLayout.setOnRefreshListener(this)
         onRefresh()
     }
 
     private fun pageHomeArticle() {
-        flowRequest<ApiResponse.Paging<Article>> {
+        flowRequest<ApiResponse.Paging<CoinHistory>> {
             request {
                 if (mPage == 1) {
                     startLoading()
                 }
-                RetrofitHelper.getInstance().create(Api::class.java).listShareHistory(mPage)
+                RetrofitHelper.getInstance().create(Api::class.java).pageCoinHistory(mPage)
             }
             response {
                 if (it.isSuccess) {
@@ -60,6 +58,9 @@ class ShareHistoryFragment private constructor() : BaseFragment<FragmentArticles
                     mHelper.trailingLoadState = LoadState.NotLoading(it.getOrNull()?.curPage == it.getOrNull()?.pageCount)
                     ++mPage
                 } else {
+                    if (mPage == 1) {
+                        finishLoadingWithStatus(it.exceptionOrNull()?.message.orEmpty(), R.drawable.ic_state_failure)
+                    }
                     mHelper.trailingLoadState = LoadState.Error(it.exceptionOrNull()!!)
                 }
             }
@@ -84,8 +85,11 @@ class ShareHistoryFragment private constructor() : BaseFragment<FragmentArticles
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance() = ShareHistoryFragment()
+        fun actionStart(context: Context) {
+            Intent(context, CoinHistoryActivity::class.java).apply {
+                context.startActivity(this)
+            }
+        }
     }
 
 }

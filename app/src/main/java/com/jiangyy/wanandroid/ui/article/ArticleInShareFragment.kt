@@ -7,19 +7,19 @@ import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.ui.BaseArticleFragment
 
 /**
- * 广场
+ * 分享记录
  */
-class ArticleInSquareFragment : BaseArticleFragment() {
+class ArticleInShareFragment : BaseArticleFragment() {
 
-    override val startPage: Int get() = 0
+    override val startPage: Int get() = 1
 
     override suspend fun revoke(page: Int): ApiResponse<ApiResponse.Paging<Article>> {
-        return RetrofitHelper.getInstance().create(Api::class.java).listSquare(page)
+        return RetrofitHelper.getInstance().create(Api::class.java).listShareHistory(page)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = ArticleInSquareFragment()
+        fun newInstance() = ArticleInShareFragment()
     }
 
 }
