@@ -10,6 +10,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.jiangyy.app.BaseFragment
 import com.jiangyy.app.core.orZero
 import com.jiangyy.app.core.toast
@@ -22,6 +23,7 @@ import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
+import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.UserInfo
 import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
@@ -57,6 +59,14 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                 if (it.username.isNullOrBlank()) {
                     binding.tvNickname.text = "登录/注册"
                     binding.toolbar.setEnd(null, null)
+                    mAdapter.getItem(0)?.let { item ->
+                        item.text = "0"
+                        mAdapter[0] = item
+                    }
+                    mAdapter.getItem(1)?.let { item ->
+                        item.text = "0"
+                        mAdapter[1] = item
+                    }
                 } else {
                     mUsername = it.username
                     binding.toolbar.setEnd(ContextCompat.getDrawable(requireContext(), R.drawable.ic_logout), null)
@@ -95,19 +105,18 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
         binding.recyclerView.adapter = mAdapter
 
         mAdapter.setOnItemClickListener { _, _, position ->
-            when (position) {
-                0 -> CoinHistoryActivity.actionStart(requireActivity())
-                1 -> ArticlesActivity.actionStart(requireActivity(), "collection")
-//                2 -> ArticlesActivity.actionStart(requireActivity(), "scan")
-                4 -> ArticlesActivity.actionStart(requireActivity(), "share")
-//                5 -> TodosActivity.actionStart(requireActivity())
-                7 -> ArticlesActivity.actionStart(requireActivity(), "square")
-                8 -> ArticlesActivity.actionStart(requireActivity(), "wenda")
-                9 -> TreeActivity.actionStart(requireActivity())
-                10 -> WechatActivity.actionStart(requireActivity())
-                11 -> SubListActivity.actionStart(requireActivity())
-                13 -> RankingActivity.actionStart(requireActivity())
-                15 -> AboutActivity.actionStart(requireActivity())
+            when (mAdapter.getItem(position)?.title) {
+                "积分" -> CoinHistoryActivity.actionStart(requireActivity())
+                "收藏" -> ArticlesActivity.actionStart(requireActivity(), "collection")
+                "最近浏览" -> ArticlesActivity.actionStart(requireActivity(), "scan")
+                "我的分享" -> ArticlesActivity.actionStart(requireActivity(), "share")
+                "广场" -> ArticlesActivity.actionStart(requireActivity(), "square")
+                "每日一问" -> ArticlesActivity.actionStart(requireActivity(), "wenda")
+                "体系" -> TreeActivity.actionStart(requireActivity())
+                "公众号" -> WechatActivity.actionStart(requireActivity())
+                "教程" -> SubListActivity.actionStart(requireActivity())
+                "排行榜" -> RankingActivity.actionStart(requireActivity())
+                "关于" -> AboutActivity.actionStart(requireActivity())
             }
         }
         mAdapter.submitList(
@@ -116,8 +125,7 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                 MyItem(1, 1, "收藏", "0"),
                 MyItem(1, 1, "最近浏览", "0"),
                 MyItem(0, 3),
-                MyItem(2, 3, "我的分享", "", R.drawable.shape_my_top, R.drawable.ic_share),
-                MyItem(2, 3, "我的待办", "", R.drawable.shape_my_bottom, R.drawable.ic_todo),
+                MyItem(2, 3, "我的分享", "", R.drawable.shape_my_round, R.drawable.ic_share),
                 MyItem(0, 3),
                 MyItem(2, 3, "广场", "", R.drawable.shape_my_top, R.drawable.ic_square),
                 MyItem(2, 3, "每日一问", "", R.drawable.shape_my_center, R.drawable.ic_message),
@@ -140,6 +148,7 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                     lifecycleScope.launch {
                         requireContext().dataStore.edit { preference ->
                             preference[stringPreferencesKey("currentUser")] = Gson().toJson(CurrentUser())
+                            preference[stringPreferencesKey("scan")] = Gson().toJson(mutableListOf<Article>())
                         }
                     }
                 } else {
@@ -159,15 +168,25 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                     mAdapter[0] = item
                 }
                 mAdapter.getItem(1)?.let { item ->
-                    item.text = "${it.getOrNull()!!.userInfo?.collectIds?.size.orZero()}"
+                    item.text = "${it.getOrNull()!!.collectArticleInfo?.count.orZero()}"
                     mAdapter[1] = item
                 }
-//                mAdapter.getItem(2)?.let { item ->
-//                    item.text = "${DataStoreUtils.getScanHistory().size}"
-//                    mAdapter[2] = item
-//                }
+
             }
         }
+
+        lifecycleScope.launch {
+            requireContext().dataStore.data.map { preference ->
+                val result = preference[stringPreferencesKey("scan")] ?: Gson().toJson(mutableListOf<Article>())
+                Gson().fromJson<MutableList<Article>>(result, object : TypeToken<MutableList<Article>>() {}.type)
+            }.collectLatest {
+                mAdapter.getItem(2)?.let { item ->
+                    item.text = "${it.size}"
+                    mAdapter[2] = item
+                }
+            }
+        }
+
     }
 
     companion object {

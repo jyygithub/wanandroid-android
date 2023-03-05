@@ -39,6 +39,10 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesB
             "sub" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSubFragment.newInstance()).commit()
             }
+            "scan" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInScanFragment.newInstance()).commit()
+                binding.toolbar.setTitle("浏览记录")
+            }
         }
     }
 
