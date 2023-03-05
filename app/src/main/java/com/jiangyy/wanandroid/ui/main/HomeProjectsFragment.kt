@@ -6,9 +6,7 @@ import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.ui.BaseArticleFragment
 
-class HomeProjectsFragment : BaseArticleFragment() {
-
-    override val startPage: Int get() = 0
+class HomeProjectsFragment : BaseArticleFragment(0) {
 
     override suspend fun revoke(page: Int): ApiResponse<ApiResponse.Paging<Article>> {
         return RetrofitHelper.getInstance().create(Api::class.java).pageHomeProject(page)

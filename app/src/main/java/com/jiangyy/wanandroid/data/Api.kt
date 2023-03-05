@@ -15,7 +15,7 @@ interface Api {
     /**
      * 退出登录
      */
-    @POST("user/logout/json")
+    @GET("user/logout/json")
     suspend fun logout(): ApiResponse<Any>
 
     /**
@@ -70,7 +70,7 @@ interface Api {
      * 获取分享记录
      */
     @GET("user/lg/private_articles/{page}/json")
-    suspend fun listShareHistory(@Path("page") page: Int): ApiResponse<ApiResponse.Paging<Article>>
+    suspend fun listShareHistory(@Path("page") page: Int): ApiResponse<ShareHistory>
 
     /**
      * 体系列表

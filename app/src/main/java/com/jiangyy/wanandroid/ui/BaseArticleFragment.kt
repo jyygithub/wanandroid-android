@@ -7,7 +7,9 @@ import com.chad.library.adapter.base.QuickAdapterHelper
 import com.chad.library.adapter.base.loadState.LoadState
 import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
 import com.jiangyy.app.BaseFragment
+import com.jiangyy.app.core.orZero
 import com.jiangyy.app.module.StatusModule
+import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.ArticleAdapter
 import com.jiangyy.wanandroid.data.ApiResponse
 import com.jiangyy.wanandroid.data.flowRequest
@@ -18,10 +20,9 @@ import com.jiangyy.wanandroid.ui.article.ArticleActivity
 /**
  * 通用文章列表
  */
-abstract class BaseArticleFragment : BaseFragment<FragmentArticlesBinding>(FragmentArticlesBinding::inflate),
+abstract class BaseArticleFragment(private val startPage: Int = 0) : BaseFragment<FragmentArticlesBinding>(FragmentArticlesBinding::inflate),
     TrailingLoadStateAdapter.OnTrailingListener, SwipeRefreshLayout.OnRefreshListener, StatusModule {
 
-    protected abstract val startPage: Int
     private var mPage = 0
     private val mAdapter = ArticleAdapter()
     private lateinit var mHelper: QuickAdapterHelper
@@ -54,16 +55,25 @@ abstract class BaseArticleFragment : BaseFragment<FragmentArticlesBinding>(Fragm
             }
             response {
                 if (it.isSuccess) {
-                    if (it.getOrNull()?.curPage == 1) {
-                        finishLoading()
+                    if (mPage == startPage) {
                         binding.refreshLayout.isRefreshing = false
                         mAdapter.submitList(it.getOrNull()?.datas)
+                        if (it.getOrNull()?.datas.isNullOrEmpty()) {
+                            finishLoadingWithStatus("暂无数据", R.drawable.ic_state_empty)
+                        } else {
+                            finishLoading()
+                        }
                     } else {
-                        mAdapter.addAll(it.getOrNull()?.datas!!)
+                        it.getOrNull()?.datas?.let { it1 -> mAdapter.addAll(it1) }
                     }
-                    mHelper.trailingLoadState = LoadState.NotLoading(it.getOrNull()?.curPage == it.getOrNull()?.pageCount)
+                    mHelper.trailingLoadState = LoadState.NotLoading(
+                        it.getOrNull()?.curPage.orZero() >= it.getOrNull()?.pageCount.orZero()
+                    )
                     ++mPage
                 } else {
+                    if (mPage == startPage) {
+                        finishLoadingWithStatus("加载失败", R.drawable.ic_state_failure)
+                    }
                     mHelper.trailingLoadState = LoadState.Error(it.exceptionOrNull()!!)
                 }
             }

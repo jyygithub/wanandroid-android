@@ -3,6 +3,7 @@ package com.jiangyy.wanandroid.ui.main
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -11,12 +12,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
 import com.jiangyy.app.BaseFragment
 import com.jiangyy.app.core.orZero
+import com.jiangyy.app.core.toast
 import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.wanandroid.AppContext
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.MyAdapter
 import com.jiangyy.wanandroid.adapter.MyItem
+import com.jiangyy.wanandroid.data.Api
+import com.jiangyy.wanandroid.data.RetrofitHelper
+import com.jiangyy.wanandroid.data.flowRequest
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
+import com.jiangyy.wanandroid.entity.UserInfo
+import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
 import com.jiangyy.wanandroid.ui.article.SubListActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
@@ -49,9 +56,12 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
             }.collectLatest {
                 if (it.username.isNullOrBlank()) {
                     binding.tvNickname.text = "登录/注册"
+                    binding.toolbar.setEnd(null, null)
                 } else {
                     mUsername = it.username
+                    binding.toolbar.setEnd(ContextCompat.getDrawable(requireContext(), R.drawable.ic_logout), null)
                     binding.tvNickname.text = it.nickname
+                    infoUser()
                 }
             }
         }
@@ -71,11 +81,7 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                 .positive("确定")
                 .negative("取消")
                 .positiveClick {
-                    lifecycleScope.launch {
-                        requireContext().dataStore.edit {
-                            it[stringPreferencesKey("currentUser")] = Gson().toJson(CurrentUser())
-                        }
-                    }
+                    logout()
                 }
                 .show(childFragmentManager)
         }
@@ -101,7 +107,7 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                 10 -> WechatActivity.actionStart(requireActivity())
                 11 -> SubListActivity.actionStart(requireActivity())
                 13 -> RankingActivity.actionStart(requireActivity())
-//                15 -> AboutActivity.actionStart(requireActivity())
+                15 -> AboutActivity.actionStart(requireActivity())
             }
         }
         mAdapter.submitList(
@@ -127,7 +133,41 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
     }
 
     private fun logout() {
+        flowRequest {
+            request { RetrofitHelper.getInstance().create(Api::class.java).logout() }
+            response {
+                if (it.isSuccess) {
+                    lifecycleScope.launch {
+                        requireContext().dataStore.edit { preference ->
+                            preference[stringPreferencesKey("currentUser")] = Gson().toJson(CurrentUser())
+                        }
+                    }
+                } else {
+                    toast(it.exceptionOrNull()?.message.orEmpty())
+                }
+            }
+        }
+    }
 
+    private fun infoUser() {
+        flowRequest<UserInfo> {
+            request { RetrofitHelper.getInstance().create(Api::class.java).infoUser() }
+            response {
+                if (it.getOrNull() == null) return@response
+                mAdapter.getItem(0)?.let { item ->
+                    item.text = "${it.getOrNull()!!.userInfo?.coinCount.orZero()}"
+                    mAdapter[0] = item
+                }
+                mAdapter.getItem(1)?.let { item ->
+                    item.text = "${it.getOrNull()!!.userInfo?.collectIds?.size.orZero()}"
+                    mAdapter[1] = item
+                }
+//                mAdapter.getItem(2)?.let { item ->
+//                    item.text = "${DataStoreUtils.getScanHistory().size}"
+//                    mAdapter[2] = item
+//                }
+            }
+        }
     }
 
     companion object {

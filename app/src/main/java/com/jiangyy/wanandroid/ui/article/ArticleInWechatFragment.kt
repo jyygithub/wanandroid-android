@@ -12,8 +12,6 @@ class ArticleInWechatFragment : BaseArticleFragment() {
 
     private val mWechatId by argumentsString("wechatId")
 
-    override val startPage: Int get() = 1
-
     override suspend fun revoke(page: Int): ApiResponse<ApiResponse.Paging<Article>> {
         return RetrofitHelper.getInstance().create(Api::class.java).pageArticleInTree(page, mWechatId.orEmpty())
     }

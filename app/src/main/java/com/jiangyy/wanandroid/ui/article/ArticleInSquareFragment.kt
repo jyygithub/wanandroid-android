@@ -11,8 +11,6 @@ import com.jiangyy.wanandroid.ui.BaseArticleFragment
  */
 class ArticleInSquareFragment : BaseArticleFragment() {
 
-    override val startPage: Int get() = 0
-
     override suspend fun revoke(page: Int): ApiResponse<ApiResponse.Paging<Article>> {
         return RetrofitHelper.getInstance().create(Api::class.java).listSquare(page)
     }

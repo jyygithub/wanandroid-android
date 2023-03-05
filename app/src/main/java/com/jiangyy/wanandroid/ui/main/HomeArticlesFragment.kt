@@ -8,8 +8,6 @@ import com.jiangyy.wanandroid.ui.BaseArticleFragment
 
 class HomeArticlesFragment : BaseArticleFragment() {
 
-    override val startPage: Int get() = 0
-
     override suspend fun revoke(page: Int): ApiResponse<ApiResponse.Paging<Article>> {
         return RetrofitHelper.getInstance().create(Api::class.java).pageHomeArticle(page)
     }

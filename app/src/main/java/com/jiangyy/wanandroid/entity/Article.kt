@@ -9,11 +9,11 @@ val String?.htmlString: Spanned get() = HtmlCompat.fromHtml(this.orEmpty(), Html
 
 @Parcelize
 class Article(
-    val title: String,
-    val author: String,
-    val niceDate: String,
-    val chapterName: String,
-    val superChapterName: String,
+    val title: String?,
+    val author: String?,
+    val niceDate: String?,
+    val chapterName: String?,
+    val superChapterName: String?,
     val link: String?,
     val envelopePic: String?,
     val shareUser: String?,

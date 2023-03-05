@@ -15,8 +15,6 @@ class ArticleInSubFragment : BaseArticleFragment() {
 
     private val mTree by intentParcelable<Tree>("tree")
 
-    override val startPage: Int get() = 0
-
     override suspend fun revoke(page: Int): ApiResponse<ApiResponse.Paging<Article>> {
         return RetrofitHelper.getInstance().create(Api::class.java).listArticleInSub(page, mTree?.id.orEmpty())
     }
