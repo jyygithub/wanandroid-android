@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.article.ArticlesActivity">
 
-    <com.kotlinapp.app.widget.Toolbar
+    <com.koonny.app.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,7 +1,7 @@
 package com.jiangyy.wanandroid.ui.article
 
 import android.os.Bundle
-import com.kotlinapp.app.core.argumentsString
+import com.koonny.app.core.argumentsString
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.ApiResponse
 import com.jiangyy.wanandroid.data.RetrofitHelper

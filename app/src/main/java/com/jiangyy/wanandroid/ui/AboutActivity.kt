@@ -3,9 +3,9 @@ package com.jiangyy.wanandroid.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.kotlinapp.app.BaseActivity
+import com.koonny.app.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityAboutBinding
-import com.kotlinapp.app.core.appVersion
+import com.koonny.app.core.appVersion
 
 class AboutActivity : BaseActivity<ActivityAboutBinding>(ActivityAboutBinding::inflate) {
 

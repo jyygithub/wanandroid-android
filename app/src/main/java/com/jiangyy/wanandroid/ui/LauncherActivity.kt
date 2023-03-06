@@ -1,7 +1,7 @@
 package com.jiangyy.wanandroid.ui
 
 import android.os.Bundle
-import com.kotlinapp.app.BaseActivity
+import com.koonny.app.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityLauncherBinding
 
 class LauncherActivity : BaseActivity<ActivityLauncherBinding>(ActivityLauncherBinding::inflate) {

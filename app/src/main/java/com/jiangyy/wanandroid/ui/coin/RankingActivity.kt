@@ -8,8 +8,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.QuickAdapterHelper
 import com.chad.library.adapter.base.loadState.LoadState
 import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
-import com.kotlinapp.app.BaseActivity
-import com.kotlinapp.app.module.StatusModule
+import com.koonny.app.BaseActivity
+import com.koonny.app.module.StatusModule
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.RankingAdapter
 import com.jiangyy.wanandroid.data.Api

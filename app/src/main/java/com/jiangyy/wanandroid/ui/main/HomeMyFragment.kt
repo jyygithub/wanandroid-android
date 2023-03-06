@@ -11,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.kotlinapp.app.BaseFragment
-import com.kotlinapp.app.core.orZero
-import com.kotlinapp.app.core.toast
+import com.koonny.app.BaseFragment
+import com.koonny.app.core.orZero
+import com.koonny.app.core.toast
 import com.jiangyy.wanandroid.AppContext
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.MyAdapter
@@ -32,7 +32,7 @@ import com.jiangyy.wanandroid.ui.article.WechatActivity
 import com.jiangyy.wanandroid.ui.coin.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
 import com.jiangyy.wanandroid.ui.coin.RankingActivity
-import com.kotlinapp.dialog.ConfirmDialog
+import com.koonny.dialog.ConfirmDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

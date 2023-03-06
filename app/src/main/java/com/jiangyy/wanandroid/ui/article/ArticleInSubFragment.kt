@@ -1,6 +1,6 @@
 package com.jiangyy.wanandroid.ui.article
 
-import com.kotlinapp.app.core.intentParcelable
+import com.koonny.app.core.intentParcelable
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.ApiResponse
 import com.jiangyy.wanandroid.data.RetrofitHelper

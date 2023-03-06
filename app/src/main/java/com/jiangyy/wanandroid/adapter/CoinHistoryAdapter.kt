@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.kotlinapp.app.core.mills2string
-import com.kotlinapp.app.core.orZero
+import com.koonny.app.core.mills2string
+import com.koonny.app.core.orZero
 import com.jiangyy.wanandroid.databinding.RecyclerItemCoinHistoryBinding
 import com.jiangyy.wanandroid.entity.CoinHistory
 
