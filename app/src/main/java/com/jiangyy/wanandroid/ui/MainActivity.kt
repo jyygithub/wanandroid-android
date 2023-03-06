@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.jiangyy.app.BaseActivity
-import com.jiangyy.app.core.toast
+import com.kotlinapp.app.BaseActivity
+import com.kotlinapp.app.core.toast
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
 import com.jiangyy.wanandroid.ui.main.HomeArticlesFragment

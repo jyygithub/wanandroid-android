@@ -11,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.jiangyy.app.BaseFragment
-import com.jiangyy.app.core.orZero
-import com.jiangyy.app.core.toast
+import com.kotlinapp.app.BaseFragment
+import com.kotlinapp.app.core.orZero
+import com.kotlinapp.app.core.toast
 import com.jiangyy.wanandroid.AppContext
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.MyAdapter

@@ -7,7 +7,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-import com.jiangyy.app.BaseActivity
+import com.kotlinapp.app.BaseActivity
 import com.jiangyy.wanandroid.databinding.ContentPageListBinding
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.adapter.TreeAdapter

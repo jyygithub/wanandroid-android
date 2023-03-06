@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.jiangyy.app.BaseActivity
+import com.kotlinapp.app.BaseActivity
 import com.jiangyy.wanandroid.adapter.SubAdapter
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
