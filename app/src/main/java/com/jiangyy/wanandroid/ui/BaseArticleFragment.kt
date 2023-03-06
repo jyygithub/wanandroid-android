@@ -6,9 +6,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter.base.QuickAdapterHelper
 import com.chad.library.adapter.base.loadState.LoadState
 import com.chad.library.adapter.base.loadState.trailing.TrailingLoadStateAdapter
-import com.koonny.app.BaseFragment
-import com.koonny.app.core.orZero
-import com.koonny.app.module.StatusModule
+import com.koonny.appcompat.BaseFragment
+import com.koonny.appcompat.core.orZero
+import com.koonny.appcompat.module.StatusModule
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.ArticleAdapter
 import com.jiangyy.wanandroid.data.ApiResponse

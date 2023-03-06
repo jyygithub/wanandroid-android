@@ -7,8 +7,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
-import com.koonny.app.BaseActivity
-import com.koonny.app.core.toast
+import com.koonny.appcompat.BaseActivity
+import com.koonny.appcompat.core.toast
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest

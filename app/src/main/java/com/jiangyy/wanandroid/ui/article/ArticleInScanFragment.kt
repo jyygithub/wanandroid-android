@@ -6,7 +6,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.koonny.app.BaseFragment
+import com.koonny.appcompat.BaseFragment
 import com.jiangyy.wanandroid.adapter.ArticleAdapter
 import com.jiangyy.wanandroid.databinding.FragmentArticlesBinding
 import com.jiangyy.wanandroid.entity.Article

@@ -3,9 +3,9 @@ package com.jiangyy.wanandroid.ui.article
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.koonny.app.BaseActivity
-import com.koonny.app.core.intentParcelable
-import com.koonny.app.core.intentString
+import com.koonny.appcompat.BaseActivity
+import com.koonny.appcompat.core.intentParcelable
+import com.koonny.appcompat.core.intentString
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree

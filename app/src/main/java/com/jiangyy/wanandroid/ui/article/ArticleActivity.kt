@@ -9,13 +9,13 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.koonny.app.core.intentParcelable
+import com.koonny.appcompat.core.intentParcelable
 import com.jiangyy.wanandroid.databinding.ActivityArticleBinding
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.htmlString
 import com.jiangyy.wanandroid.ui.main.dataStore
 import com.just.agentweb.AgentWeb
-import com.koonny.app.BaseActivity
+import com.koonny.appcompat.BaseActivity
 import kotlinx.coroutines.launch
 
 class ArticleActivity : BaseActivity<ActivityArticleBinding>(ActivityArticleBinding::inflate) {

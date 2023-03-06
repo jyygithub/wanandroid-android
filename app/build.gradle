@@ -58,7 +58,7 @@ dependencies {
     implementation "com.github.franmontiel:PersistentCookieJar:${rootProject.ext.PersistentCookieJarVersion}"
     implementation "com.github.Justson.AgentWeb:agentweb-core:${rootProject.ext.agentwebVersion}"
     implementation 'io.github.cymchad:BaseRecyclerViewAdapterHelper:4.0.0-beta04'
-    implementation 'com.koonny.core:core:0.0.1.101-SNAPSHOT'
+    implementation 'com.koonny.appcompat:appcompat:0.0.1.100-SNAPSHOT'
     implementation 'com.koonny.dialog:dialog:0.0.1.100-SNAPSHOT'
     implementation 'com.jakewharton.timber:timber:5.0.1'
     testImplementation 'junit:junit:4.13.2'
