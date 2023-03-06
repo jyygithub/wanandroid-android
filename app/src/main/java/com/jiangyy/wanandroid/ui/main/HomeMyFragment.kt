@@ -14,7 +14,6 @@ import com.google.gson.reflect.TypeToken
 import com.jiangyy.app.BaseFragment
 import com.jiangyy.app.core.orZero
 import com.jiangyy.app.core.toast
-import com.jiangyy.dialog.ConfirmDialog
 import com.jiangyy.wanandroid.AppContext
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.MyAdapter
@@ -33,6 +32,7 @@ import com.jiangyy.wanandroid.ui.article.WechatActivity
 import com.jiangyy.wanandroid.ui.coin.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
 import com.jiangyy.wanandroid.ui.coin.RankingActivity
+import com.kotlinapp.dialog.ConfirmDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

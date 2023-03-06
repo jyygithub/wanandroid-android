@@ -59,7 +59,7 @@ dependencies {
     implementation "com.github.Justson.AgentWeb:agentweb-core:${rootProject.ext.agentwebVersion}"
     implementation 'io.github.cymchad:BaseRecyclerViewAdapterHelper:4.0.0-beta04'
     implementation 'com.jiangyy.android:app:0.0.1.118-SNAPSHOT'
-    implementation 'com.jiangyy.android:dialog:1.1.0.205-SNAPSHOT'
+    implementation 'com.kotlinapp.dialog:dialog:0.0.1.100-SNAPSHOT'
     implementation 'com.jakewharton.timber:timber:5.0.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
