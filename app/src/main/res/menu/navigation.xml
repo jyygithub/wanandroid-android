@@ -3,15 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/nav_article"
+        android:id="@+id/nav_home"
         android:icon="@drawable/ic_main_article"
-        android:title="文章"
+        android:title="首页"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/nav_project"
         android:icon="@drawable/ic_main_project"
-        android:title="项目"
+        android:title="搜索"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/nav"
+        android:icon="@drawable/ic_main_project"
+        android:title="公众号"
         app:showAsAction="ifRoom" />
 
     <item
