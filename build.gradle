@@ -4,30 +4,3 @@ plugins {
     id 'com.android.library' version '7.4.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
 }
-ext {
-    android = [
-            compileSdkVersion: 33,
-            minSdkVersion    : 24,
-            targetSdkVersion : 33,
-            versionCode      : 1,
-            versionName      : "1.0.0",
-    ]
-    activityVersion = "1.6.0"
-    fragmentVersion = "1.5.3"
-    appcompatVersion = "1.5.1"
-    pagingVersion = "3.1.1"
-    constraintlayoutVersion = "2.1.4"
-    recyclerviewVersion = "1.2.1"
-    swiperefreshlayoutVersion = "1.1.0"
-    datastoreVersion = "1.0.0"
-    materialVersion = "1.5.0"
-    permissionxVersion = "1.7.1"
-    eventbusVersion = "3.3.1"
-    coilVersion = "2.2.2"
-    retrofitVersion = "2.9.0"
-    okhttpVersion = "4.10.0"
-    wechatVersion = "6.8.0"
-    PersistentCookieJarVersion = "v1.0.1"
-    agentwebVersion = "v4.1.9-androidx"
-    leakcanaryVersion = "2.9.1"
-}

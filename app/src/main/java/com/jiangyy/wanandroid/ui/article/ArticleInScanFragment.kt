@@ -2,17 +2,12 @@ package com.jiangyy.wanandroid.ui.article
 
 import android.os.Bundle
 import android.view.View
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.lifecycleScope
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.koonny.appcompat.BaseFragment
 import com.jiangyy.wanandroid.adapter.ArticleAdapter
 import com.jiangyy.wanandroid.databinding.FragmentArticlesBinding
-import com.jiangyy.wanandroid.entity.Article
-import com.jiangyy.wanandroid.ui.main.dataStore
+import com.jiangyy.wanandroid.utils.localScan
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 /**
@@ -30,10 +25,7 @@ class ArticleInScanFragment : BaseFragment<FragmentArticlesBinding>(FragmentArti
         }
 
         lifecycleScope.launch {
-            requireContext().dataStore.data.map { preference ->
-                val result = preference[stringPreferencesKey("scan")] ?: Gson().toJson(mutableListOf<Article>())
-                Gson().fromJson<MutableList<Article>>(result, object : TypeToken<MutableList<Article>>() {}.type)
-            }.collectLatest {
+            requireContext().localScan().collectLatest {
                 mAdapter.submitList(it)
             }
         }

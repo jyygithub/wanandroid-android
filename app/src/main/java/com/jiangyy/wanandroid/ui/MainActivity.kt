@@ -9,13 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.koonny.appcompat.BaseActivity
-import com.koonny.appcompat.core.toast
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
 import com.jiangyy.wanandroid.ui.main.HomeArticlesFragment
-import com.jiangyy.wanandroid.ui.main.HomeProjectsFragment
 import com.jiangyy.wanandroid.ui.main.HomeMyFragment
+import com.jiangyy.wanandroid.ui.main.HomeProjectsFragment
+import com.koonny.appcompat.BaseActivity
+import com.koonny.appcompat.core.toast
 import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -34,19 +34,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         var pressedTime: Long = 0
         onBackPressedDispatcher.addCallback(this) {
             val nowTime = System.currentTimeMillis()
-            when {
-                (nowTime - pressedTime) > 2000 -> {
-                    toast("再按一次退出程序")
-                    pressedTime = nowTime
-                }
-
-                else -> {
-                    finish()
-                    exitProcess(0)
-                }
+            if (nowTime - pressedTime > 2000) {
+                toast("再按一次退出程序")
+                pressedTime = nowTime
+            } else {
+                finish()
+                exitProcess(0)
             }
         }
-        val fragments = arrayOf(HomeArticlesFragment.newInstance(), HomeProjectsFragment.newInstance(), HomeMyFragment.newInstance())
+        val fragments = arrayOf(
+            HomeArticlesFragment.newInstance(),
+            HomeProjectsFragment.newInstance(),
+            HomeMyFragment.newInstance()
+        )
         val itemTabs = intArrayOf(R.id.nav_article, R.id.nav_project, R.id.nav_my)
         binding.viewPager.adapter = object : FragmentStateAdapter(this) {
 

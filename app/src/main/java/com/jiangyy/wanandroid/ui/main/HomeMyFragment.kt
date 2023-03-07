@@ -1,20 +1,10 @@
 package com.jiangyy.wanandroid.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.koonny.appcompat.BaseFragment
-import com.koonny.appcompat.core.orZero
-import com.koonny.appcompat.core.toast
-import com.jiangyy.wanandroid.AppContext
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.MyAdapter
 import com.jiangyy.wanandroid.adapter.MyItem
@@ -22,7 +12,6 @@ import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
-import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.UserInfo
 import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
@@ -30,19 +19,15 @@ import com.jiangyy.wanandroid.ui.article.SubListActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.article.WechatActivity
 import com.jiangyy.wanandroid.ui.coin.CoinHistoryActivity
-import com.jiangyy.wanandroid.ui.user.LoginActivity
 import com.jiangyy.wanandroid.ui.coin.RankingActivity
+import com.jiangyy.wanandroid.ui.user.LoginActivity
+import com.jiangyy.wanandroid.utils.*
+import com.koonny.appcompat.BaseFragment
+import com.koonny.appcompat.core.orZero
+import com.koonny.appcompat.core.toast
 import com.koonny.dialog.ConfirmDialog
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-
-val Context.dataStore by preferencesDataStore(AppContext.packageName)
-
-data class CurrentUser(
-    var username: String? = null,
-    var nickname: String? = null,
-)
 
 class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflate) {
 
@@ -53,9 +38,7 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch {
-            requireContext().dataStore.data.map {
-                Gson().fromJson(it[stringPreferencesKey("currentUser")] ?: Gson().toJson(CurrentUser()), CurrentUser::class.java)
-            }.collectLatest {
+            requireContext().localUser().collectLatest {
                 if (it.username.isNullOrBlank()) {
                     binding.tvNickname.text = "登录/注册"
                     binding.toolbar.setEnd(null, null)
@@ -146,10 +129,7 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
             response {
                 if (it.isSuccess) {
                     lifecycleScope.launch {
-                        requireContext().dataStore.edit { preference ->
-                            preference[stringPreferencesKey("currentUser")] = Gson().toJson(CurrentUser())
-                            preference[stringPreferencesKey("scan")] = Gson().toJson(mutableListOf<Article>())
-                        }
+                        requireContext().localLogout()
                     }
                 } else {
                     toast(it.exceptionOrNull()?.message.orEmpty())
@@ -176,10 +156,7 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
         }
 
         lifecycleScope.launch {
-            requireContext().dataStore.data.map { preference ->
-                val result = preference[stringPreferencesKey("scan")] ?: Gson().toJson(mutableListOf<Article>())
-                Gson().fromJson<MutableList<Article>>(result, object : TypeToken<MutableList<Article>>() {}.type)
-            }.collectLatest {
+            requireContext().localScan().collectLatest {
                 mAdapter.getItem(2)?.let { item ->
                     item.text = "${it.size}"
                     mAdapter[2] = item
