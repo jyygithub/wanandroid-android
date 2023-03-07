@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.addCallback
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
@@ -50,10 +51,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_home -> binding.containerView[0].isSelected
-                R.id.nav_project -> binding.containerView[1].isSelected
-                R.id.nav -> binding.containerView[2].isSelected
-                R.id.nav_my -> binding.containerView[3].isSelected
+                R.id.nav_home -> (binding.containerView.getChildAt(0) as RecyclerView).smoothScrollToPosition(0)
+                R.id.nav_project -> (binding.containerView.getChildAt(0) as RecyclerView).smoothScrollToPosition(1)
+                R.id.nav -> (binding.containerView.getChildAt(0) as RecyclerView).smoothScrollToPosition(2)
+                R.id.nav_my -> (binding.containerView.getChildAt(0) as RecyclerView).smoothScrollToPosition(3)
             }
 
             false
