@@ -11,6 +11,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
 import com.jiangyy.wanandroid.ui.main.HomeFragment
+import com.jiangyy.wanandroid.ui.main.HomeMyFragment
 import com.jiangyy.wanandroid.ui.main.SearchFragment
 import com.koonny.appcompat.BaseActivity
 import com.koonny.appcompat.core.toast
@@ -42,19 +43,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
                     0 -> HomeFragment.newInstance()
-                    1 -> HomeFragment.newInstance()
+                    1 -> SearchFragment.newInstance()
                     2 -> HomeFragment.newInstance()
-                    3 -> HomeFragment.newInstance()
+                    3 -> HomeMyFragment.newInstance()
                     else -> HomeFragment.newInstance()
                 }
             }
         }
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.nav_home -> (binding.containerView.getChildAt(0) as RecyclerView).smoothScrollToPosition(0)
-                R.id.nav_project -> (binding.containerView.getChildAt(0) as RecyclerView).smoothScrollToPosition(1)
-                R.id.nav -> (binding.containerView.getChildAt(0) as RecyclerView).smoothScrollToPosition(2)
-                R.id.nav_my -> (binding.containerView.getChildAt(0) as RecyclerView).smoothScrollToPosition(3)
+                R.id.nav_home -> (binding.containerView.getChildAt(0) as RecyclerView).scrollToPosition(0)
+                R.id.nav_project -> (binding.containerView.getChildAt(0) as RecyclerView).scrollToPosition(1)
+                R.id.nav -> (binding.containerView.getChildAt(0) as RecyclerView).scrollToPosition(2)
+                R.id.nav_my -> (binding.containerView.getChildAt(0) as RecyclerView).scrollToPosition(3)
             }
 
             false
