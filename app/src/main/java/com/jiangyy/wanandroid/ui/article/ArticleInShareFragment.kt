@@ -83,6 +83,11 @@ class ArticleInShareFragment : BaseFragment<FragmentArticlesBinding>(FragmentArt
         pageHomeArticle()
     }
 
+    override fun onStatusRetry() {
+        mPage = 1
+        pageHomeArticle()
+    }
+
     override fun onFailRetry() {
         pageHomeArticle()
     }

@@ -72,7 +72,7 @@ abstract class BaseArticleFragment(private val startPage: Int = 0) : BaseFragmen
                     ++mPage
                 } else {
                     if (mPage == startPage) {
-                        finishLoadingWithStatus("加载失败", R.drawable.ic_state_failure)
+                        finishLoadingWithStatus(it.exceptionOrNull()?.message.orEmpty(), R.drawable.ic_state_failure)
                     }
                     mHelper.trailingLoadState = LoadState.Error(it.exceptionOrNull()!!)
                 }
@@ -81,6 +81,11 @@ abstract class BaseArticleFragment(private val startPage: Int = 0) : BaseFragmen
     }
 
     override fun onRefresh() {
+        mPage = startPage
+        pageHomeArticle()
+    }
+
+    override fun onStatusRetry() {
         mPage = startPage
         pageHomeArticle()
     }
