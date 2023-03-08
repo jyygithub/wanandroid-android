@@ -22,8 +22,8 @@
     </style>
 
     <style name="Theme.Wanandroid.Toolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="titleTextColor">@color/white</item>
+        <item name="android:background">?attr/colorPrimaryVariant</item>
+        <item name="titleTextColor">@color/colorText</item>
         <item name="startIcon">@drawable/ic_arrow_left</item>
     </style>
 
