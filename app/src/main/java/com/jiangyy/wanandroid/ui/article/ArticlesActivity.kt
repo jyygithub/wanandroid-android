@@ -42,6 +42,10 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesB
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInScanFragment.newInstance()).commit()
                 binding.toolbar.setTitle("浏览记录")
             }
+            "user" -> {
+                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInUserFragment.newInstance()).commit()
+                binding.toolbar.setTitle("用户分享记录")
+            }
         }
     }
 
@@ -56,6 +60,14 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesB
         fun actionStart(context: Context, type: String?, tree: Tree?) {
             Intent(context, ArticlesActivity::class.java).apply {
                 this.putExtra("tree", tree)
+                this.putExtra("type", type)
+                context.startActivity(this)
+            }
+        }
+
+        fun actionStart(context: Context, type: String?, userId: Int?) {
+            Intent(context, ArticlesActivity::class.java).apply {
+                this.putExtra("userId", userId)
                 this.putExtra("type", type)
                 context.startActivity(this)
             }

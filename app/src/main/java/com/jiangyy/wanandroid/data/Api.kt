@@ -84,6 +84,9 @@ interface Api {
     @GET("article/list/{page}/json")
     suspend fun pageArticleInTree(@Path("page") page: Int, @Query("cid") cid: String): ApiResponse<ApiResponse.Paging<Article>>
 
+    @GET("user/{userId}/share_articles/{page}/json")
+    suspend fun pageArticleInUser(@Path("page") page: Int, @Path("userId") userId: Int): ApiResponse<ShareHistory>
+
     /**
      * 公众号列表
      */

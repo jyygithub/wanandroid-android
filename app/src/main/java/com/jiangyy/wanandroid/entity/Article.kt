@@ -17,4 +17,5 @@ class Article(
     val link: String?,
     val envelopePic: String?,
     val shareUser: String?,
+    val userId: Int?,
 ) : Parcelable
