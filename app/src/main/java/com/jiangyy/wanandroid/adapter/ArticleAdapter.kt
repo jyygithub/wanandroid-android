@@ -22,12 +22,16 @@ class ArticleAdapter : BaseMultiItemAdapter<Article>() {
             override fun onBind(holder: ArticleVH, position: Int, item: Article?) {
                 holder.binding.tvArticleTitle.text = item?.title.htmlString
                 if (item?.author.isNullOrEmpty()) {
-                    holder.binding.tvArticleAuthor.text = "分享人：${item?.shareUser.orDefault("佚名")}"
+                    holder.binding.tvArticleAuthor.text = "${item?.shareUser.orDefault("佚名")}"
                 } else {
-                    holder.binding.tvArticleAuthor.text = "作者：${item?.author.orDefault("佚名")}"
+                    holder.binding.tvArticleAuthor.text = "${item?.author.orDefault("佚名")}"
                 }
                 holder.binding.tvArticleDate.text = item?.niceDate.orEmpty()
-                holder.binding.tvArticleTag.text = "${item?.superChapterName.orDefault("无")} · ${item?.chapterName.orDefault("无")}"
+                if (!item?.superChapterName.isNullOrEmpty() && !item?.chapterName.isNullOrEmpty()) {
+                    holder.binding.tvArticleTag.text = "${item?.superChapterName} · ${item?.chapterName}"
+                } else {
+                    holder.binding.tvArticleTag.text = "${item?.superChapterName.orEmpty()}${item?.chapterName.orEmpty()}"
+                }
             }
 
             override fun onCreate(context: Context, parent: ViewGroup, viewType: Int): ArticleVH {
@@ -38,9 +42,9 @@ class ArticleAdapter : BaseMultiItemAdapter<Article>() {
                 holder.binding.ivArticleImage.load(item?.envelopePic)
                 holder.binding.tvArticleTitle.text = item?.title.htmlString
                 if (item?.author.isNullOrEmpty()) {
-                    holder.binding.tvArticleAuthor.text = "分享人：${item?.shareUser.orDefault("佚名")}"
+                    holder.binding.tvArticleAuthor.text = "${item?.shareUser.orDefault("佚名")}"
                 } else {
-                    holder.binding.tvArticleAuthor.text = "作者：${item?.author.orDefault("佚名")}"
+                    holder.binding.tvArticleAuthor.text = "${item?.author.orDefault("佚名")}"
                 }
                 holder.binding.tvArticleDate.text = item?.niceDate.orEmpty()
                 holder.binding.tvArticleTag.text = "${item?.superChapterName.orDefault("无")} · ${item?.chapterName.orDefault("无")}"

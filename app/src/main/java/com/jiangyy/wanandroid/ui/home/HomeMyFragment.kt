@@ -1,4 +1,4 @@
-package com.jiangyy.wanandroid.ui.main
+package com.jiangyy.wanandroid.ui.home
 
 import android.os.Bundle
 import android.view.View
@@ -15,9 +15,6 @@ import com.jiangyy.wanandroid.databinding.FragmentMyBinding
 import com.jiangyy.wanandroid.entity.UserInfo
 import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
-import com.jiangyy.wanandroid.ui.article.SubListActivity
-import com.jiangyy.wanandroid.ui.article.TreeActivity
-import com.jiangyy.wanandroid.ui.article.WechatActivity
 import com.jiangyy.wanandroid.ui.coin.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.coin.RankingActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
@@ -93,11 +90,6 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                 "收藏" -> ArticlesActivity.actionStart(requireActivity(), "collection")
                 "最近浏览" -> ArticlesActivity.actionStart(requireActivity(), "scan")
                 "我的分享" -> ArticlesActivity.actionStart(requireActivity(), "share")
-                "广场" -> ArticlesActivity.actionStart(requireActivity(), "square")
-                "每日一问" -> ArticlesActivity.actionStart(requireActivity(), "wenda")
-                "体系" -> TreeActivity.actionStart(requireActivity())
-                "公众号" -> WechatActivity.actionStart(requireActivity())
-                "教程" -> SubListActivity.actionStart(requireActivity())
                 "排行榜" -> RankingActivity.actionStart(requireActivity())
                 "关于" -> AboutActivity.actionStart(requireActivity())
             }
@@ -109,12 +101,6 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                 MyItem(1, 1, "最近浏览", "0"),
                 MyItem(0, 3),
                 MyItem(2, 3, "我的分享", "", R.drawable.shape_my_round, R.drawable.ic_share),
-                MyItem(0, 3),
-                MyItem(2, 3, "广场", "", R.drawable.shape_my_top, R.drawable.ic_square),
-                MyItem(2, 3, "每日一问", "", R.drawable.shape_my_center, R.drawable.ic_message),
-                MyItem(2, 3, "体系", "", R.drawable.shape_my_center, R.drawable.ic_tree),
-                MyItem(2, 3, "公众号", "", R.drawable.shape_my_center, R.drawable.ic_wechat),
-                MyItem(2, 3, "教程", "", R.drawable.shape_my_bottom, R.drawable.ic_sub),
                 MyItem(0, 3),
                 MyItem(2, 3, "排行榜", "", R.drawable.shape_my_round, R.drawable.ic_ranking),
                 MyItem(0, 3),

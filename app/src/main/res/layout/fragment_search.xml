@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@android:color/white">
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:gravity="bottom"
+        android:layout_height="240dp"
+        android:gravity="center_vertical"
         android:padding="20dp"
         android:text="Explore"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/shape_search"
         android:drawablePadding="12dp"
         android:gravity="center_vertical"
         android:paddingHorizontal="12dp"
         android:paddingVertical="6dp"
         android:text="Search WanAndroid"
-        app:drawableStartCompat="@drawable/ic_search" />
+        app:drawableStartCompat="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTitle" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/containerView"
-        android:name="com.jiangyy.wanandroid.ui.main.HomeArticlesFragment"
+        android:name="com.jiangyy.wanandroid.ui.home.explore.ArticleInLatestFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        android:background="?android:attr/colorBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

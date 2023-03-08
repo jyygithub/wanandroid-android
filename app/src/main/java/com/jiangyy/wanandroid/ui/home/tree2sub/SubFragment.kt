@@ -1,29 +1,26 @@
-package com.jiangyy.wanandroid.ui.article
+package com.jiangyy.wanandroid.ui.home.tree2sub
 
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
-import com.koonny.appcompat.BaseActivity
 import com.jiangyy.wanandroid.adapter.SubAdapter
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
-import com.jiangyy.wanandroid.databinding.ContentPageListBinding
+import com.jiangyy.wanandroid.databinding.FragmentSubBinding
 import com.jiangyy.wanandroid.entity.Tree
+import com.jiangyy.wanandroid.ui.article.ArticlesActivity
+import com.koonny.appcompat.BaseFragment
 
-class SubListActivity : BaseActivity<ContentPageListBinding>(ContentPageListBinding::inflate) {
+class SubFragment : BaseFragment<FragmentSubBinding>(FragmentSubBinding::inflate) {
 
     private val mAdapter = SubAdapter()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding.toolbar.setTitle("教程")
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 3)
+    override fun onPrepareData() {
+        super.onPrepareData()
+        binding.recyclerView.layoutManager = GridLayoutManager(context, 3)
         binding.recyclerView.adapter = mAdapter
         mAdapter.setOnItemClickListener { _, _, position ->
             mAdapter.getItem(position).let {
-                ArticlesActivity.actionStart(this, "sub", it)
+                ArticlesActivity.actionStart(requireActivity(), "sub", it)
             }
         }
 
@@ -36,9 +33,7 @@ class SubListActivity : BaseActivity<ContentPageListBinding>(ContentPageListBind
     }
 
     companion object {
-        fun actionStart(context: Context) {
-            context.startActivity(Intent(context, SubListActivity::class.java))
-        }
+        fun newInstance() = SubFragment()
     }
 
 }

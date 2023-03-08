@@ -1,4 +1,4 @@
-package com.jiangyy.wanandroid.ui.article
+package com.jiangyy.wanandroid.ui.home.home
 
 import android.os.Bundle
 import com.koonny.appcompat.core.argumentsString

@@ -9,6 +9,10 @@ import com.koonny.appcompat.core.intentString
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
+import com.jiangyy.wanandroid.ui.home.home.ArticleInSquareFragment
+import com.jiangyy.wanandroid.ui.home.home.ArticleInWendaFragment
+import com.jiangyy.wanandroid.ui.home.tree2sub.ArticleInSubFragment
+import com.jiangyy.wanandroid.ui.home.tree2sub.ArticleInTreeFragment
 
 class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesBinding::inflate) {
 

@@ -1,4 +1,4 @@
-package com.jiangyy.wanandroid.ui.main
+package com.jiangyy.wanandroid.ui.home
 
 import com.jiangyy.wanandroid.databinding.FragmentSearchBinding
 import com.koonny.appcompat.BaseFragment

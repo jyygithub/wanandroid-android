@@ -4,60 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_marginTop="1dp"
     android:background="@drawable/selector_recycler_item">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="12dp">
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp">
+
+        <ImageView
+            android:id="@+id/ivUser"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvArticleAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:lines="1"
+            android:textColor="@color/colorSubText"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivUser"
+            app:layout_constraintStart_toEndOf="@+id/ivUser"
+            app:layout_constraintTop_toTopOf="@+id/ivUser"
+            tools:text="Author" />
+
+        <TextView
+            android:id="@+id/tvArticleTag"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:lines="1"
+            android:textColor="@color/colorSubText"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ivUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvArticleAuthor"
+            app:layout_constraintTop_toTopOf="@+id/ivUser"
+            tools:text="Tag" />
 
         <TextView
             android:id="@+id/tvArticleTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:lines="2"
+            android:maxLines="3"
             android:textSize="15sp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@+id/ivUser"
             tools:text="Title" />
 
         <TextView
-            android:id="@+id/tvArticleTag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:drawablePadding="8dp"
-            android:gravity="center"
-            android:textColor="@color/colorSubText"
-            android:textSize="12sp"
-            app:drawableStartCompat="@drawable/ic_tag"
-            app:layout_constraintStart_toStartOf="@+id/tvArticleTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
-            tools:text="Tag" />
-
-        <TextView
-            android:id="@+id/tvArticleAuthor"
+            android:id="@+id/tvArticleDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textColor="@color/colorSubText"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tvArticleTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tvArticleTag"
-            tools:text="作者：Author" />
-
-        <TextView
-            android:id="@+id/tvArticleDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorSubText"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvArticleAuthor"
-            app:layout_constraintEnd_toEndOf="@+id/tvArticleTitle"
-            app:layout_constraintTop_toTopOf="@+id/tvArticleAuthor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvArticleTitle"
             tools:text="2016-12-12" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
