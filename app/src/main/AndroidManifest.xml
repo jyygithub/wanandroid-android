@@ -63,6 +63,7 @@
         <activity android:name=".ui.user.ReadedMessageActivity" />
         <activity android:name=".ui.todo.TodosActivity" />
         <activity android:name=".ui.todo.AddTodoActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.article.SearchActivity" />
     </application>
 
 </manifest>

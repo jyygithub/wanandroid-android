@@ -111,4 +111,10 @@ interface Api {
     @GET("article/list/{page}/json")
     suspend fun listArticleInSub(@Path("page") page: Int, @Query("cid") cid: String): ApiResponse<ApiResponse.Paging<Article>>
 
+    /**
+     * 搜索
+     */
+    @POST("article/query/{page}/json")
+    suspend fun search(@Path("page") page: Int = 0, @Query("k") k: String): ApiResponse<ApiResponse.Paging<Article>>
+
 }
