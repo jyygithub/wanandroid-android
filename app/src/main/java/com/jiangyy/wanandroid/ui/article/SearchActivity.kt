@@ -43,8 +43,11 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
         }
         binding.containerView.refreshLayout.setOnRefreshListener(this)
         binding.etInput.addTextChangedListener {
-            if (it.isNullOrBlank()) return@addTextChangedListener
-            onRefresh()
+            if (it.isNullOrBlank()) {
+                finishLoadingWithStatus("暂无数据", R.drawable.ic_state_empty)
+            } else {
+                onRefresh()
+            }
         }
     }
 
