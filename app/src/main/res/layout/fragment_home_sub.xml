@@ -13,10 +13,10 @@
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="200dp"
             android:gravity="center_vertical"
             android:padding="20dp"
-            android:text="Tree · Sub"
+            android:text="Sub"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent" />

@@ -11,8 +11,6 @@ import com.jiangyy.wanandroid.databinding.ActivityArticlesBinding
 import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.ui.home.home.ArticleInSquareFragment
 import com.jiangyy.wanandroid.ui.home.home.ArticleInWendaFragment
-import com.jiangyy.wanandroid.ui.home.tree2sub.ArticleInSubFragment
-import com.jiangyy.wanandroid.ui.home.tree2sub.ArticleInTreeFragment
 
 class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesBinding::inflate) {
 
@@ -39,9 +37,6 @@ class ArticlesActivity : BaseActivity<ActivityArticlesBinding>(ActivityArticlesB
             "share" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInShareFragment.newInstance()).commit()
                 binding.toolbar.setTitle("我的分享")
-            }
-            "sub" -> {
-                supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInSubFragment.newInstance()).commit()
             }
             "scan" -> {
                 supportFragmentManager.beginTransaction().add(R.id.frameLayout, ArticleInScanFragment.newInstance()).commit()

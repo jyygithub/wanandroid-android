@@ -1,19 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Theme.Wanandroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:colorBackground">@color/colorBackground</item>
-        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorCommon</item>
-        <item name="colorPrimaryVariant">@color/colorCommon</item>
+        <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorCommon</item>
         <item name="colorSecondaryVariant">@color/colorCommon</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="toolbarStyle">@style/Theme.Wanandroid.Toolbar</item>
         <item name="android:textViewStyle">@style/Theme.Wanandroid.TextView</item>
         <item name="editTextStyle">@style/Widget.Theme.Wanandroid.EditText</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
     <style name="Theme.Wanandroid.Launcher" parent="Theme.Wanandroid">
@@ -33,7 +32,7 @@
     </style>
 
     <style name="Theme.Wanandroid.TextView" parent="Widget.MaterialComponents.TextView">
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/colorText</item>
     </style>
 
     <style name="Widget.Theme.Wanandroid.EditText" parent="Widget.AppCompat.EditText">
@@ -41,6 +40,15 @@
         <item name="android:textColor">@color/colorText</item>
         <item name="android:textColorHint">@color/colorSubText</item>
         <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.Theme.Wanandroid.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabSelectedTextColor">@color/colorText</item>
+        <item name="tabTextColor">@color/colorSubText</item>
+        <item name="tabIndicatorHeight">1dp</item>
+        <item name="tabIndicatorColor">@color/colorText</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabMode">auto</item>
     </style>
 
 </resources>

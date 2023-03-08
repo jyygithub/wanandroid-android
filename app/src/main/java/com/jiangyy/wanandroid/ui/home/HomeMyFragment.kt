@@ -15,6 +15,7 @@ import com.jiangyy.wanandroid.databinding.FragmentMyBinding
 import com.jiangyy.wanandroid.entity.UserInfo
 import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
+import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.coin.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.coin.RankingActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
@@ -90,6 +91,7 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                 "收藏" -> ArticlesActivity.actionStart(requireActivity(), "collection")
                 "最近浏览" -> ArticlesActivity.actionStart(requireActivity(), "scan")
                 "我的分享" -> ArticlesActivity.actionStart(requireActivity(), "share")
+                "体系" -> TreeActivity.actionStart(requireActivity())
                 "排行榜" -> RankingActivity.actionStart(requireActivity())
                 "关于" -> AboutActivity.actionStart(requireActivity())
             }
@@ -101,6 +103,8 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                 MyItem(1, 1, "最近浏览", "0"),
                 MyItem(0, 3),
                 MyItem(2, 3, "我的分享", "", R.drawable.shape_my_round, R.drawable.ic_share),
+                MyItem(0, 3),
+                MyItem(2, 3, "体系", "", R.drawable.shape_my_round, R.drawable.ic_share),
                 MyItem(0, 3),
                 MyItem(2, 3, "排行榜", "", R.drawable.shape_my_round, R.drawable.ic_ranking),
                 MyItem(0, 3),

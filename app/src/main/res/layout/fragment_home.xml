@@ -13,7 +13,7 @@
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="200dp"
             android:gravity="center_vertical"
             android:padding="20dp"
             android:text="Home"
@@ -23,16 +23,13 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
+            style="@style/Widget.Theme.Wanandroid.TabLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="12dp"
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:tabIndicatorColor="@android:color/black"
-            app:tabIndicatorFullWidth="false"
-            app:tabIndicatorHeight="1dp"
-            app:tabMode="auto">
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"

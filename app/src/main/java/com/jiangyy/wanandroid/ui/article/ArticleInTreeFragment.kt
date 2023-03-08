@@ -1,4 +1,4 @@
-package com.jiangyy.wanandroid.ui.home.tree2sub
+package com.jiangyy.wanandroid.ui.article
 
 import com.koonny.appcompat.core.intentParcelable
 import com.jiangyy.wanandroid.data.Api

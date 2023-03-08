@@ -7,8 +7,8 @@
     <color name="colorOnSecondary">#FF000000</color>
     <color name="colorCommon">#1F5B89</color>
     <color name="colorBackground">#F1F1F1</color>
-    <color name="colorText">#FF000000</color>
-    <color name="colorSubText">#8A000000</color>
+    <color name="colorText">#2a2a2a</color>
+    <color name="colorSubText">#787878</color>
     <color name="colorTag">#FFFFFF</color>
     <color name="colorTagChecked">#1F5B89</color>
     <color name="colorLogin">#98bdf2</color>

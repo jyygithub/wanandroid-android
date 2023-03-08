@@ -1,4 +1,4 @@
-package com.jiangyy.wanandroid.ui.home.tree2sub
+package com.jiangyy.wanandroid.ui.home.sub
 
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager

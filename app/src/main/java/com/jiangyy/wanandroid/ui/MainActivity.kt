@@ -11,7 +11,7 @@ import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
 import com.jiangyy.wanandroid.ui.home.HomeFragment
 import com.jiangyy.wanandroid.ui.home.HomeMyFragment
-import com.jiangyy.wanandroid.ui.home.HomeTreeAndSubFragment
+import com.jiangyy.wanandroid.ui.home.HomeSubFragment
 import com.jiangyy.wanandroid.ui.home.SearchFragment
 import com.koonny.appcompat.BaseActivity
 import com.koonny.appcompat.core.toast
@@ -49,7 +49,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 return when (position) {
                     0 -> HomeFragment.newInstance()
                     1 -> SearchFragment.newInstance()
-                    2 -> HomeTreeAndSubFragment.newInstance()
+                    2 -> HomeSubFragment.newInstance()
                     3 -> HomeMyFragment.newInstance()
                     else -> HomeFragment.newInstance()
                 }
