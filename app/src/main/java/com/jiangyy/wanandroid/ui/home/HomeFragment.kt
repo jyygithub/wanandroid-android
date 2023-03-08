@@ -28,11 +28,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
                 super.onAttachedToRecyclerView(recyclerView)
-                recyclerView.setItemViewCacheSize(data.size)
+                recyclerView.setItemViewCacheSize(data.size + 3)
             }
 
             override fun getItemCount(): Int {
-                return data.size
+                return data.size + 3
             }
 
             override fun createFragment(position: Int): Fragment {
@@ -40,7 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     0 -> ArticleInProjectsFragment.newInstance()
                     1 -> ArticleInSquareFragment.newInstance()
                     2 -> ArticleInWendaFragment.newInstance()
-                    else -> ArticleInWechatFragment.newInstance(data[position].id.orEmpty())
+                    else -> ArticleInWechatFragment.newInstance(data[position - 3].id.orEmpty())
                 }
             }
         }
@@ -49,7 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 0 -> "项目"
                 1 -> "广场"
                 2 -> "问答"
-                else -> data[position].name.orEmpty()
+                else -> data[position - 3].name.orEmpty()
             }
         }.attach()
     }
