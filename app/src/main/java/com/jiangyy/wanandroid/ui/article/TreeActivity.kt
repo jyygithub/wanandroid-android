@@ -2,24 +2,28 @@ package com.jiangyy.wanandroid.ui.article
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
-import com.koonny.appcompat.BaseActivity
-import com.jiangyy.wanandroid.databinding.ContentPageListBinding
-import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.adapter.TreeAdapter
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
+import com.jiangyy.wanandroid.databinding.ContentPageListBinding
+import com.jiangyy.wanandroid.entity.Tree
+import com.koonny.appcompat.BaseActivity
+import com.koonny.appcompat.module.StatusModule
 
-class TreeActivity : BaseActivity<ContentPageListBinding>(ContentPageListBinding::inflate) {
+class TreeActivity : BaseActivity<ContentPageListBinding>(ContentPageListBinding::inflate), StatusModule {
 
     private val mAdapter = TreeAdapter()
 
+    override fun viewBindStatus(): View {
+        return binding.refreshLayout
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onPrepareWidget() {
+        super.onPrepareWidget()
         binding.toolbar.setTitle("体系")
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2).apply {
             spanSizeLookup = object : SpanSizeLookup() {
@@ -30,7 +34,7 @@ class TreeActivity : BaseActivity<ContentPageListBinding>(ContentPageListBinding
         }
         binding.recyclerView.adapter = mAdapter
         binding.refreshLayout.setOnRefreshListener {
-
+            onPrepareData()
         }
         mAdapter.setOnItemClickListener { _, _, position ->
             mAdapter.getItem(position)?.let {
@@ -39,9 +43,18 @@ class TreeActivity : BaseActivity<ContentPageListBinding>(ContentPageListBinding
                 }
             }
         }
+
+    }
+
+    override fun onPrepareData() {
+        super.onPrepareData()
         flowRequest<MutableList<Tree>> {
-            request { RetrofitHelper.getInstance().create(Api::class.java).tree() }
+            request {
+                startLoading()
+                RetrofitHelper.getInstance().create(Api::class.java).tree()
+            }
             response {
+                finishLoading()
                 val result = mutableListOf<Tree>()
                 if (it.isSuccess) {
                     it.getOrNull()?.forEach { parent ->
@@ -56,6 +69,10 @@ class TreeActivity : BaseActivity<ContentPageListBinding>(ContentPageListBinding
                 }
             }
         }
+    }
+
+    override fun onStatusRetry() {
+        onPrepareData()
     }
 
     companion object {
