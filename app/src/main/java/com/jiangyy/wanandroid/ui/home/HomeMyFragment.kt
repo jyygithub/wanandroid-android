@@ -104,7 +104,7 @@ class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflat
                 MyItem(0, 3),
                 MyItem(2, 3, "我的分享", "", R.drawable.shape_my_round, R.drawable.ic_share),
                 MyItem(0, 3),
-                MyItem(2, 3, "体系", "", R.drawable.shape_my_round, R.drawable.ic_share),
+                MyItem(2, 3, "体系", "", R.drawable.shape_my_round, R.drawable.ic_tree_active),
                 MyItem(0, 3),
                 MyItem(2, 3, "排行榜", "", R.drawable.shape_my_round, R.drawable.ic_ranking),
                 MyItem(0, 3),

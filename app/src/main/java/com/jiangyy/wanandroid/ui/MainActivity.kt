@@ -55,6 +55,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
         }
+        binding.bottomNavigationView.itemIconTintList = null
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_home -> (binding.containerView.getChildAt(0) as RecyclerView).scrollToPosition(0)
