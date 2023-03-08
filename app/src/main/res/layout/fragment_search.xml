@@ -35,7 +35,7 @@
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
             android:textSize="12sp"
-            app:drawableStartCompat="@drawable/ic_search"
+            app:drawableStartCompat="@drawable/ic_search_normal"
             app:layout_constraintBottom_toBottomOf="@+id/tvTitle" />
 
     </com.google.android.material.appbar.AppBarLayout>

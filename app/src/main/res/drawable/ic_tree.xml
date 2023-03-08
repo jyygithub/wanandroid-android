@@ -1,5 +1,5 @@
-<vector android:height="20dp" android:viewportHeight="1024"
-    android:viewportWidth="1024" android:width="20dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="#666666" android:pathData="M874.7,96L593.1,96c-19.2,0 -38.4,8.5 -53.3,21.3l-405.3,405.3c-29.9,29.9 -29.9,76.8 0,104.5l260.3,260.3c14.9,14.9 32,21.3 53.3,21.3s38.4,-8.5 53.3,-21.3l405.3,-405.3c14.9,-14.9 21.3,-32 21.3,-53.3L928,149.3c0,-29.9 -23.5,-53.3 -53.3,-53.3zM864,430.9c0,2.1 -2.1,6.4 -2.1,8.5l-405.3,405.3c-2.1,2.1 -6.4,2.1 -8.5,2.1s-4.3,0 -8.5,-2.1L181.3,584.5c-4.3,-4.3 -4.3,-10.7 0,-14.9l405.3,-405.3c2.1,-2.1 4.3,-2.1 8.5,-2.1h270.9v268.8z"/>
-    <path android:fillColor="#666666" android:pathData="M704,416c53.3,0 96,-42.7 96,-96s-42.7,-96 -96,-96 -96,42.7 -96,96 42.7,96 96,96zM704,288c17.1,0 32,14.9 32,32s-14.9,32 -32,32 -32,-14.9 -32,-32 14.9,-32 32,-32z"/>
-</vector>
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_tree_normal" android:state_checked="false" />
+    <item android:drawable="@drawable/ic_tree_active" android:state_checked="true" />
+</selector>
