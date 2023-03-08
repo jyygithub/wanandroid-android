@@ -7,35 +7,18 @@
     android:orientation="vertical"
     tools:context=".ui.article.ArticleActivity">
 
-    <FrameLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/white">
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="8dp"
-            android:background="#F6F5F7"
-            android:gravity="center"
-            android:paddingHorizontal="8dp"
-            android:singleLine="true"
-            android:textSize="16sp" />
-
-    </FrameLayout>
+        android:layout_height="48dp"
+        app:menu="@menu/article"
+        app:navigationIcon="@drawable/ic_arrow_left"
+        app:popupTheme="@style/Theme.Wanandroid.Toolbar.Popup" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
-    <com.koonny.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:endIcon="@drawable/ic_sort" />
 
 </LinearLayout>
