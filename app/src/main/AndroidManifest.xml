@@ -54,15 +54,16 @@
         <activity android:name=".ui.article.WechatActivity" />
         <activity android:name=".ui.article.SubListActivity" />
         <activity android:name=".ui.AboutActivity" />
-        <activity android:name=".ui.user.RankingActivity" />
+        <activity android:name=".ui.coin.RankingActivity" />
         <activity android:name=".ui.user.LoginActivity" />
-        <activity android:name=".ui.user.CoinHistoryActivity" />
+        <activity android:name=".ui.coin.CoinHistoryActivity" />
         <activity android:name=".wxapi.WXEntryActivity" />
         <activity android:name=".ui.user.ShareActivity" />
         <activity android:name=".ui.user.UnreadMessageActivity" />
         <activity android:name=".ui.user.ReadedMessageActivity" />
         <activity android:name=".ui.todo.TodosActivity" />
         <activity android:name=".ui.todo.AddTodoActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.article.SearchActivity" />
     </application>
 
 </manifest>

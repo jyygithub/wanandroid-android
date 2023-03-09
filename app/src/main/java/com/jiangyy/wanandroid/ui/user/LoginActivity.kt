@@ -1,47 +1,54 @@
 package com.jiangyy.wanandroid.ui.user
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.activity.viewModels
-import com.jiangyy.common.utils.doneToast
-import com.jiangyy.common.utils.errorToast
-import com.jiangyy.common.view.BaseActivity
+import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
+import com.jiangyy.wanandroid.data.Api
+import com.jiangyy.wanandroid.data.RetrofitHelper
+import com.jiangyy.wanandroid.data.flowRequest
 import com.jiangyy.wanandroid.databinding.ActivityLoginBinding
-import com.jiangyy.wanandroid.utils.DataStoreUtils
+import com.jiangyy.wanandroid.entity.User
+import com.jiangyy.wanandroid.utils.CurrentUser
+import com.jiangyy.wanandroid.utils.localLogin
+import com.koonny.appcompat.BaseActivity
+import com.koonny.appcompat.core.toast
+import kotlinx.coroutines.launch
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
 
-    private val mViewModel by viewModels<LoginViewModel>()
-
-    override fun initWidget() {
-        super.initWidget()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding.btnLogin.setOnClickListener {
-            mViewModel.login(
-                binding.etEmail.text.toString(),
-                binding.etPassword.text.toString()
-            )
+            flowRequest<User> {
+                request {
+                    RetrofitHelper.getInstance().create(Api::class.java).login(
+                        binding.etEmail.text.toString(),
+                        binding.etPassword.text.toString()
+                    )
+                }
+                response {
+                    if (it.isSuccess) {
+                        loginSuccess(CurrentUser(it.getOrNull()?.username, it.getOrNull()?.nickname))
+                    } else {
+                        toast(it.exceptionOrNull()?.message.orEmpty())
+                    }
+                }
+            }
         }
+
     }
 
-    override fun initObserver() {
-        super.initObserver()
-        mViewModel.loginResult.observe(this) {
-            if (it.isSuccess) {
-                doneToast("登录成功")
-                DataStoreUtils.logged = true
-                DataStoreUtils.updateUser(it.getOrNull())
-                setResult(Activity.RESULT_OK)
-                finish()
-            } else {
-                errorToast(it.exceptionOrNull()?.message.orEmpty())
-            }
+    private fun loginSuccess(currentUser: CurrentUser) {
+        lifecycleScope.launch {
+            localLogin(currentUser)
+            finish()
         }
     }
 
     companion object {
-        fun actionIntent(context: Context): Intent {
-            return Intent(context, LoginActivity::class.java)
+        fun actionStart(context: Context) {
+            context.startActivity(Intent(context, LoginActivity::class.java))
         }
     }
 

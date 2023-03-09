@@ -1,25 +1,19 @@
 package com.jiangyy.wanandroid.ui.article
 
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import com.koonny.appcompat.core.intentParcelable
+import com.jiangyy.wanandroid.data.Api
+import com.jiangyy.wanandroid.data.ApiResponse
+import com.jiangyy.wanandroid.data.RetrofitHelper
+import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.entity.Tree
-import com.jiangyy.wanandroid.ui.BaseArticlesFragment
-import com.jiangyy.wanandroid.ui.main.ArticlesViewModel
-import com.jiangyy.wanandroid.utils.parcelableIntent
-import kotlinx.coroutines.launch
+import com.jiangyy.wanandroid.ui.BaseArticleFragment
 
-class ArticleInTreeFragment private constructor() : BaseArticlesFragment() {
+class ArticleInTreeFragment : BaseArticleFragment() {
 
-    private val mTree by parcelableIntent<Tree>("tree")
+    private val mTree by intentParcelable<Tree>("tree")
 
-    override fun initObserver() {
-        super.initObserver()
-        val viewModel by viewModels<ArticlesViewModel>()
-        lifecycleScope.launch {
-            viewModel.pageArticleInTree(mTree?.id.orEmpty()).collect { pagingData ->
-                mAdapter.submitData(pagingData)
-            }
-        }
+    override suspend fun revoke(page: Int): ApiResponse<ApiResponse.Paging<Article>> {
+        return RetrofitHelper.getInstance().create(Api::class.java).pageArticleInTree(page, mTree?.id.orEmpty())
     }
 
     companion object {

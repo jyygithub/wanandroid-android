@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/nav_article"
-        android:icon="@drawable/ic_main_article"
-        android:title="文章" />
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="首页"
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/nav_project"
-        android:icon="@drawable/ic_main_project"
-        android:title="项目" />
+        android:id="@+id/nav_explore"
+        android:icon="@drawable/ic_search"
+        android:title="搜索"
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/nav_my"
-        android:icon="@drawable/ic_my"
-        android:title="我" />
+        android:id="@+id/nav_sub"
+        android:icon="@drawable/ic_tree"
+        android:title="教程"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/nav_smile"
+        android:icon="@mipmap/ic_launcher"
+        android:title="我"
+        app:showAsAction="ifRoom" />
 
 </menu>
