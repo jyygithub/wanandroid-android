@@ -47,10 +47,12 @@ abstract class BaseArticleFragment(private val startPage: Int = 0) : BaseFragmen
 
     private fun pageHomeArticle() {
         flowRequest<ApiResponse.Paging<Article>> {
-            request {
+            start {
                 if (mPage == startPage) {
                     startLoading()
                 }
+            }
+            request {
                 revoke(mPage)
             }
             response {
