@@ -5,8 +5,11 @@
 </p>
 <p align="center">
   <a href="https://github.com/jyygithub/wanandroid" target="_blank">
-    <img src="https://img.shields.io/badge/language-Kotlin-%23A97BFF" alt="language">
-    <img src="https://img.shields.io/github/license/jyygithub/wanandroid" alt="license">
+    <img src="https://img.shields.io/badge/min--sdk-23+-%23A97BFF" alt="minSdk">
+    <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/jyygithub/wanandroid">
+    <img alt="GitHub" src="https://img.shields.io/github/license/jyygithub/wanandroid">
+    <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/jyygithub/wanandroid">
+    <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/jyygithub/wanandroid">
   </a>
 </p>
 <h2 align="center">
@@ -17,10 +20,25 @@
 
 网址：https://wanandroid.com/
 
+## APP截图
+
+<p align="center">
+    <img alt="首页" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/01.png">
+    <img alt="探索" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/02.png">
+    <img alt="教程" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/03.png">
+    <img alt="我的" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/04.png">
+    <img alt="搜索" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/05.png">
+    <img alt="详情" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/06.png">
+    <img alt="体系" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/07.png">
+    <img alt="排行榜" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/08.png">
+    <img alt="关于" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/09.png">
+    <img alt="登录" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/10.png">
+</p>
+
 ## License
 
 ```text
-Copyright 2022 jyygithub, Inc.
+Copyright 2023 jyygithub, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
