@@ -44,8 +44,8 @@ class ArticleActivity : BaseActivity<ActivityArticleBinding>(ActivityArticleBind
                     putExtra(Intent.EXTRA_TEXT, mArticle?.link)
                     type = "text/plain"
                 }
-                val shareIntent = Intent.createChooser(sendIntent, null)
-                startActivity(shareIntent)
+//                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(sendIntent)
 
             }
             R.id.action_copy -> {

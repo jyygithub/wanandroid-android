@@ -15,9 +15,9 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/nav_tree"
+        android:id="@+id/nav_sub"
         android:icon="@drawable/ic_tree"
-        android:title="公众号"
+        android:title="教程"
         app:showAsAction="ifRoom" />
 
     <item

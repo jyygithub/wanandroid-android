@@ -11,7 +11,7 @@ import com.jiangyy.wanandroid.adapter.MyItem
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
-import com.jiangyy.wanandroid.databinding.FragmentMyBinding
+import com.jiangyy.wanandroid.databinding.FragmentHomeMyBinding
 import com.jiangyy.wanandroid.entity.UserInfo
 import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
@@ -27,7 +27,7 @@ import com.koonny.dialog.ConfirmDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class HomeMyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflate) {
+class HomeMyFragment : BaseFragment<FragmentHomeMyBinding>(FragmentHomeMyBinding::inflate) {
 
     private val mAdapter = MyAdapter()
     private var mUsername: String? = null

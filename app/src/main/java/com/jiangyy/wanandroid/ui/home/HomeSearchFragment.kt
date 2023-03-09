@@ -1,11 +1,11 @@
 package com.jiangyy.wanandroid.ui.home
 
-import com.jiangyy.wanandroid.databinding.FragmentSearchBinding
+import com.jiangyy.wanandroid.databinding.FragmentHomeSearchBinding
 import com.jiangyy.wanandroid.ui.article.SearchActivity
 import com.koonny.appcompat.BaseFragment
 import com.koonny.appcompat.core.click
 
-class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
+class HomeSearchFragment : BaseFragment<FragmentHomeSearchBinding>(FragmentHomeSearchBinding::inflate) {
 
     override fun onPrepareWidget() {
         super.onPrepareWidget()
@@ -13,7 +13,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
     }
 
     companion object {
-        fun newInstance() = SearchFragment()
+        fun newInstance() = HomeSearchFragment()
     }
 
 }

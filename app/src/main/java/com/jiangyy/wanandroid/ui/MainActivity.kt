@@ -12,7 +12,7 @@ import com.jiangyy.wanandroid.databinding.ActivityMainBinding
 import com.jiangyy.wanandroid.ui.home.HomeFragment
 import com.jiangyy.wanandroid.ui.home.HomeMyFragment
 import com.jiangyy.wanandroid.ui.home.HomeSubFragment
-import com.jiangyy.wanandroid.ui.home.SearchFragment
+import com.jiangyy.wanandroid.ui.home.HomeSearchFragment
 import com.koonny.appcompat.BaseActivity
 import com.koonny.appcompat.core.toast
 import kotlin.system.exitProcess
@@ -48,7 +48,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
                     0 -> HomeFragment.newInstance()
-                    1 -> SearchFragment.newInstance()
+                    1 -> HomeSearchFragment.newInstance()
                     2 -> HomeSubFragment.newInstance()
                     3 -> HomeMyFragment.newInstance()
                     else -> HomeFragment.newInstance()
@@ -57,11 +57,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
         binding.bottomNavigationView.itemIconTintList = null
         binding.bottomNavigationView.setOnItemSelectedListener {
+            val recyclerView = binding.containerView.getChildAt(0) as RecyclerView
             when (it.itemId) {
-                R.id.nav_home -> (binding.containerView.getChildAt(0) as RecyclerView).scrollToPosition(0)
-                R.id.nav_explore -> (binding.containerView.getChildAt(0) as RecyclerView).scrollToPosition(1)
-                R.id.nav_tree -> (binding.containerView.getChildAt(0) as RecyclerView).scrollToPosition(2)
-                R.id.nav_smile -> (binding.containerView.getChildAt(0) as RecyclerView).scrollToPosition(3)
+                R.id.nav_home -> recyclerView.scrollToPosition(0)
+                R.id.nav_explore -> recyclerView.scrollToPosition(1)
+                R.id.nav_sub -> recyclerView.scrollToPosition(2)
+                R.id.nav_smile -> recyclerView.scrollToPosition(3)
             }
             true
         }
