@@ -23,16 +23,16 @@
 ## APP截图
 
 <p align="center">
-    <img alt="首页" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/01.png">
-    <img alt="探索" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/02.png">
-    <img alt="教程" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/03.png">
-    <img alt="我的" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/04.png">
-    <img alt="搜索" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/05.png">
-    <img alt="详情" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/06.png">
-    <img alt="体系" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/07.png">
-    <img alt="排行榜" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/08.png">
-    <img alt="关于" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/09.png">
-    <img alt="登录" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/10.png">
+    <img alt="首页" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/01.png" width="100">
+    <img alt="探索" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/02.png" width="100">
+    <img alt="教程" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/03.png" width="100">
+    <img alt="我的" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/04.png" width="100">
+    <img alt="搜索" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/05.png" width="100">
+    <img alt="详情" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/06.png" width="100">
+    <img alt="体系" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/07.png" width="100">
+    <img alt="排行榜" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/08.png" width="100">
+    <img alt="关于" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/09.png" width="100">
+    <img alt="登录" src="https://github.com/jyygithub/wanandroid/blob/main/screenshots/10.png" width="100">
 </p>
 
 ## License
