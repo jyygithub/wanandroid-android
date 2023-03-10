@@ -129,7 +129,8 @@ interface Api {
     /**
      * 搜索
      */
+    @FormUrlEncoded
     @POST("article/query/{page}/json")
-    suspend fun search(@Path("page") page: Int = 0, @Query("k") k: String): ApiResponse<ApiResponse.Paging<Article>>
+    suspend fun search(@Path("page") page: Int = 0, @Field("k") k: String): ApiResponse<ApiResponse.Paging<Article>>
 
 }
