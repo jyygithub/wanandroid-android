@@ -5,6 +5,9 @@ import retrofit2.http.*
 
 interface Api {
 
+    /**
+     * 获取最新版本
+     */
     @GET("https://api.github.com/repos/jyygithub/wanandroid/releases/latest")
     suspend fun latestVersion(): AppVersion
 
@@ -85,7 +88,10 @@ interface Api {
      * 体系下的文章列表
      */
     @GET("article/list/{page}/json")
-    suspend fun pageArticleInTree(@Path("page") page: Int, @Query("cid") cid: String): ApiResponse<ApiResponse.Paging<Article>>
+    suspend fun pageArticleInTree(
+        @Path("page") page: Int,
+        @Query("cid") cid: String
+    ): ApiResponse<ApiResponse.Paging<Article>>
 
     @GET("user/{userId}/share_articles/{page}/json")
     suspend fun pageArticleInUser(@Path("page") page: Int, @Path("userId") userId: Int): ApiResponse<ShareHistory>
@@ -100,7 +106,10 @@ interface Api {
      * 公众号文章列表
      */
     @GET("wxarticle/list/{id}/{page}/json")
-    suspend fun listArticleInWechat(@Path("page") page: Int, @Path("id") id: String): ApiResponse<ApiResponse.Paging<Article>>
+    suspend fun listArticleInWechat(
+        @Path("page") page: Int,
+        @Path("id") id: String
+    ): ApiResponse<ApiResponse.Paging<Article>>
 
     /**
      * 获取教程列表
@@ -112,12 +121,16 @@ interface Api {
      * 教程下的文章列表
      */
     @GET("article/list/{page}/json")
-    suspend fun listArticleInSub(@Path("page") page: Int, @Query("cid") cid: String): ApiResponse<ApiResponse.Paging<Article>>
+    suspend fun listArticleInSub(
+        @Path("page") page: Int,
+        @Query("cid") cid: String
+    ): ApiResponse<ApiResponse.Paging<Article>>
 
     /**
      * 搜索
      */
+    @FormUrlEncoded
     @POST("article/query/{page}/json")
-    suspend fun search(@Path("page") page: Int = 0, @Query("k") k: String): ApiResponse<ApiResponse.Paging<Article>>
+    suspend fun search(@Path("page") page: Int = 0, @Field("k") k: String): ApiResponse<ApiResponse.Paging<Article>>
 
 }

@@ -22,6 +22,9 @@
             android:background="@drawable/shape_search"
             android:drawablePadding="12dp"
             android:gravity="center_vertical"
+            android:imeOptions="actionSearch"
+            android:lines="1"
+            android:inputType="text"
             android:hint="Search WanAndroid"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"
@@ -38,11 +41,11 @@
 
     </LinearLayout>
 
-    <include
-        android:id="@+id/containerView"
-        layout="@layout/fragment_articles"
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:attr/colorBackground" />
+        android:id="@+id/containerView"
+        android:name="com.jiangyy.wanandroid.ui.article.ArticleInSearchFragment"
+        android:background="?android:attr/colorBackground"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
