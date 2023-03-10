@@ -15,6 +15,9 @@ class ArticleInSearchFragment : BaseArticleFragment() {
     private var mKey = ""
 
     override fun onPrepareData() {
+        if (mKey.isBlank()) {
+            finishLoadingWithStatus("暂无数据", R.drawable.ic_state_empty)
+        }
         mViewModel.key.observe(this) {
             if (it.isNullOrBlank()) {
                 finishLoadingWithStatus("暂无数据", R.drawable.ic_state_empty)
