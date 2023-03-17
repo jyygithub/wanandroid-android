@@ -72,7 +72,7 @@ class RankingActivity : BaseActivity<ActivityRankingBinding>(ActivityRankingBind
         pageHomeArticle()
     }
 
-    override fun onStatusRetry() {
+    override fun onStatusRetry(exception: Exception) {
         mPage = 1
         pageHomeArticle()
     }

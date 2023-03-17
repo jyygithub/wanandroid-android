@@ -8,7 +8,7 @@ import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.entity.Article
 import com.jiangyy.wanandroid.ui.BaseArticleFragment
 
-class ArticleInWechatFragment : BaseArticleFragment() {
+class ArticleInWechatFragment : BaseArticleFragment(1) {
 
     private val mWechatId by argumentsString("wechatId")
 

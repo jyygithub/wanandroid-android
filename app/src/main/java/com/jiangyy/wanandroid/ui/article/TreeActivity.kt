@@ -71,7 +71,7 @@ class TreeActivity : BaseActivity<ContentPageListBinding>(ContentPageListBinding
         }
     }
 
-    override fun onStatusRetry() {
+    override fun onStatusRetry(exception: Exception) {
         onPrepareData()
     }
 
