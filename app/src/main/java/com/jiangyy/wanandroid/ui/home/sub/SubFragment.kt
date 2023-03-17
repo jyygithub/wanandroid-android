@@ -15,7 +15,7 @@ class SubFragment : BaseFragment<FragmentSubBinding>(FragmentSubBinding::inflate
 
     private val mAdapter = SubAdapter()
 
-    override fun onStatusRetry() {
+    override fun onStatusRetry(exception: Exception) {
         onPrepareData()
     }
 

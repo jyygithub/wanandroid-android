@@ -72,7 +72,7 @@ class CoinHistoryActivity : BaseActivity<ActivityCoinHistoryBinding>(ActivityCoi
         pageHomeArticle()
     }
 
-    override fun onStatusRetry() {
+    override fun onStatusRetry(exception: Exception) {
         mPage = 1
         pageHomeArticle()
     }

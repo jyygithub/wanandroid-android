@@ -52,7 +52,7 @@ abstract class BaseArticleFragment(private val startPage: Int = 0) :
         onPrepareData()
     }
 
-    override fun onStatusRetry() {
+    override fun onStatusRetry(exception: Exception) {
         onRefresh()
     }
 

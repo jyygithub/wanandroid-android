@@ -43,7 +43,7 @@ class TreeFragment : BaseFragment<FragmentTreeBinding>(FragmentTreeBinding::infl
         }
     }
 
-    override fun onStatusRetry() {
+    override fun onStatusRetry(exception: Exception) {
         onPrepareData()
     }
 
