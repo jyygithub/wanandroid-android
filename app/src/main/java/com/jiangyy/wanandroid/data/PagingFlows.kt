@@ -43,7 +43,7 @@ class PagingFlowAction<T> {
      * 首次加载失败
      */
     fun onError(block: suspend (Exception) -> Unit) {
-        onLoadError = block
+        onError = block
     }
 
     var onLoadError: (suspend (Exception) -> Unit)? = null
