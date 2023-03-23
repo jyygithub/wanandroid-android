@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.koonny.appcompat.core.mills2string
 import com.koonny.appcompat.core.orZero
 import com.jiangyy.wanandroid.databinding.RecyclerItemCoinHistoryBinding
 import com.jiangyy.wanandroid.entity.CoinHistory
+import com.koonny.appcompat.core.formatString
 
 class CoinHistoryAdapter :BaseQuickAdapter<CoinHistory, CoinHistoryAdapter.VH>() {
 
@@ -16,7 +16,7 @@ class CoinHistoryAdapter :BaseQuickAdapter<CoinHistory, CoinHistoryAdapter.VH>()
 
     override fun onBindViewHolder(holder: VH, position: Int, item: CoinHistory?) {
         holder.binding.tvCoin.text = "+${item?.coinCount}"
-        holder.binding.tvDate.text = item?.date?.orZero()!!.mills2string()
+        holder.binding.tvDate.text = item?.date?.orZero()!!.formatString()
         holder.binding.tvType.text = item?.reason
     }
 

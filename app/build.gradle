@@ -13,8 +13,8 @@ android {
         applicationId "com.jiangyy.wanandroid"
         minSdk 23
         targetSdk 33
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -56,7 +56,7 @@ dependencies {
     implementation "com.github.franmontiel:PersistentCookieJar:v1.0.1"
     implementation "com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx"
     implementation 'io.github.cymchad:BaseRecyclerViewAdapterHelper:4.0.0-beta04'
-    implementation 'com.koonny.appcompat:appcompat:0.0.1.301-SNAPSHOT'
+    implementation 'com.koonny.appcompat:appcompat:1.0.0-SNAPSHOT'
     implementation 'com.koonny.dialog:dialog:1.0.0-SNAPSHOT'
     implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation 'io.github.azhon:appupdate:4.2.6'
