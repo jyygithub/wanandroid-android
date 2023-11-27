@@ -1,9 +1,37 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Wanandroid" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.WanAndroid" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:textViewStyle">@style/Widget.Theme.WanAndroid.TextView</item>
+        <item name="toolbarStyle">@style/Widget.Theme.WanAndroid.Toolbar</item>
     </style>
 
-    <style name="Theme.Wanandroid" parent="Base.Theme.Wanandroid" />
+    <style name="Theme.WanAndroid" parent="Base.Theme.WanAndroid" />
+
+    <style name="Theme.WanAndroid.Launcher" parent="Theme.WanAndroid">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/layer_launch</item>
+    </style>
+
+    <style name="Widget.Theme.WanAndroid.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?android:statusBarColor</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="navigationIcon">@drawable/ic_public_back</item>
+        <item name="contentInsetLeft">0dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+
+    <style name="Widget.Theme.WanAndroid.TextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorHint">@color/colorSubText</item>
+    </style>
+
 </resources>
