@@ -1,9 +1,10 @@
 package com.jiangyy.wanandroid.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -12,10 +13,11 @@ import com.google.android.material.navigation.NavigationBarView
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
-import com.jiangyy.wanandroid.ui.home.BooksFragment
-import com.jiangyy.wanandroid.ui.home.ExploreFragment
+import com.jiangyy.wanandroid.kit.toast
 import com.jiangyy.wanandroid.ui.home.HomeFragment
-import com.jiangyy.wanandroid.ui.home.MyFragment
+import com.jiangyy.wanandroid.ui.home.HomeMyFragment
+import com.jiangyy.wanandroid.ui.home.HomeSearchFragment
+import com.jiangyy.wanandroid.ui.home.HomeSubFragment
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate), NavigationBarView.OnItemSelectedListener {
 
@@ -28,7 +30,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 finishAndRemoveTask()
             } else {
                 doubleBackToExitPressedOnce = true
-                Toast.makeText(this@MainActivity, "再按一次退出程序", Toast.LENGTH_SHORT).show()
+                toast("再按一次退出程序")
                 Handler(Looper.getMainLooper()).postDelayed({
                     doubleBackToExitPressedOnce = false
                 }, 2000)
@@ -49,11 +51,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    0 -> HomeFragment()
-                    1 -> ExploreFragment()
-                    2 -> BooksFragment()
-                    3 -> MyFragment()
-                    else -> HomeFragment()
+                    0 -> HomeFragment.newInstance()
+                    1 -> HomeSearchFragment.newInstance()
+                    2 -> HomeSubFragment.newInstance()
+                    3 -> HomeMyFragment.newInstance()
+                    else -> HomeFragment.newInstance()
                 }
             }
         }
@@ -70,6 +72,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             R.id.nav_smile -> recyclerView.scrollToPosition(3)
         }
         return true
+    }
+
+    companion object {
+        fun actionStart(context: Context) {
+            context.startActivity(Intent(context, MainActivity::class.java))
+        }
     }
 
 }
