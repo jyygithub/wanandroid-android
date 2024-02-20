@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         app:endIcon="@drawable/ic_logout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:startIcon="@drawable/ic_message" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvMessageCount"

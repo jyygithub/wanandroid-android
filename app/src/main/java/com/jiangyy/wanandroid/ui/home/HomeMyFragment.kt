@@ -61,10 +61,6 @@ class HomeMyFragment : BaseFragment<FragmentHomeMyBinding>(FragmentHomeMyBinding
                 LoginActivity.actionStart(requireActivity())
             }
         }
-        binding.toolbar.setOnStartListener {
-//            UnreadMessageActivity.actionStart(requireActivity())
-        }
-
         binding.toolbar.setOnEndListener {
             ConfirmDialog()
                 .title("提示")
