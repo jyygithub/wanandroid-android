@@ -6,12 +6,6 @@ import retrofit2.http.*
 interface Api {
 
     /**
-     * 获取最新版本
-     */
-    @GET("https://api.github.com/repos/jyygithub/wanandroid/releases/latest")
-    suspend fun latestVersion(): AppVersion
-
-    /**
      * 用户登录
      */
     @FormUrlEncoded

@@ -61,7 +61,6 @@ dependencies {
     implementation("com.koonny.appcompat:appcompat:1.0.0-SNAPSHOT")
     implementation("com.koonny.dialog:dialog:1.0.0-SNAPSHOT")
     implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("io.github.azhon:appupdate:4.2.6")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
