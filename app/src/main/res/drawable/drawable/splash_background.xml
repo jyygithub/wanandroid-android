@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 整体的背景颜色 -->
+    <item>
+        <color android:color="@color/colorLauncher" />
+    </item>
+
+    <item
+        android:width="143dp"
+        android:height="143dp"
+        android:bottom="100dp"
+        android:gravity="center">
+        <bitmap
+            android:gravity="fill"
+            android:src="@drawable/launcher" />
+    </item>
+
+</layer-list>
