@@ -2,7 +2,8 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -15,42 +16,37 @@
             android:layout_height="150dp"
             android:gravity="center_vertical"
             android:padding="20dp"
-            android:text="首页"
+            android:text="探索"
             android:textColor="@color/colorItem"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_scrollFlags="scroll" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            style="@style/Widget.Theme.WanAndroid.TabLayout"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvSearch"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:background="@android:color/transparent"
-            app:tabSelectedTextColor="@color/colorItem"
-            app:tabTextColor="@color/colorSubText">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.tabs.TabLayout>
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/shape_search"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:hint="Search WanAndroid"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:textSize="12sp"
+            app:drawableStartCompat="@drawable/ic_search_normal"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/containerView"
+        android:name="com.jiangyy.wanandroid.ui.home.explore.ArticleInLatestFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -15,7 +15,7 @@
             android:layout_height="150dp"
             android:gravity="center_vertical"
             android:padding="20dp"
-            android:text="首页"
+            android:text="教程"
             android:textColor="@color/colorItem"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -51,6 +51,7 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
