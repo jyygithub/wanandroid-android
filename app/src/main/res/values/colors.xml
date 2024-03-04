@@ -15,6 +15,7 @@
     <color name="colorOnSecondary">@color/black</color>
     <color name="colorStatusBarColor">@color/colorPrimaryVariant</color>
 
+    <color name="colorLauncher">#FFFFFF</color>
     <color name="colorText">#FF000000</color>
     <color name="colorSubText">#6C6C6C</color>
     <color name="colorItem">#FFFFFF</color>
