@@ -13,7 +13,7 @@
         android:layout_height="48dp"
         app:menu="@menu/article"
         app:navigationIcon="@drawable/ic_arrow_left"
-        app:popupTheme="@style/Theme.Wanandroid.Toolbar.Popup" />
+        app:popupTheme="@style/Theme.WanAndroid.Toolbar.Popup" />
 
     <FrameLayout
         android:id="@+id/frameLayout"

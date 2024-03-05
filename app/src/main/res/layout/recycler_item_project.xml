@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="1dp"
-    android:background="@drawable/selector_recycler_item"
     android:paddingHorizontal="20dp"
     android:paddingVertical="12dp">
 
     <ImageView
         android:id="@+id/ivUser"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toBottomOf="@+id/tvArticleAuthor"
+        app:layout_constraintDimensionRatio="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/tvArticleAuthor" />
 
     <TextView
         android:id="@+id/tvArticleAuthor"
@@ -25,9 +25,8 @@
         android:lines="1"
         android:textColor="@color/colorSubText"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivUser"
         app:layout_constraintStart_toEndOf="@+id/ivUser"
-        app:layout_constraintTop_toTopOf="@+id/ivUser"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Author in " />
 
     <TextView
@@ -53,7 +52,7 @@
         android:ellipsize="end"
         android:lines="3"
         android:maxLines="3"
-        android:textSize="15sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/ivArticleImage"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,8 +63,9 @@
         android:id="@+id/ivArticleImage"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/tvArticleTitle"
-        app:layout_constraintDimensionRatio="9:16"
+        app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvArticleTitle"
         tools:src="@color/black" />

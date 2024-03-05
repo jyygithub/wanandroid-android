@@ -1,53 +1,50 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.Wanandroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.WanAndroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
-        <item name="colorOnPrimary">@color/colorOnPrimary</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <item name="android:statusBarColor">@color/colorStatusBarColor</item>
-        <item name="toolbarStyle">@style/Theme.Wanandroid.Toolbar</item>
-        <item name="android:textViewStyle">@style/Theme.Wanandroid.TextView</item>
-        <item name="editTextStyle">@style/Widget.Theme.Wanandroid.EditText</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="toolbarStyle">@style/Theme.WanAndroid.Toolbar</item>
+        <item name="android:textViewStyle">@style/Theme.WanAndroid.TextView</item>
+        <item name="editTextStyle">@style/Widget.Theme.WanAndroid.EditText</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="Theme.Wanandroid.Launcher" parent="Theme.Wanandroid">
+    <style name="Theme.WanAndroid.Launcher" parent="Theme.WanAndroid">
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
-    <style name="Theme.Wanandroid.Toolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:background">?attr/colorPrimaryVariant</item>
-        <item name="titleTextColor">@color/colorText</item>
+    <style name="Theme.WanAndroid.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?attr/colorPrimaryDark</item>
+        <item name="titleTextColor">@color/colorItem</item>
+        <item name="android:iconTint">@color/colorItem</item>
         <item name="startIcon">@drawable/ic_arrow_left</item>
     </style>
 
-    <style name="Theme.Wanandroid.Toolbar.Title" parent="TextAppearance.AppCompat">
+    <style name="Theme.WanAndroid.Toolbar.Title" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="Theme.Wanandroid.Toolbar.Popup" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
+    <style name="Theme.WanAndroid.Toolbar.Popup" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
         <item name="overlapAnchor">false</item>
         <item name="android:dropDownWidth">wrap_content</item>
     </style>
 
-    <style name="Theme.Wanandroid.TextView" parent="Widget.MaterialComponents.TextView">
+    <style name="Theme.WanAndroid.TextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">@color/colorText</item>
     </style>
 
-    <style name="Widget.Theme.Wanandroid.EditText" parent="Widget.AppCompat.EditText">
+    <style name="Widget.Theme.WanAndroid.EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorText</item>
         <item name="android:textColorHint">@color/colorSubText</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="Widget.Theme.Wanandroid.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+    <style name="Widget.Theme.WanAndroid.TabLayout" parent="Widget.MaterialComponents.TabLayout">
         <item name="tabSelectedTextColor">@color/colorText</item>
         <item name="tabTextColor">@color/colorSubText</item>
         <item name="tabIndicatorHeight">1dp</item>

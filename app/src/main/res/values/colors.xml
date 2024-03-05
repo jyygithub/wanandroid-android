@@ -8,12 +8,8 @@
     <color name="colorBackground">#F2F3F5</color>
     <color name="colorBrand">#1F5B89</color>
     <color name="colorPrimary">@color/colorBrand</color>
-    <color name="colorPrimaryVariant">@color/white</color>
-    <color name="colorOnPrimary">@color/white</color>
-    <color name="colorSecondary">@color/colorBrand</color>
-    <color name="colorSecondaryVariant">@color/colorBrand</color>
-    <color name="colorOnSecondary">@color/black</color>
-    <color name="colorStatusBarColor">@color/colorPrimaryVariant</color>
+    <color name="colorPrimaryDark">@color/colorBrand</color>
+    <color name="colorAccent">@color/colorBrand</color>
 
     <color name="colorLauncher">#FFFFFF</color>
     <color name="colorText">#FF000000</color>
