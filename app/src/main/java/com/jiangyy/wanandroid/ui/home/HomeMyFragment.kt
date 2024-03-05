@@ -13,7 +13,6 @@ import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
 import com.jiangyy.wanandroid.databinding.FragmentHomeMyBinding
 import com.jiangyy.wanandroid.entity.UserInfo
-import com.jiangyy.wanandroid.ui.AboutActivity
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.coin.CoinHistoryActivity
@@ -21,6 +20,7 @@ import com.jiangyy.wanandroid.ui.coin.RankingActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
 import com.jiangyy.wanandroid.utils.*
 import com.koonny.appcompat.BaseFragment
+import com.koonny.appcompat.core.appVersion
 import com.koonny.appcompat.core.orZero
 import com.koonny.appcompat.core.toast
 import com.koonny.dialog.ConfirmDialog
@@ -89,7 +89,7 @@ class HomeMyFragment : BaseFragment<FragmentHomeMyBinding>(FragmentHomeMyBinding
                 "我的分享" -> ArticlesActivity.actionStart(requireActivity(), "share")
                 "体系" -> TreeActivity.actionStart(requireActivity())
                 "排行榜" -> RankingActivity.actionStart(requireActivity())
-                "关于" -> AboutActivity.actionStart(requireActivity())
+                "开源项目" -> "https://github.com/jyygithub/wanandroid"
             }
         }
         mAdapter.submitList(
@@ -101,10 +101,24 @@ class HomeMyFragment : BaseFragment<FragmentHomeMyBinding>(FragmentHomeMyBinding
                 MyItem(2, 3, "我的分享", "", R.drawable.shape_my_round, R.drawable.ic_share),
                 MyItem(0, 3),
                 MyItem(2, 3, "体系", "", R.drawable.shape_my_round, R.drawable.ic_tree_normal),
-                MyItem(0, 3),
                 MyItem(2, 3, "排行榜", "", R.drawable.shape_my_round, R.drawable.ic_ranking),
                 MyItem(0, 3),
-                MyItem(2, 3, "关于", "", R.drawable.shape_my_round, R.drawable.ic_settings),
+                MyItem(
+                    2,
+                    3,
+                    "当前版本",
+                    "Version ${requireActivity().appVersion.versionName}",
+                    R.drawable.shape_my_round,
+                    R.drawable.ic_settings
+                ),
+                MyItem(
+                    2,
+                    3,
+                    "项目开源",
+                    "Github",
+                    R.drawable.shape_my_round,
+                    R.drawable.ic_settings
+                ),
             )
         )
     }

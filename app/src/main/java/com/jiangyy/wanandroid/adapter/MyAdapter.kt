@@ -44,6 +44,7 @@ class MyAdapter : BaseMultiItemAdapter<MyItem>() {
         }).addItemType(2, object : OnMultiItemAdapterListener<MyItem, ListVH> {
             override fun onBind(holder: ListVH, position: Int, item: MyItem?) {
                 holder.binding.tvText.text = item?.title.orEmpty()
+                holder.binding.tvDesc.text = item?.text.orEmpty()
                 holder.binding.containerView.setBackgroundResource(item?.background!!)
                 holder.binding.ivIcon.setImageResource(item.icon)
             }
