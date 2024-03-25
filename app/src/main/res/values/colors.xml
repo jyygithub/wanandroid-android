@@ -1,32 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <dimen name="dp_14">14dp</dimen>
-
+    <color name="ic_launcher_background">#CE132D</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorCommon">#1F5B89</color>
-
-    <color name="colorBackground">#F2F3F5</color>
-    <color name="colorBrand">#1F5B89</color>
-    <color name="colorPrimary">@color/colorBrand</color>
-    <color name="colorPrimaryDark">@color/colorBrand</color>
-    <color name="colorAccent">@color/colorBrand</color>
-
-    <color name="colorLauncher">#FFFFFF</color>
+    <color name="colorLauncher">#CE132D</color>
+    <color name="colorBrand">#CE132D</color>
+    <color name="colorRipple">#E6E6E6</color>
+    <color name="colorItem">#FFFFFF</color>
     <color name="colorText">#FF000000</color>
     <color name="colorSubText">#6C6C6C</color>
-    <color name="colorItem">#FFFFFF</color>
-    <color name="colorRipple">#E6E6E6</color>
+    <color name="colorNavSelected">#CE132D</color>
+    <color name="colorNav">#6C6C6C</color>
 
-    <color name="colorTag">#FFFFFF</color>
-    <color name="colorTagChecked">#1F5B89</color>
-    <color name="colorLogin">#98bdf2</color>
-    <color name="colorDivider">#E8E8E8</color>
-    <color name="colorButtonDisable">#caccd0</color>
-    <color name="colorButtonEnable">#1F5B89</color>
-    <color name="colorScoreCard">#ebf1ff</color>
-    <color name="colorTableHeader">#1F5B89</color>
-    <color name="colorTableEvenRow">#FFFFFF</color>
-    <color name="colorTableOddRow">#f9f9f9</color>
+    <color name="colorBackground">#F2F3F5</color>
+    <color name="colorPrimary">@color/colorBrand</color>
+    <color name="colorAccent">@color/colorBrand</color>
+
+    <color name="colorWon">#50C762</color>
+    <color name="colorLost">#F4726D</color>
+    <color name="colorDrawn">#FAD495</color>
+
+    <color name="colorLiveWon">#FFFFFFFF</color>
+    <color name="colorLiveFrame">#80FFFFFF</color>
+
 </resources>

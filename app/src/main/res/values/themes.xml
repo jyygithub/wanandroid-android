@@ -1,56 +1,44 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.WanAndroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:colorBackground">@color/colorBackground</item>
+    <style name="Base.Theme.Wst" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="toolbarStyle">@style/Theme.WanAndroid.Toolbar</item>
-        <item name="android:textViewStyle">@style/Theme.WanAndroid.TextView</item>
-        <item name="editTextStyle">@style/Widget.Theme.WanAndroid.EditText</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:textViewStyle">@style/Widget.Theme.Wst.TextView</item>
+        <item name="toolbarStyle">@style/Widget.Theme.Wst.Toolbar</item>
     </style>
 
-    <style name="Theme.WanAndroid.Launcher" parent="Theme.WanAndroid">
+    <style name="Theme.Wst" parent="Base.Theme.Wst" />
+
+    <style name="Theme.Wst.Launcher" parent="Theme.Wst">
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:windowBackground">@drawable/layer_launch</item>
     </style>
 
-    <style name="Theme.WanAndroid.Toolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:background">?attr/colorPrimaryDark</item>
-        <item name="titleTextColor">@color/colorItem</item>
-        <item name="android:iconTint">@color/colorItem</item>
-        <item name="startIcon">@drawable/ic_arrow_left</item>
+    <style name="Theme.Wst.Live" parent="Theme.Wst">
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/black</item>
     </style>
 
-    <style name="Theme.WanAndroid.Toolbar.Title" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">18sp</item>
+    <style name="Widget.Theme.Wst.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?android:statusBarColor</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="navigationIcon">@drawable/ic_public_back</item>
+        <item name="contentInsetLeft">0dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
     </style>
 
-    <style name="Theme.WanAndroid.Toolbar.Popup" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
-        <item name="overlapAnchor">false</item>
-        <item name="android:dropDownWidth">wrap_content</item>
-    </style>
-
-    <style name="Theme.WanAndroid.TextView" parent="Widget.MaterialComponents.TextView">
-        <item name="android:textColor">@color/colorText</item>
-    </style>
-
-    <style name="Widget.Theme.WanAndroid.EditText" parent="Widget.AppCompat.EditText">
-        <item name="android:textSize">14sp</item>
+    <style name="Widget.Theme.Wst.TextView" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">@color/colorText</item>
         <item name="android:textColorHint">@color/colorSubText</item>
-        <item name="android:background">@android:color/transparent</item>
-    </style>
-
-    <style name="Widget.Theme.WanAndroid.TabLayout" parent="Widget.MaterialComponents.TabLayout">
-        <item name="tabSelectedTextColor">@color/colorText</item>
-        <item name="tabTextColor">@color/colorSubText</item>
-        <item name="tabIndicatorHeight">1dp</item>
-        <item name="tabIndicatorColor">@color/colorText</item>
-        <item name="tabIndicatorFullWidth">false</item>
-        <item name="tabMode">auto</item>
     </style>
 
 </resources>
