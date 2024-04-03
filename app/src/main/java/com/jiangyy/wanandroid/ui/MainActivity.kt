@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationBarView
 import com.jiangyy.wanandroid.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
+import com.jiangyy.wanandroid.kit.toast
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate), NavigationBarView.OnItemSelectedListener {
 
