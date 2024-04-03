@@ -41,8 +41,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:kit"))
-    implementation(files("libs/XInstall_V1.5.7.4.aar"))
     implementation(libs.appcompat)
     implementation(libs.activity.ktx)
     implementation(libs.fragment.ktx)

@@ -4,9 +4,10 @@ import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
 import androidx.activity.addCallback
-import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationBarView
+import com.jiangyy.wanandroid.R
+import com.jiangyy.wanandroid.adapter.MainViewPagerAdapter
 import com.jiangyy.wanandroid.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
 import com.jiangyy.wanandroid.kit.toast
@@ -24,7 +25,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 finishAndRemoveTask()
             } else {
                 doubleBackToExitPressedOnce = true
-                toast(getString(R.string.press_back_again_to_exit))
+                toast("再按一次退出程序")
                 Handler(Looper.getMainLooper()).postDelayed({
                     doubleBackToExitPressedOnce = false
                 }, 2000)
@@ -48,40 +49,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             binding.viewPager.registerOnPageChangeCallback(it)
         }
         binding.bottomNavigationView.setOnItemSelectedListener(this)
-        mViewModel.version.observe(this) {
-            if (it.versionCode != appVersion.first) {
-                mApkDownloadManager.start(it)
-            } else if (getSharedPreferences("isnooker", MODE_PRIVATE).getBoolean("app_beta", false)) {
-                if (it.versionName != appVersion.second) {
-                    mApkDownloadManager.start(it)
-                }
-            }
-        }
-        mViewModel.betaVersion.observe(this) {
-            if (it.versionCode == appVersion.first && it.versionName != appVersion.second) {
-                mApkDownloadManager.start(it)
-            }
-        }
-    }
-
-    override fun onPrepareData() {
-        super.onPrepareData()
-        mViewModel.update()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_upcoming -> binding.viewPager.currentItem = 0
-            R.id.nav_calendar -> binding.viewPager.currentItem = 1
-            R.id.nav_rankings -> binding.viewPager.currentItem = 2
-            R.id.nav_news -> binding.viewPager.currentItem = 3
-            R.id.nav_my -> binding.viewPager.currentItem = 4
+            R.id.nav_home -> binding.viewPager.currentItem = 0
+            R.id.nav_explore -> binding.viewPager.currentItem = 1
+            R.id.nav_sub -> binding.viewPager.currentItem = 2
+            R.id.nav_smile -> binding.viewPager.currentItem = 3
         }
         return true
     }
 
     override fun onDestroy() {
-        mApkDownloadManager.onDestroy()
         mPageChangeCallback?.let {
             binding.viewPager.unregisterOnPageChangeCallback(it)
         }
