@@ -27,13 +27,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.article.ArticleActivity" />
-        <activity android:name=".ui.article.ArticlesActivity" />
-        <activity android:name=".ui.article.TreeActivity" />
-        <activity android:name=".ui.coin.RankingActivity" />
-        <activity android:name=".ui.user.LoginActivity" />
-        <activity android:name=".ui.coin.CoinHistoryActivity" />
-        <activity android:name=".ui.article.SearchActivity" />
     </application>
 
 </manifest>
