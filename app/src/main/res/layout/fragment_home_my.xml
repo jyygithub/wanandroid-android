@@ -5,31 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.koonny.appcompat.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:endIcon="@drawable/ic_logout"
         app:layout_constraintTop_toTopOf="parent"
-        app:startIcon="@android:color/transparent" />
-
-    <TextView
-        android:id="@+id/tvMessageCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/holo_red_light"
-        android:gravity="center"
-        android:minEms="2"
-        android:text="0"
-        android:textColor="@color/white"
-        android:textSize="10sp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        tools:visibility="visible" />
+        app:navigationIcon="@android:color/transparent" />
 
     <ImageView
         android:id="@+id/ivAvatar"
