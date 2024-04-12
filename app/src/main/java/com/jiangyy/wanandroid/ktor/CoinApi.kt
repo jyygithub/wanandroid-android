@@ -14,7 +14,7 @@ class CoinApi {
     }
     suspend fun pageCoinHistory(page : Int): Any {
         return ktorClient.post {
-            url("${BASE_URL}lg/coin/list/${page}/json")
+            url("${BASE_URL}lg/coin/list/{page}/json")
         }.body()
     }
 }
