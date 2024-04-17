@@ -28,6 +28,7 @@
         </activity>
         <activity android:name=".ui.MainActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.about.AboutActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.user.LoginActivity" />
     </application>
 
 </manifest>
