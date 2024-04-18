@@ -2,7 +2,6 @@ package com.jiangyy.wanandroid.ui.user
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.jiangyy.wanandroid.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityLoginBinding
