@@ -1,6 +1,7 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.googleKsp)
     id("kotlin-parcelize")
 }
 
@@ -40,15 +41,15 @@ android {
 }
 
 dependencies {
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
+    debugImplementation(libs.leakcanary)
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.0")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation(libs.appcompat)
+    implementation(libs.google.android.material)
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.activity:activity-ktx:1.6.1")
-    implementation("androidx.fragment:fragment-ktx:1.5.5")
+    implementation(libs.recyclerview)
+    implementation(libs.swiperefreshlayout)
+    implementation(libs.activity.ktx)
+    implementation(libs.fragment.ktx)
     implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("com.guolindev.permissionx:permissionx:1.7.1")
     implementation("io.coil-kt:coil:2.2.2")
@@ -60,7 +61,7 @@ dependencies {
     implementation("io.github.cymchad:BaseRecyclerViewAdapterHelper:4.0.0-beta04")
     implementation("com.koonny.appcompat:appcompat:1.0.0-SNAPSHOT")
     implementation("com.koonny.dialog:dialog:1.0.0-SNAPSHOT")
-    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation(libs.timber)
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
