@@ -7,9 +7,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jiangyy.wanandroid.base.BaseFragment
 import com.jiangyy.wanandroid.databinding.FragmentHomeBinding
+import com.jiangyy.wanandroid.entity.Tree
 import com.jiangyy.wanandroid.ktor.ArticleApi
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
@@ -35,7 +35,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-
+                    0 -> ArticlesFragment()
+                    1 -> ArticlesFragment()
+                    2 -> ArticlesFragment()
+                    else -> ArticlesFragment()
                 }
             }
         }
@@ -54,11 +57,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         lifecycleScope.launch {
             flow {
                 emit(ArticleApi().listWechat())
-            }.catch {  }.collect{
-                it.getOrNull()?.forEach { _ ->
+            }.catch { }.collect {
+                it.data.forEach { _ ->
                     binding.tabLayout.addTab(binding.tabLayout.newTab())
                 }
-                initViewPager(it.getOrNull())
+                initViewPager(it.data)
             }
         }
     }

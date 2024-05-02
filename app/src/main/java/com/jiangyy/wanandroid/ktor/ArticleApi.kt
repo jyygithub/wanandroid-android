@@ -1,6 +1,7 @@
 package com.jiangyy.wanandroid.ktor
 
 import com.jiangyy.wanandroid.entity.Article
+import com.jiangyy.wanandroid.entity.Tree
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
@@ -63,7 +64,7 @@ class ArticleApi {
         }.body()
     }
 
-    suspend fun listWechat(): Any {
+    suspend fun listWechat(): Bean<MutableList<Tree>> {
         return ktorClient.get {
             url("${BASE_URL}wxarticle/chapters/json")
         }.body()
