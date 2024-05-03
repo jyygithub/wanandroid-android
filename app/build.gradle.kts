@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.coil3.network.ktor)
     implementation(libs.mpandroidchart)
     debugImplementation(libs.leakcanary)
+    implementation("com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
