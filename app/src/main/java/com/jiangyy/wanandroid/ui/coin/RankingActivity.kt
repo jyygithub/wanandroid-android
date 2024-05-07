@@ -3,14 +3,17 @@ package com.jiangyy.wanandroid.ui.coin
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chad.library.adapter4.QuickAdapterHelper
 import com.chad.library.adapter4.loadState.trailing.TrailingLoadStateAdapter
-import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.RankingAdapter
 import com.jiangyy.wanandroid.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityRankingBinding
+import com.jiangyy.wanandroid.ktor.CoinApi
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 
 class RankingActivity : BaseActivity<ActivityRankingBinding>(ActivityRankingBinding::inflate),
     TrailingLoadStateAdapter.OnTrailingListener, SwipeRefreshLayout.OnRefreshListener {
@@ -28,41 +31,19 @@ class RankingActivity : BaseActivity<ActivityRankingBinding>(ActivityRankingBind
     }
 
     private fun pageHomeArticle() {
-        flowRequest<ApiResponse.Paging<Coin>> {
-            request {
-                if (mPage == 1) {
-                    startLoading()
-                }
-                RetrofitHelper.getInstance().create(Api::class.java).ranking(mPage)
+
+        lifecycleScope.launch {
+
+            flow {
+                emit(CoinApi().ranking(1))
+            }.catch { }.collect {
+                mAdapter.submitList(it.data.datas)
             }
-            response {
-                if (it.isSuccess) {
-                    if (it.getOrNull()?.curPage == 1) {
-                        finishLoading()
-                        binding.refreshLayout.isRefreshing = false
-                        mAdapter.submitList(it.getOrNull()?.datas)
-                    } else {
-                        mAdapter.addAll(it.getOrNull()?.datas!!)
-                    }
-                    mHelper.trailingLoadState = LoadState.NotLoading(it.getOrNull()?.curPage == it.getOrNull()?.pageCount)
-                    ++mPage
-                } else {
-                    if (mPage == 1) {
-                        finishLoadingWithStatus(it.exceptionOrNull()?.message.orEmpty(), R.drawable.ic_state_failure)
-                    }
-                    mHelper.trailingLoadState = LoadState.Error(it.exceptionOrNull()!!)
-                }
-            }
+
         }
     }
 
     override fun onRefresh() {
-        mPage = 1
-        pageHomeArticle()
-    }
-
-    override fun onStatusRetry(exception: Exception) {
-        mPage = 1
         pageHomeArticle()
     }
 
