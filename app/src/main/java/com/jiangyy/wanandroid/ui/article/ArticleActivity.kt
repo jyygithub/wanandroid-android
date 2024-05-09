@@ -16,7 +16,7 @@ import com.jiangyy.wanandroid.utils.localScan
 import com.just.agentweb.AgentWeb
 import com.koonny.appcompat.BaseActivity
 import com.koonny.appcompat.core.intentParcelable
-import com.koonny.appcompat.core.toast
+import com.jiangyy.wanandroid.kit.toast
 import kotlinx.coroutines.launch
 
 class ArticleActivity : BaseActivity<ActivityArticleBinding>(ActivityArticleBinding::inflate), Toolbar.OnMenuItemClickListener {

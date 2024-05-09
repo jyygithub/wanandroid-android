@@ -13,11 +13,11 @@ import com.google.android.material.navigation.NavigationBarView
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
+import com.jiangyy.wanandroid.kit.toast
 import com.jiangyy.wanandroid.ui.home.HomeFragment
 import com.jiangyy.wanandroid.ui.home.HomeMyFragment
 import com.jiangyy.wanandroid.ui.home.HomeSearchFragment
 import com.jiangyy.wanandroid.ui.home.HomeSubFragment
-import com.koonny.appcompat.core.toast
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate), NavigationBarView.OnItemSelectedListener {
 

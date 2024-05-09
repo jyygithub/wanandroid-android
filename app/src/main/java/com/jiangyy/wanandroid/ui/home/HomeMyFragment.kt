@@ -22,7 +22,7 @@ import com.jiangyy.wanandroid.utils.*
 import com.koonny.appcompat.BaseFragment
 import com.koonny.appcompat.core.appVersion
 import com.koonny.appcompat.core.orZero
-import com.koonny.appcompat.core.toast
+import com.jiangyy.wanandroid.kit.toast
 import com.koonny.dialog.ConfirmDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

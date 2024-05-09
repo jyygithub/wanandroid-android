@@ -12,7 +12,7 @@ import com.jiangyy.wanandroid.entity.User
 import com.jiangyy.wanandroid.utils.CurrentUser
 import com.jiangyy.wanandroid.utils.localLogin
 import com.koonny.appcompat.BaseActivity
-import com.koonny.appcompat.core.toast
+import com.jiangyy.wanandroid.kit.toast
 import kotlinx.coroutines.launch
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
