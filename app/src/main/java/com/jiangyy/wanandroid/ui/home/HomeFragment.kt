@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
+import com.jiangyy.wanandroid.base.BaseFragment
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
@@ -13,7 +14,6 @@ import com.jiangyy.wanandroid.ui.home.home.ArticleInSquareFragment
 import com.jiangyy.wanandroid.ui.home.home.ArticleInWechatFragment
 import com.jiangyy.wanandroid.ui.home.home.ArticleInWendaFragment
 import com.jiangyy.wanandroid.ui.home.home.ArticleInProjectsFragment
-import com.koonny.appcompat.BaseFragment
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
 

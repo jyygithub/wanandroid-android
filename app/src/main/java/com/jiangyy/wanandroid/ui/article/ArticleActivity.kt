@@ -10,12 +10,12 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import com.jiangyy.wanandroid.R
+import com.jiangyy.wanandroid.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityArticleBinding
 import com.jiangyy.wanandroid.entity.Article
+import com.jiangyy.wanandroid.kit.intentParcelable
 import com.jiangyy.wanandroid.utils.localScan
 import com.just.agentweb.AgentWeb
-import com.koonny.appcompat.BaseActivity
-import com.koonny.appcompat.core.intentParcelable
 import com.jiangyy.wanandroid.kit.toast
 import kotlinx.coroutines.launch
 

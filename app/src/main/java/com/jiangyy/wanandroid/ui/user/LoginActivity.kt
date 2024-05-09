@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.jiangyy.wanandroid.base.BaseActivity
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
@@ -11,7 +12,6 @@ import com.jiangyy.wanandroid.databinding.ActivityLoginBinding
 import com.jiangyy.wanandroid.entity.User
 import com.jiangyy.wanandroid.utils.CurrentUser
 import com.jiangyy.wanandroid.utils.localLogin
-import com.koonny.appcompat.BaseActivity
 import com.jiangyy.wanandroid.kit.toast
 import kotlinx.coroutines.launch
 

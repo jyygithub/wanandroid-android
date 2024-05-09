@@ -8,20 +8,19 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.jiangyy.wanandroid.R
 import com.jiangyy.wanandroid.adapter.MyAdapter
 import com.jiangyy.wanandroid.adapter.MyItem
+import com.jiangyy.wanandroid.base.BaseFragment
 import com.jiangyy.wanandroid.data.Api
 import com.jiangyy.wanandroid.data.RetrofitHelper
 import com.jiangyy.wanandroid.data.flowRequest
 import com.jiangyy.wanandroid.databinding.FragmentHomeMyBinding
 import com.jiangyy.wanandroid.entity.UserInfo
+import com.jiangyy.wanandroid.kit.appVersion
 import com.jiangyy.wanandroid.ui.article.ArticlesActivity
 import com.jiangyy.wanandroid.ui.article.TreeActivity
 import com.jiangyy.wanandroid.ui.coin.CoinHistoryActivity
 import com.jiangyy.wanandroid.ui.coin.RankingActivity
 import com.jiangyy.wanandroid.ui.user.LoginActivity
 import com.jiangyy.wanandroid.utils.*
-import com.koonny.appcompat.BaseFragment
-import com.koonny.appcompat.core.appVersion
-import com.koonny.appcompat.core.orZero
 import com.jiangyy.wanandroid.kit.toast
 import com.koonny.dialog.ConfirmDialog
 import kotlinx.coroutines.flow.collectLatest
@@ -75,7 +74,7 @@ class HomeMyFragment : BaseFragment<FragmentHomeMyBinding>(FragmentHomeMyBinding
         val layoutManager = GridLayoutManager(requireActivity(), 3)
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
-                return mAdapter.getItem(position)?.row.orZero()
+                return mAdapter.getItem(position)?.row ?: 0
             }
         }
         binding.recyclerView.layoutManager = layoutManager
@@ -107,7 +106,7 @@ class HomeMyFragment : BaseFragment<FragmentHomeMyBinding>(FragmentHomeMyBinding
                     2,
                     3,
                     "当前版本",
-                    "Version ${requireActivity().appVersion.versionName}",
+                    "Version ${requireActivity().appVersion.second}",
                     R.drawable.shape_my_round,
                     R.drawable.ic_settings
                 ),
@@ -144,11 +143,11 @@ class HomeMyFragment : BaseFragment<FragmentHomeMyBinding>(FragmentHomeMyBinding
             response {
                 if (it.getOrNull() == null) return@response
                 mAdapter.getItem(0)?.let { item ->
-                    item.text = "${it.getOrNull()!!.userInfo?.coinCount.orZero()}"
+                    item.text = "${it.getOrNull()!!.userInfo?.coinCount ?: 0}"
                     mAdapter[0] = item
                 }
                 mAdapter.getItem(1)?.let { item ->
-                    item.text = "${it.getOrNull()!!.collectArticleInfo?.count.orZero()}"
+                    item.text = "${it.getOrNull()!!.collectArticleInfo?.count ?: 0}"
                     mAdapter[1] = item
                 }
 
