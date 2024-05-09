@@ -1,10 +1,9 @@
 package com.jiangyy.wanandroid.ui
 
 import android.os.Bundle
-import com.koonny.appcompat.BaseActivity
-import com.jiangyy.wanandroid.databinding.ActivityLauncherBinding
+import androidx.appcompat.app.AppCompatActivity
 
-class LauncherActivity : BaseActivity<ActivityLauncherBinding>(ActivityLauncherBinding::inflate) {
+class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

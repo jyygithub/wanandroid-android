@@ -2,34 +2,38 @@ package com.jiangyy.wanandroid.ui
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.MenuItem
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.navigation.NavigationBarView
 import com.jiangyy.wanandroid.R
+import com.jiangyy.wanandroid.base.BaseActivity
 import com.jiangyy.wanandroid.databinding.ActivityMainBinding
 import com.jiangyy.wanandroid.ui.home.HomeFragment
 import com.jiangyy.wanandroid.ui.home.HomeMyFragment
-import com.jiangyy.wanandroid.ui.home.HomeSubFragment
 import com.jiangyy.wanandroid.ui.home.HomeSearchFragment
-import com.koonny.appcompat.BaseActivity
+import com.jiangyy.wanandroid.ui.home.HomeSubFragment
 import com.koonny.appcompat.core.toast
-import kotlin.system.exitProcess
 
-class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate), NavigationBarView.OnItemSelectedListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        var pressedTime: Long = 0
-        onBackPressedDispatcher.addCallback(this) {
-            val nowTime = System.currentTimeMillis()
-            if (nowTime - pressedTime > 2000) {
-                toast("再按一次退出程序")
-                pressedTime = nowTime
+    private var doubleBackToExitPressedOnce = false
+
+    override fun onPrepareValue() {
+        super.onPrepareValue()
+        onBackPressedDispatcher.addCallback {
+            if (doubleBackToExitPressedOnce) {
+                finishAndRemoveTask()
             } else {
-                finish()
-                exitProcess(0)
+                doubleBackToExitPressedOnce = true
+                toast("再按一次退出程序")
+                Handler(Looper.getMainLooper()).postDelayed({
+                    doubleBackToExitPressedOnce = false
+                }, 2000)
             }
         }
     }
@@ -56,16 +60,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }
         }
         binding.bottomNavigationView.itemIconTintList = null
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            val recyclerView = binding.containerView.getChildAt(0) as RecyclerView
-            when (it.itemId) {
-                R.id.nav_home -> recyclerView.scrollToPosition(0)
-                R.id.nav_explore -> recyclerView.scrollToPosition(1)
-                R.id.nav_sub -> recyclerView.scrollToPosition(2)
-                R.id.nav_smile -> recyclerView.scrollToPosition(3)
-            }
-            true
+        binding.bottomNavigationView.setOnItemSelectedListener(this)
+    }
+
+    override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+        val recyclerView = binding.containerView.getChildAt(0) as RecyclerView
+        when (p0.itemId) {
+            R.id.nav_home -> recyclerView.scrollToPosition(0)
+            R.id.nav_explore -> recyclerView.scrollToPosition(1)
+            R.id.nav_sub -> recyclerView.scrollToPosition(2)
+            R.id.nav_smile -> recyclerView.scrollToPosition(3)
         }
+        return true
     }
 
     companion object {
