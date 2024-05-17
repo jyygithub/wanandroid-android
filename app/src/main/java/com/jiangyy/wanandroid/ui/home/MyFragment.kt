@@ -13,6 +13,7 @@ import com.jiangyy.wanandroid.adapter.MyTopItem
 import com.jiangyy.wanandroid.base.BaseFragment
 import com.jiangyy.wanandroid.databinding.FragmentMyBinding
 import com.jiangyy.wanandroid.kit.toast
+import com.jiangyy.wanandroid.ui.RankingActivity
 
 class MyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflate), BaseQuickAdapter.OnItemClickListener<MyItem> {
 
@@ -60,8 +61,8 @@ class MyFragment : BaseFragment<FragmentMyBinding>(FragmentMyBinding::inflate), 
                 toast("积分")
             }
 
-            4 -> {
-                toast("排行榜")
+            4 -> { // 排行榜
+                RankingActivity.start(requireActivity())
             }
 
             5 -> {

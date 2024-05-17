@@ -32,6 +32,7 @@
         <activity android:name="com.jiangyy.wanandroid.ui.article.SearchActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.coin.CoinHistoryActivity" />
         <activity android:name="com.jiangyy.wanandroid.ui.home.ArticleActivity" />
+        <activity android:name="com.jiangyy.wanandroid.ui.RankingActivity" />
     </application>
 
 </manifest>
