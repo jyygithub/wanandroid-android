@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:background="@color/colorItem"
         android:paddingVertical="4dp"
+        app:menu="@menu/navigation"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/navigation" />
+        app:labelVisibilityMode="labeled"/>
 
 </LinearLayout>

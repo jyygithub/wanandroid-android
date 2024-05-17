@@ -4,9 +4,4 @@ import com.jiangyy.wanandroid.base.BaseFragment
 import com.jiangyy.wanandroid.databinding.FragmentExploreBinding
 
 class ExploreFragment : BaseFragment<FragmentExploreBinding>(FragmentExploreBinding::inflate) {
-
-    companion object {
-        fun newInstance() = ExploreFragment()
-    }
-
 }

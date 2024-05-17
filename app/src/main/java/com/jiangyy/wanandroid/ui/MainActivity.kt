@@ -16,29 +16,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private var mPageChangeCallback: ViewPager2.OnPageChangeCallback? = null
 
-    private var doubleBackToExitPressedOnce = false
-
     override fun onPrepareValue() {
         super.onPrepareValue()
-        onBackPressedDispatcher.addCallback {
-            if (doubleBackToExitPressedOnce) {
-                finishAndRemoveTask()
-            } else {
-                doubleBackToExitPressedOnce = true
-                toast("再按一次退出程序")
-                Handler(Looper.getMainLooper()).postDelayed({
-                    doubleBackToExitPressedOnce = false
-                }, 2000)
-            }
-        }
+        doubleBackToExit()
     }
 
     override fun onPrepareWidget() {
         super.onPrepareWidget()
         binding.viewPager.isUserInputEnabled = false
-        binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.adapter = MainViewPagerAdapter(this)
-
+        binding.bottomNavigationView.setOnItemSelectedListener(this)
         mPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -48,7 +35,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         mPageChangeCallback?.let {
             binding.viewPager.registerOnPageChangeCallback(it)
         }
-        binding.bottomNavigationView.setOnItemSelectedListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -67,6 +53,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
         binding.viewPager.adapter = null
         super.onDestroy()
+    }
+
+    private fun doubleBackToExit() {
+        var doubleBackToExitPressedOnce = false
+        onBackPressedDispatcher.addCallback {
+            if (doubleBackToExitPressedOnce) {
+                finishAndRemoveTask()
+            } else {
+                doubleBackToExitPressedOnce = true
+                toast("再按一次退出程序")
+                Handler(Looper.getMainLooper()).postDelayed({
+                    doubleBackToExitPressedOnce = false
+                }, 2000)
+            }
+        }
     }
 
 }
