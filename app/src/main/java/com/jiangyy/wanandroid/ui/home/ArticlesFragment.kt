@@ -11,7 +11,6 @@ import com.jiangyy.wanandroid.ktor.ArticleApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class ArticlesFragment : BaseFragment<FragmentArticlesBinding>(FragmentArticlesBinding::inflate) {
 
@@ -19,23 +18,31 @@ class ArticlesFragment : BaseFragment<FragmentArticlesBinding>(FragmentArticlesB
 
     private val mInitPage by argumentsInt("initPage", 0)
     private val mPath by argumentsString("path")
-
-    override fun onPrepareValue() {
-        super.onPrepareValue()
-    }
+    private val mQueryKey by argumentsString("queryKey")
+    private val mQueryValue by argumentsString("queryValue")
 
     override fun onPrepareWidget() {
         super.onPrepareWidget()
         binding.recyclerView.adapter = mAdapter
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            ArticleActivity.start(requireActivity(), adapter.getItem(position)?.link)
+        }
     }
 
     override fun onPrepareData() {
         super.onPrepareData()
         lifecycleScope.launch {
-            flow { emit(ArticleApi().articles(mPath ?: "", mInitPage ?: 0)) }
-                .catch { }.collect {
-                    mAdapter.submitList(it.data.datas)
-                }
+            flow {
+                emit(
+                    if (mQueryKey != null && mQueryValue != null) {
+                        ArticleApi().articles(mPath ?: "", mInitPage ?: 0, mQueryKey!! to mQueryValue!!)
+                    } else {
+                        ArticleApi().articles(mPath ?: "", mInitPage ?: 0)
+                    }
+                )
+            }.catch { }.collect {
+                mAdapter.submitList(it.data.datas)
+            }
         }
     }
 
@@ -84,6 +91,18 @@ class ArticlesFragment : BaseFragment<FragmentArticlesBinding>(FragmentArticlesB
                 }
             }
         }
+
+        fun sub(cid: String?): ArticlesFragment {
+            return ArticlesFragment().apply {
+                arguments = Bundle().apply {
+                    putInt("initPage", 0)
+                    putString("path", "article/list")
+                    putString("queryKey", "cid")
+                    putString("queryValue", cid)
+                }
+            }
+        }
+
     }
 
 }
